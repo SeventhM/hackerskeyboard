@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -45,8 +46,11 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -160,7 +164,7 @@ public class LatinIME extends InputMethodService implements
 
     private AlertDialog mOptionsDialog;
 
-    /* package */KeyboardSwitcher mKeyboardSwitcher;
+    /* package */ KeyboardSwitcher mKeyboardSwitcher;
 
     private UserDictionary mUserDictionary;
     private UserBigramDictionary mUserBigramDictionary;
@@ -180,7 +184,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mEnableVoiceButton;
     private CharSequence mBestWord;
     private boolean mPredictionOnForMode;
-    private boolean mPredictionOnPref;    
+    private boolean mPredictionOnPref;
     private boolean mCompletionOn;
     private boolean mHasDictionary;
     private boolean mAutoSpace;
@@ -222,9 +226,9 @@ public class LatinIME extends InputMethodService implements
     private String mVolUpAction;
     private String mVolDownAction;
 
-    public static final GlobalKeyboardSettings sKeyboardSettings = new GlobalKeyboardSettings(); 
+    public static final GlobalKeyboardSettings sKeyboardSettings = new GlobalKeyboardSettings();
     static LatinIME sInstance;
-    
+
     private int mHeightPortrait;
     private int mHeightLandscape;
     private int mNumKeyboardModes = 3;
@@ -268,7 +272,7 @@ public class LatinIME extends InputMethodService implements
     private final float FX_VOLUME_RANGE_DB = 72.0f;
     private boolean mSilentMode;
 
-    /* package */String mWordSeparators;
+    /* package */ String mWordSeparators;
     private String mSentenceSeparators;
     private boolean mConfigurationChanging;
 
@@ -281,7 +285,7 @@ public class LatinIME extends InputMethodService implements
     private Map<String, List<CharSequence>> mWordToSuggestions = new HashMap<String, List<CharSequence>>();
 
     private ArrayList<WordAlternatives> mWordHistory = new ArrayList<WordAlternatives>();
-    
+
     private PluginManager mPluginManager;
     private NotificationReceiver mNotificationReceiver;
 
@@ -320,7 +324,7 @@ public class LatinIME extends InputMethodService implements
         }
 
         public TypedWordAlternatives(CharSequence chosenWord,
-                WordComposer wordComposer) {
+                                     WordComposer wordComposer) {
             super(chosenWord);
             word = wordComposer;
         }
@@ -336,19 +340,19 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
-    /* package */Handler mHandler = new Handler() {
+    /* package */ Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case MSG_UPDATE_SUGGESTIONS:
-                updateSuggestions();
-                break;
-            case MSG_UPDATE_OLD_SUGGESTIONS:
-                setOldSuggestions();
-                break;
-            case MSG_UPDATE_SHIFT_STATE:
-                updateShiftKeyState(getCurrentInputEditorInfo());
-                break;
+                case MSG_UPDATE_SUGGESTIONS:
+                    updateSuggestions();
+                    break;
+                case MSG_UPDATE_OLD_SUGGESTIONS:
+                    setOldSuggestions();
+                    break;
+                case MSG_UPDATE_SHIFT_STATE:
+                    updateShiftKeyState(getCurrentInputEditorInfo());
+                    break;
             }
         }
     };
@@ -402,7 +406,7 @@ public class LatinIME extends InputMethodService implements
         sKeyboardSettings.initPrefs(prefs, res);
 
         mVoiceRecognitionTrigger = new VoiceRecognitionTrigger(this);
-        
+
         updateKeyboardOptions();
 
         PluginManager.getPluginDictionaries(getApplicationContext());
@@ -442,7 +446,7 @@ public class LatinIME extends InputMethodService implements
         if (mNumKeyboardModes == 2 && num == 1) num = 2; // skip "compact". FIXME!
         return num;
     }
-    
+
     private void updateKeyboardOptions() {
         //Log.i(TAG, "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
         boolean isPortrait = isPortrait();
@@ -490,14 +494,14 @@ public class LatinIME extends InputMethodService implements
             final IntentFilter pFilter = new IntentFilter(NotificationReceiver.ACTION_SHOW);
             pFilter.addAction(NotificationReceiver.ACTION_SETTINGS);
             registerReceiver(mNotificationReceiver, pFilter);
-            
+
             Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
-            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, 0);
+            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
             //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
             Intent configIntent = new Intent(NotificationReceiver.ACTION_SETTINGS);
             PendingIntent configPendingIntent =
-                    PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, 0);
+                    PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, PendingIntent.FLAG_IMMUTABLE);
 
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
@@ -532,6 +536,16 @@ public class LatinIME extends InputMethodService implements
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
             // notificationId is a unique int for each notification that you must define
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             notificationManager.notify(NOTIFICATION_ONGOING_ID, mBuilder.build());
 
         } else if (mNotificationReceiver != null) {
