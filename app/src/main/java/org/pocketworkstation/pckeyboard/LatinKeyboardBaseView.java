@@ -482,6 +482,56 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
 
+            if (attr == R.styleable.LatinKeyboardBaseView_keyBackground)
+                mKeyBackground = a.getDrawable(attr);
+            if (attr == R.styleable.LatinKeyboardBaseView_keyHysteresisDistance)
+                mKeyHysteresisDistance = a.getDimensionPixelOffset(attr, 0);
+            if (attr == R.styleable.LatinKeyboardBaseView_verticalCorrection)
+                mVerticalCorrection = a.getDimensionPixelOffset(attr, 0);
+            if (attr == R.styleable.LatinKeyboardBaseView_keyTextSize)
+                mKeyTextSize = a.getDimensionPixelSize(attr, 18);
+            if (attr == R.styleable.LatinKeyboardBaseView_keyTextColor)
+                mKeyTextColor = a.getColor(attr, 0xFF000000);
+            if (attr == R.styleable.LatinKeyboardBaseView_keyHintColor)
+                mKeyHintColor = a.getColor(attr, 0xFFBBBBBB);
+            if (attr == R.styleable.LatinKeyboardBaseView_keyCursorColor)
+                mKeyCursorColor = a.getColor(attr, 0xFF000000);
+            if (attr == R.styleable.LatinKeyboardBaseView_invertSymbols)
+                mInvertSymbols = a.getBoolean(attr, false);
+            if (attr == R.styleable.LatinKeyboardBaseView_recolorSymbols)
+                mRecolorSymbols = a.getBoolean(attr, false);
+            if (attr == R.styleable.LatinKeyboardBaseView_labelTextSize)
+                mLabelTextSize = a.getDimensionPixelSize(attr, 14);
+            if (attr == R.styleable.LatinKeyboardBaseView_shadowColor)
+                mShadowColor = a.getColor(attr, 0);
+            if (attr == R.styleable.LatinKeyboardBaseView_shadowRadius)
+                mShadowRadius = a.getFloat(attr, 0f);
+            // TODO: Use Theme (android.R.styleable.Theme_backgroundDimAmount)
+            if (attr == R.styleable.LatinKeyboardBaseView_backgroundDimAmount)
+                mBackgroundDimAmount = a.getFloat(attr, 0.5f);
+            if (attr == R.styleable.LatinKeyboardBaseView_backgroundAlpha)
+                mBackgroundAlpha = a.getInteger(attr, 255);
+            //if (attr == android.R.styleable.)
+            if (attr == R.styleable.LatinKeyboardBaseView_keyTextStyle) {
+                int textStyle = a.getInt(attr, 0);
+                switch (textStyle) {
+                    case 0:
+                        mKeyTextStyle = Typeface.DEFAULT;
+                        break;
+                    case 1:
+                        mKeyTextStyle = Typeface.DEFAULT_BOLD;
+                        break;
+                    default:
+                        mKeyTextStyle = Typeface.defaultFromStyle(textStyle);
+                        break;
+                }
+            }
+            if (attr == R.styleable.LatinKeyboardBaseView_symbolColorScheme)
+                mSymbolColorScheme = a.getInt(attr, 0);
+        }
+            /*{
+            int attr = a.getIndex(i);
+
             switch (attr) {
             case R.styleable.LatinKeyboardBaseView_keyBackground:
                 mKeyBackground = a.getDrawable(attr);
@@ -545,7 +595,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 mSymbolColorScheme = a.getInt(attr, 0);
                 break;
             }
-        }
+        }*/
+        a.recycle();
 
         final Resources res = getResources();
 
