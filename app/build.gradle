@@ -2,9 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     defaultConfig {
+        compileSdkVersion 33
         namespace 'org.pocketworkstation.pckeyboard'
         applicationId 'org.pocketworkstation.pckeyboard'
         minSdkVersion 14
+        //noinspection OldTargetApi
         targetSdkVersion 33
         versionCode 1041001
         versionName "v1.41.1"
