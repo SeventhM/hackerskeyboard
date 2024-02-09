@@ -16,6 +16,7 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -36,6 +37,7 @@ import android.graphics.drawable.Drawable;
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -49,6 +51,9 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -282,7 +287,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     };
     private final ColorMatrixColorFilter mInvertingColorFilter = new ColorMatrixColorFilter(INVERTING_MATRIX);
 
-    private final UIHandler mHandler = new UIHandler();
+    private final UIHandler mHandler = new UIHandler(Looper.getMainLooper());
 
     class UIHandler extends Handler {
         private static final int MSG_POPUP_PREVIEW = 1;
@@ -291,6 +296,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         private static final int MSG_LONGPRESS_KEY = 4;
 
         private boolean mInKeyRepeat;
+
+        public UIHandler(Looper mainLooper) {
+            super(mainLooper);
+        }
 
         @Override
         public void handleMessage(Message msg) {
@@ -910,7 +919,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         //Log.i(TAG, "onDraw called " + canvas.getClipBounds());
         mCanvas = canvas;
@@ -1301,7 +1310,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Retrieve and cache the popup keyboard if any.
         boolean hasPopup = (getLongPressKeyboard(key) != null);
         // Set background manually, the StateListDrawable doesn't work.
-        mPreviewText.setBackgroundDrawable(getResources().getDrawable(hasPopup ? R.drawable.keyboard_key_feedback_more_background : R.drawable.keyboard_key_feedback_background));
+        mPreviewText.setBackgroundDrawable(ResourcesCompat.getDrawable(
+                getResources(),
+                hasPopup ? R.drawable.keyboard_key_feedback_more_background : R.drawable.keyboard_key_feedback_background,
+                null));
         popupPreviewX += mOffsetInWindow[0];
         popupPreviewY += mOffsetInWindow[1];
 
@@ -1637,6 +1649,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return mOldPointerCount;
     }
 
+    @SuppressLint("ClickableViewAccessibility") // TODO figure out where to override performClick
     @Override
     public boolean onTouchEvent(MotionEvent me) {
         return onTouchEvent(me, false);

@@ -16,6 +16,7 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -23,6 +24,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -31,6 +33,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
@@ -326,6 +330,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         return result;
     }
 
+    @SuppressLint("ClickableViewAccessibility") // TODO figure out where to override performClick
     @Override
     public boolean onTouchEvent(MotionEvent me) {
         LatinKeyboard keyboard = (LatinKeyboard) getKeyboard();
@@ -543,9 +548,9 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         if (DEBUG_AUTO_PLAY) {
             findKeys();
             if (mHandler2 == null) {
-                mHandler2 = new Handler() {
+                mHandler2 = new Handler(Looper.getMainLooper()) {
                     @Override
-                    public void handleMessage(Message msg) {
+                    public void handleMessage(@NonNull Message msg) {
                         removeMessages(MSG_TOUCH_DOWN);
                         removeMessages(MSG_TOUCH_UP);
                         if (!mPlaying) return;
@@ -622,7 +627,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
     }
 
     @Override
-    public void draw(Canvas c) {
+    public void draw(@NonNull Canvas c) {
         LatinIMEUtil.GCUtils.getInstance().reset();
         boolean tryGC = true;
         for (int i = 0; i < LatinIMEUtil.GCUtils.GC_TRY_LOOP_MAX && tryGC; ++i) {
