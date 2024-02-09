@@ -16,15 +16,11 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import org.pocketworkstation.pckeyboard.Keyboard.Key;
-
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +31,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import org.pocketworkstation.pckeyboard.Keyboard.Key;
+
+import java.util.List;
 
 public class LatinKeyboardView extends LatinKeyboardBaseView {
     static final String TAG = "HK/LatinKeyboardView";
@@ -125,7 +125,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
 
         // TODO(klausw): migrate attribute styles to LatinKeyboardView?
         TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
+                attrs, R.styleable.LatinKeyboardView, defStyle, R.style.LatinKeyboardBaseView);
         LayoutInflater inflate =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -147,6 +147,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
             }
         }
+        a.recycle();
 
         final Resources res = getResources();
 
