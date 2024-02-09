@@ -83,7 +83,7 @@ public class PointerTracker {
     private int mPreviousKey = NOT_A_KEY;
 
     private static boolean sSlideKeyHack;
-    private static List<Key> sSlideKeys = new ArrayList<Key>(10);
+    private static List<Key> sSlideKeys = new ArrayList<>(10);
 
     // This class keeps track of a key index and a position where this pointer is.
     private static class KeyState {
@@ -505,8 +505,8 @@ public class PointerTracker {
         final int right = key.x + key.width;
         final int top = key.y;
         final int bottom = key.y + key.height;
-        final int edgeX = x < left ? left : (x > right ? right : x);
-        final int edgeY = y < top ? top : (y > bottom ? bottom : y);
+        final int edgeX = x < left ? left : (Math.min(x, right));
+        final int edgeY = y < top ? top : (Math.min(y, bottom));
         final int dx = x - edgeX;
         final int dy = y - edgeY;
         return dx * dx + dy * dy;
@@ -527,7 +527,7 @@ public class PointerTracker {
     private void startLongPressTimer(int keyIndex) {
         if (mKeyboardSwitcher.isInMomentaryAutoModeSwitchState()) {
             // We use longer timeout for sliding finger input started from the symbols mode key.
-            mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout * 3, keyIndex, this);
+            mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout * 3L, keyIndex, this);
         } else {
             mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout, keyIndex, this);
         }
@@ -589,7 +589,7 @@ public class PointerTracker {
         if (mInMultiTap) {
             // Multi-tap
             mPreviewLabel.setLength(0);
-            mPreviewLabel.append((char) key.codes[mTapCount < 0 ? 0 : mTapCount]);
+            mPreviewLabel.append((char) key.codes[Math.max(mTapCount, 0)]);
             return mPreviewLabel;
         } else {
         	if (key.isDeadKey()) {
@@ -618,11 +618,10 @@ public class PointerTracker {
             mInMultiTap = true;
             if (isMultiTap) {
                 mTapCount = (mTapCount + 1) % key.codes.length;
-                return;
             } else {
                 mTapCount = -1;
-                return;
             }
+            return;
         }
         if (!isMultiTap) {
             resetMultiTap();

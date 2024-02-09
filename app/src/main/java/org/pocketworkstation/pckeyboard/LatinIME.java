@@ -22,6 +22,7 @@ import com.google.android.voiceime.VoiceRecognitionTrigger;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -282,9 +283,9 @@ public class LatinIME extends InputMethodService implements
     private boolean mRefreshKeyboardRequired;
 
     // For each word, a list of potential replacements, usually from voice.
-    private Map<String, List<CharSequence>> mWordToSuggestions = new HashMap<String, List<CharSequence>>();
+    private Map<String, List<CharSequence>> mWordToSuggestions = new HashMap<>();
 
-    private ArrayList<WordAlternatives> mWordHistory = new ArrayList<WordAlternatives>();
+    private ArrayList<WordAlternatives> mWordHistory = new ArrayList<>();
 
     private PluginManager mPluginManager;
     private NotificationReceiver mNotificationReceiver;
@@ -493,7 +494,10 @@ public class LatinIME extends InputMethodService implements
             mNotificationReceiver = new NotificationReceiver(this);
             final IntentFilter pFilter = new IntentFilter(NotificationReceiver.ACTION_SHOW);
             pFilter.addAction(NotificationReceiver.ACTION_SETTINGS);
-            registerReceiver(mNotificationReceiver, pFilter);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(mNotificationReceiver, pFilter, Context.RECEIVER_NOT_EXPORTED);
+            }
+            else registerReceiver(mNotificationReceiver, pFilter);
 
             Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
             PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
@@ -536,7 +540,7 @@ public class LatinIME extends InputMethodService implements
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
             // notificationId is a unique int for each notification that you must define
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -573,7 +577,7 @@ public class LatinIME extends InputMethodService implements
     /* package */static int[] getDictionary(Resources res) {
         String packageName = LatinIME.class.getPackage().getName();
         XmlResourceParser xrp = res.getXml(R.xml.dictionary);
-        ArrayList<Integer> dictionaries = new ArrayList<Integer>();
+        ArrayList<Integer> dictionaries = new ArrayList<>();
 
         try {
             int current = xrp.getEventType();
@@ -756,7 +760,7 @@ public class LatinIME extends InputMethodService implements
         if (mCandidateViewContainer != null) {
             mCandidateViewContainer.removeAllViews();
             ViewParent parent = mCandidateViewContainer.getParent();
-            if (parent != null && parent instanceof ViewGroup) {
+            if (parent instanceof ViewGroup) {
                 ((ViewGroup) parent).removeView(mCandidateViewContainer);
             }
             mCandidateViewContainer = null;
@@ -848,18 +852,11 @@ public class LatinIME extends InputMethodService implements
             mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_TEXT,
                     attribute.imeOptions, enableVoiceButton);
             // startPrediction();
-            mPredictionOnForMode = true;
-            // Make sure that passwords are not displayed in candidate view
-            if (mPasswordText) {
-                mPredictionOnForMode = false;
-            }
-            if (variation == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                    || variation == EditorInfo.TYPE_TEXT_VARIATION_PERSON_NAME
-                    || !mLanguageSwitcher.allowAutoSpace()) {
-                mAutoSpace = false;
-            } else {
-                mAutoSpace = true;
-            }
+// Make sure that passwords are not displayed in candidate view
+            mPredictionOnForMode = !mPasswordText;
+            mAutoSpace = variation != EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                    && variation != EditorInfo.TYPE_TEXT_VARIATION_PERSON_NAME
+                    && mLanguageSwitcher.allowAutoSpace();
             if (variation == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
                 mPredictionOnForMode = false;
                 mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_EMAIL,
@@ -1113,7 +1110,7 @@ public class LatinIME extends InputMethodService implements
                 return;
             }
 
-            List<CharSequence> stringList = new ArrayList<CharSequence>();
+            List<CharSequence> stringList = new ArrayList<>();
             for (int i = 0; i < (completions != null ? completions.length : 0); i++) {
                 CompletionInfo ci = completions[i];
                 if (ci != null)
@@ -1140,9 +1137,7 @@ public class LatinIME extends InputMethodService implements
         && onEvaluateInputViewShown()
         && mKeyboardSwitcher.getInputView() != null
         && isPredictionOn()
-        && (needsInputViewShown
-                ? mKeyboardSwitcher.getInputView().isShown()
-                        : true);
+        && (!needsInputViewShown || mKeyboardSwitcher.getInputView().isShown());
         if (visible) {
             if (mCandidateViewContainer == null) {
                 onCreateCandidatesView();
@@ -1461,11 +1456,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean isAlphabet(int code) {
-        if (Character.isLetter(code)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Character.isLetter(code);
     }
 
     private void showInputMethodPicker() {
@@ -1669,8 +1660,8 @@ public class LatinIME extends InputMethodService implements
         // and the output of "$ infocmp -1L". Support multiple sets, and optional 
         // true numpad keys?
         if (ESC_SEQUENCES == null) {
-            ESC_SEQUENCES = new HashMap<Integer, String>();
-            CTRL_SEQUENCES = new HashMap<Integer, Integer>();
+            ESC_SEQUENCES = new HashMap<>();
+            CTRL_SEQUENCES = new HashMap<>();
 
             // VT escape sequences without leading Escape
             ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_HOME, "[1~");
@@ -1752,7 +1743,7 @@ public class LatinIME extends InputMethodService implements
         handleModifierKeysUp(false, false);
     }
 
-    private final static int asciiToKeyCode[] = new int[127];
+    private final static int[] asciiToKeyCode = new int[127];
     private final static int KF_MASK = 0xffff;
     private final static int KF_SHIFTABLE = 0x10000;
     private final static int KF_UPPER = 0x20000;
@@ -2476,20 +2467,18 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void switchToKeyboardView() {
-        mHandler.post(new Runnable() {
-            public void run() {
-                LatinKeyboardView view = mKeyboardSwitcher.getInputView(); 
-                if (view != null) {
-                    ViewParent p = view.getParent();
-                    if (p != null && p instanceof ViewGroup) {
-                        ((ViewGroup) p).removeView(view);
-                    }
-                    setInputView(mKeyboardSwitcher.getInputView());
+        mHandler.post(() -> {
+            LatinKeyboardView view = mKeyboardSwitcher.getInputView();
+            if (view != null) {
+                ViewParent p = view.getParent();
+                if (p instanceof ViewGroup) {
+                    ((ViewGroup) p).removeView(view);
                 }
-                setCandidatesViewShown(true);
-                updateInputViewShown();
-                postUpdateSuggestions();
+                setInputView(mKeyboardSwitcher.getInputView());
             }
+            setCandidatesViewShown(true);
+            updateInputViewShown();
+            postUpdateSuggestions();
         });
     }
 
@@ -2858,11 +2847,8 @@ public class LatinIME extends InputMethodService implements
                 && !isSuggestedPunctuation(toLeft.charAt(0))) {
             return true;
         }
-        if (!TextUtils.isEmpty(toRight) && !isWordSeparator(toRight.charAt(0))
-                && !isSuggestedPunctuation(toRight.charAt(0))) {
-            return true;
-        }
-        return false;
+        return !TextUtils.isEmpty(toRight) && !isWordSeparator(toRight.charAt(0))
+                && !isSuggestedPunctuation(toRight.charAt(0));
     }
 
     private boolean sameAsTextBeforeCursor(InputConnection ic, CharSequence text) {
@@ -3351,8 +3337,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void updateCorrectionMode() {
-        mHasDictionary = mSuggest != null ? mSuggest.hasMainDictionary()
-                : false;
+        mHasDictionary = mSuggest != null && mSuggest.hasMainDictionary();
         mAutoCorrectOn = (mAutoCorrectEnabled || mQuickFixes)
                 && !mInputTypeNoAutoCorrect && mHasDictionary;
         mCorrectionMode = (mAutoCorrectOn && mAutoCorrectEnabled) ? Suggest.CORRECTION_FULL
@@ -3433,7 +3418,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void initSuggestPuncList() {
-        mSuggestPuncList = new ArrayList<CharSequence>();
+        mSuggestPuncList = new ArrayList<>();
         String suggestPuncs = sKeyboardSettings.suggestedPunctuation;
         String defaultPuncs = getResources().getString(R.string.suggested_punctuations_default);
         if (suggestPuncs.equals(defaultPuncs) || suggestPuncs.equals("")) {
@@ -3502,7 +3487,7 @@ public class LatinIME extends InputMethodService implements
 
     public static <E> ArrayList<E> newArrayList(E... elements) {
         int capacity = (elements.length * 110) / 100 + 5;
-        ArrayList<E> list = new ArrayList<E>(capacity);
+        ArrayList<E> list = new ArrayList<>(capacity);
         Collections.addAll(list, elements);
         return list;
     }

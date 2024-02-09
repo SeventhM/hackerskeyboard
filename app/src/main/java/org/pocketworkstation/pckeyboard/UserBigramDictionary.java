@@ -87,14 +87,14 @@ public class UserBigramDictionary extends ExpandableDictionary {
     /** Locale for which this auto dictionary is storing words */
     private String mLocale;
 
-    private HashSet<Bigram> mPendingWrites = new HashSet<Bigram>();
+    private HashSet<Bigram> mPendingWrites = new HashSet<>();
     private final Object mPendingWritesLock = new Object();
     private static volatile boolean sUpdatingDB = false;
 
     private final static HashMap<String, String> sDictProjectionMap;
 
     static {
-        sDictProjectionMap = new HashMap<String, String>();
+        sDictProjectionMap = new HashMap<>();
         sDictProjectionMap.put(MAIN_COLUMN_ID, MAIN_COLUMN_ID);
         sDictProjectionMap.put(MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD1);
         sDictProjectionMap.put(MAIN_COLUMN_WORD2, MAIN_COLUMN_WORD2);
@@ -194,7 +194,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
             // Create a background thread to write the pending entries
             new UpdateDbTask(getContext(), sOpenHelper, mPendingWrites, mLocale).execute();
             // Create a new map for writing new entries into while the old one is written to db
-            mPendingWrites = new HashSet<Bigram>();
+            mPendingWrites = new HashSet<>();
         }
     }
 
@@ -207,15 +207,13 @@ public class UserBigramDictionary extends ExpandableDictionary {
                 } catch (InterruptedException e) {
                 }
             }
-            return;
         }
     }
 
     @Override
     public void loadDictionaryAsync() {
         // Load the words that correspond to the current input locale
-        Cursor cursor = query(MAIN_COLUMN_LOCALE + "=?", new String[] { mLocale });
-        try {
+        try (Cursor cursor = query(MAIN_COLUMN_LOCALE + "=?", new String[]{mLocale})) {
             if (cursor.moveToFirst()) {
                 int word1Index = cursor.getColumnIndex(MAIN_COLUMN_WORD1);
                 int word2Index = cursor.getColumnIndex(MAIN_COLUMN_WORD2);
@@ -232,8 +230,6 @@ public class UserBigramDictionary extends ExpandableDictionary {
                     cursor.moveToNext();
                 }
             }
-        } finally {
-            cursor.close();
         }
     }
 
@@ -314,9 +310,8 @@ public class UserBigramDictionary extends ExpandableDictionary {
         /** Prune any old data if the database is getting too big. */
         private void checkPruneData(SQLiteDatabase db) {
             db.execSQL("PRAGMA foreign_keys = ON;");
-            Cursor c = db.query(FREQ_TABLE_NAME, new String[] { FREQ_COLUMN_PAIR_ID },
-                    null, null, null, null, null);
-            try {
+            try (Cursor c = db.query(FREQ_TABLE_NAME, new String[]{FREQ_COLUMN_PAIR_ID},
+                    null, null, null, null, null)) {
                 int totalRowCount = c.getCount();
                 // prune out old data if we have too much data
                 if (totalRowCount > sMaxUserBigrams) {
@@ -329,13 +324,11 @@ public class UserBigramDictionary extends ExpandableDictionary {
                         // Deleting from MAIN table will delete the frequencies
                         // due to FOREIGN KEY .. ON DELETE CASCADE
                         db.delete(MAIN_TABLE_NAME, MAIN_COLUMN_ID + "=?",
-                            new String[] { pairId });
+                                new String[]{pairId});
                         c.moveToNext();
                         count++;
                     }
                 }
-            } finally {
-                c.close();
             }
         }
 
@@ -349,22 +342,19 @@ public class UserBigramDictionary extends ExpandableDictionary {
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
             db.execSQL("PRAGMA foreign_keys = ON;");
             // Write all the entries to the db
-            Iterator<Bigram> iterator = mMap.iterator();
-            while (iterator.hasNext()) {
-                Bigram bi = iterator.next();
-
+            for (Bigram bi : mMap) {
                 // find pair id
-                Cursor c = db.query(MAIN_TABLE_NAME, new String[] { MAIN_COLUMN_ID },
+                Cursor c = db.query(MAIN_TABLE_NAME, new String[]{MAIN_COLUMN_ID},
                         MAIN_COLUMN_WORD1 + "=? AND " + MAIN_COLUMN_WORD2 + "=? AND "
-                        + MAIN_COLUMN_LOCALE + "=?",
-                        new String[] { bi.word1, bi.word2, mLocale }, null, null, null);
+                                + MAIN_COLUMN_LOCALE + "=?",
+                        new String[]{bi.word1, bi.word2, mLocale}, null, null, null);
 
                 int pairId;
                 if (c.moveToFirst()) {
                     // existing pair
                     pairId = c.getInt(c.getColumnIndex(MAIN_COLUMN_ID));
                     db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
-                            new String[] { Integer.toString(pairId) });
+                            new String[]{Integer.toString(pairId)});
                 } else {
                     // new pair
                     Long pairIdLong = db.insert(MAIN_TABLE_NAME, null,

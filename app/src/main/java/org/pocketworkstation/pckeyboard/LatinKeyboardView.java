@@ -29,7 +29,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -552,7 +551,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                     public void handleMessage(Message msg) {
                         removeMessages(MSG_TOUCH_DOWN);
                         removeMessages(MSG_TOUCH_UP);
-                        if (mPlaying == false) return;
+                        if (!mPlaying) return;
 
                         switch (msg.what) {
                             case MSG_TOUCH_DOWN:

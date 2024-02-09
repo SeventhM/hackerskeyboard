@@ -30,14 +30,14 @@ public class PluginManager extends BroadcastReceiver {
 
     // Apparently anysoftkeyboard doesn't use ISO 639-1 language codes for its locales?
     // Add exceptions as needed.
-    private static Map<String, String> SOFTKEYBOARD_LANG_MAP = new HashMap<String, String>();
+    private static Map<String, String> SOFTKEYBOARD_LANG_MAP = new HashMap<>();
 
     static {
         SOFTKEYBOARD_LANG_MAP.put("dk", "da");
     }
 
     private static Map<String, DictPluginSpec> mPluginDicts =
-            new HashMap<String, DictPluginSpec>();
+            new HashMap<>();
 
     PluginManager(LatinIME ime) {
         super();
@@ -140,7 +140,7 @@ public class PluginManager extends BroadcastReceiver {
                 } else {
                     // try multi-part version
                     int parts = 0;
-                    List<Integer> ids = new ArrayList<Integer>();
+                    List<Integer> ids = new ArrayList<>();
                     while (true) {
                         int id = res.getIdentifier("main" + parts, "raw", pkgName);
                         if (id == 0) break;

@@ -98,7 +98,7 @@ public class KeyboardSwitcher implements
     private KeyboardId mSymbolsShiftedId;
 
     private KeyboardId mCurrentId;
-    private final HashMap<KeyboardId, SoftReference<LatinKeyboard>> mKeyboards = new HashMap<KeyboardId, SoftReference<LatinKeyboard>>();
+    private final HashMap<KeyboardId, SoftReference<LatinKeyboard>> mKeyboards = new HashMap<>();
 
     private int mMode = MODE_NONE;
     /** One of the MODE_XXX values */
@@ -153,7 +153,7 @@ public class KeyboardSwitcher implements
 
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(ims);
-        sInstance.mLayoutId = Integer.valueOf(prefs.getString(
+        sInstance.mLayoutId = Integer.parseInt(prefs.getString(
                 PREF_KEYBOARD_LAYOUT, DEFAULT_LAYOUT_ID));
 
         sInstance.updateSettingsKeyState(prefs);
@@ -345,7 +345,7 @@ public class KeyboardSwitcher implements
             if (id.mEnableShiftLock) {
                 keyboard.enableShiftLock();
             }
-            mKeyboards.put(id, new SoftReference<LatinKeyboard>(keyboard));
+            mKeyboards.put(id, new SoftReference<>(keyboard));
 
             conf.locale = saveLocale;
             orig.updateConfiguration(conf, null);
@@ -617,7 +617,7 @@ public class KeyboardSwitcher implements
                 mInputView.closing();
             }
             if (THEMES.length <= newLayout) {
-                newLayout = Integer.valueOf(DEFAULT_LAYOUT_ID);
+                newLayout = Integer.parseInt(DEFAULT_LAYOUT_ID);
             }
 
             LatinIMEUtil.GCUtils.getInstance().reset();
@@ -641,20 +641,18 @@ public class KeyboardSwitcher implements
             mInputView.setPadding(0, 0, 0, 0);
             mLayoutId = newLayout;
         }
-        mInputMethodService.mHandler.post(new Runnable() {
-            public void run() {
-                if (mInputView != null) {
-                    mInputMethodService.setInputView(mInputView);
-                }
-                mInputMethodService.updateInputViewShown();
+        mInputMethodService.mHandler.post(() -> {
+            if (mInputView != null) {
+                mInputMethodService.setInputView(mInputView);
             }
+            mInputMethodService.updateInputViewShown();
         });
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
         if (PREF_KEYBOARD_LAYOUT.equals(key)) {
-            changeLatinKeyboardView(Integer.valueOf(sharedPreferences
+            changeLatinKeyboardView(Integer.parseInt(sharedPreferences
                     .getString(key, DEFAULT_LAYOUT_ID)), true);
         } else if (LatinIMESettings.PREF_SETTINGS_KEY.equals(key)) {
             updateSettingsKeyState(sharedPreferences);
@@ -680,13 +678,9 @@ public class KeyboardSwitcher implements
         // We show the settings key when 1) SETTINGS_KEY_MODE_ALWAYS_SHOW or
         // 2) SETTINGS_KEY_MODE_AUTO and there are two or more enabled IMEs on
         // the system
-        if (settingsKeyMode.equals(resources
+        mHasSettingsKey = settingsKeyMode.equals(resources
                 .getString(SETTINGS_KEY_MODE_ALWAYS_SHOW))
                 || (settingsKeyMode.equals(resources
-                        .getString(SETTINGS_KEY_MODE_AUTO)))) {
-            mHasSettingsKey = true;
-        } else {
-            mHasSettingsKey = false;
-        }
+                .getString(SETTINGS_KEY_MODE_AUTO)));
     }
 }

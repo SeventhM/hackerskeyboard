@@ -725,14 +725,10 @@ public class Keyboard {
             boolean rightEdge = (edgeFlags & EDGE_RIGHT) > 0;
             boolean topEdge = (edgeFlags & EDGE_TOP) > 0;
             boolean bottomEdge = (edgeFlags & EDGE_BOTTOM) > 0;
-            if ((x >= this.x || (leftEdge && x <= this.x + this.width))
+            return (x >= this.x || (leftEdge && x <= this.x + this.width))
                     && (x < this.x + this.width || (rightEdge && x >= this.x))
                     && (y >= this.y || (topEdge && y <= this.y + this.height))
-                    && (y < this.y + this.height || (bottomEdge && y >= this.y))) {
-                return true;
-            } else {
-                return false;
-            }
+                    && (y < this.y + this.height || (bottomEdge && y >= this.y));
         }
 
         /**
@@ -832,13 +828,13 @@ public class Keyboard {
         Log.v(TAG, "keyboard's display metrics:" + dm + ", mDisplayWidth=" + mDisplayWidth);
 
         mDefaultHorizontalGap = 0;
-        mDefaultWidth = mDisplayWidth / 10;
+        mDefaultWidth = (float) mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
         mDefaultHeight = defaultHeight; // may be zero, to be adjusted below
         mKeyboardHeight = Math.round(mDisplayHeight * kbHeightPercent / 100); 
         //Log.i("PCKeyboard", "mDefaultHeight=" + mDefaultHeight + "(arg=" + defaultHeight + ")" + " kbHeight=" + mKeyboardHeight + " displayHeight="+mDisplayHeight+")");
-        mKeys = new ArrayList<Key>();
-        mModifierKeys = new ArrayList<Key>();
+        mKeys = new ArrayList<>();
+        mModifierKeys = new ArrayList<>();
         mKeyboardMode = modeId;
         mUseExtension = LatinIME.sKeyboardSettings.useExtension;
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
@@ -943,7 +939,7 @@ public class Keyboard {
 
     private void fixAltChars(Locale locale) {
         if (locale == null) locale = Locale.getDefault();
-        Set<Character> mainKeys = new HashSet<Character>();
+        Set<Character> mainKeys = new HashSet<>();
         for (Key key : mKeys) {
             // Remember characters on the main keyboard so that they can be removed from popups.
             // This makes it easy to share popup char maps between the normal and shifted
@@ -1276,7 +1272,7 @@ public class Keyboard {
 
         mDefaultWidth = getDimensionOrFraction(a,
                 R.styleable.Keyboard_keyWidth,
-                mDisplayWidth, mDisplayWidth / 10);
+                mDisplayWidth, (float) mDisplayWidth / 10);
         mDefaultHeight = Math.round(getDimensionOrFraction(a,
                 R.styleable.Keyboard_keyHeight,
                 mDisplayHeight, mDefaultHeight));

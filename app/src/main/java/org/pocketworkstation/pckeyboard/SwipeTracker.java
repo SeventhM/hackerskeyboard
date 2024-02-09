@@ -93,9 +93,9 @@ class SwipeTracker {
 
     static class EventRingBuffer {
         private final int bufSize;
-        private final float xBuf[];
-        private final float yBuf[];
-        private final long timeBuf[];
+        private final float[] xBuf;
+        private final float[] yBuf;
+        private final long[] timeBuf;
         private int top;  // points new event
         private int end;  // points oldest event
         private int count; // the number of valid data

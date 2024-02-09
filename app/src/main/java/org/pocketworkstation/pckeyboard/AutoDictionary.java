@@ -53,7 +53,7 @@ public class AutoDictionary extends ExpandableDictionary {
     // Locale for which this auto dictionary is storing words
     private String mLocale;
 
-    private HashMap<String,Integer> mPendingWrites = new HashMap<String,Integer>();
+    private HashMap<String,Integer> mPendingWrites = new HashMap<>();
     private final Object mPendingWritesLock = new Object();
 
     private static final String DATABASE_NAME = "auto_dict.db";
@@ -76,7 +76,7 @@ public class AutoDictionary extends ExpandableDictionary {
     private static HashMap<String, String> sDictProjectionMap;
 
     static {
-        sDictProjectionMap = new HashMap<String, String>();
+        sDictProjectionMap = new HashMap<>();
         sDictProjectionMap.put(COLUMN_ID, COLUMN_ID);
         sDictProjectionMap.put(COLUMN_WORD, COLUMN_WORD);
         sDictProjectionMap.put(COLUMN_FREQUENCY, COLUMN_FREQUENCY);
@@ -116,8 +116,7 @@ public class AutoDictionary extends ExpandableDictionary {
     @Override
     public void loadDictionaryAsync() {
         // Load the words that correspond to the current input locale
-        Cursor cursor = query(COLUMN_LOCALE + "=?", new String[] { mLocale });
-        try {
+        try (Cursor cursor = query(COLUMN_LOCALE + "=?", new String[]{mLocale})) {
             if (cursor.moveToFirst()) {
                 int wordIndex = cursor.getColumnIndex(COLUMN_WORD);
                 int frequencyIndex = cursor.getColumnIndex(COLUMN_FREQUENCY);
@@ -132,8 +131,6 @@ public class AutoDictionary extends ExpandableDictionary {
                     cursor.moveToNext();
                 }
             }
-        } finally {
-            cursor.close();
         }
     }
 
@@ -157,7 +154,7 @@ public class AutoDictionary extends ExpandableDictionary {
 
         synchronized (mPendingWritesLock) {
             // Write a null frequency if it is to be deleted from the db
-            mPendingWrites.put(word, freq == 0 ? null : new Integer(freq));
+            mPendingWrites.put(word, freq == 0 ? null : freq);
         }
     }
 
@@ -171,7 +168,7 @@ public class AutoDictionary extends ExpandableDictionary {
             // Create a background thread to write the pending entries
             new UpdateDbTask(getContext(), sOpenHelper, mPendingWrites, mLocale).execute();
             // Create a new map for writing new entries into while the old one is written to db
-            mPendingWrites = new HashMap<String, Integer>();
+            mPendingWrites = new HashMap<>();
         }
     }
 

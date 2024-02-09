@@ -129,15 +129,15 @@ public class BinaryDictionary extends Dictionary {
             // merging separated dictionary into one if dictionary is separated
             int total = 0;
 
-            for (int i = 0; i < is.length; i++) {
-                total += is[i].available();
+            for (InputStream inputStream : is) {
+                total += inputStream.available();
             }
 
             mNativeDictDirectBuffer =
                 ByteBuffer.allocateDirect(total).order(ByteOrder.nativeOrder());
             int got = 0;
-            for (int i = 0; i < is.length; i++) {
-                got += Channels.newChannel(is[i]).read(mNativeDictDirectBuffer);
+            for (InputStream inputStream : is) {
+                got += Channels.newChannel(inputStream).read(mNativeDictDirectBuffer);
             }
             if (got != total) {
                 Log.e(TAG, "Read " + got + " bytes, expected " + total);
@@ -154,8 +154,8 @@ public class BinaryDictionary extends Dictionary {
         } finally {
             try {
                 if (is != null) {
-                    for (int i = 0; i < is.length; i++) {
-                        is[i].close();
+                    for (InputStream inputStream : is) {
+                        inputStream.close();
                     }
                 }
             } catch (IOException e) {

@@ -45,7 +45,7 @@ public class CandidateView extends View {
     private static final int OUT_OF_BOUNDS_X_COORD = -1;
 
     private LatinIME mService;
-    private final ArrayList<CharSequence> mSuggestions = new ArrayList<CharSequence>();
+    private final ArrayList<CharSequence> mSuggestions = new ArrayList<>();
     private boolean mShowingCompletions;
     private CharSequence mSelectedString;
     private int mSelectedIndex;
@@ -274,7 +274,7 @@ public class CandidateView extends View {
             }
 
             if (canvas != null) {
-                canvas.drawText(suggestion, 0, wordLength, x + wordWidth / 2, y, paint);
+                canvas.drawText(suggestion, 0, wordLength, x + (float) wordWidth / 2, y, paint);
                 paint.setColor(mColorOther);
                 canvas.translate(x + wordWidth, 0);
                 // Draw a divider unless it's after the hint
@@ -335,7 +335,7 @@ public class CandidateView extends View {
         mTargetScrollX = 0;
         mHaveMinimalSuggestion = haveMinimalSuggestion;
         // Compute the total width
-        onDraw(null);
+        draw(null);
         invalidate();
         requestLayout();
     }
@@ -345,7 +345,7 @@ public class CandidateView extends View {
     }
 
     public void showAddToDictionaryHint(CharSequence word) {
-        ArrayList<CharSequence> suggestions = new ArrayList<CharSequence>();
+        ArrayList<CharSequence> suggestions = new ArrayList<>();
         suggestions.add(word);
         suggestions.add(mAddToDictionaryHint);
         setSuggestions(suggestions, false, false, false);

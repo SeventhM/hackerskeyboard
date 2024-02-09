@@ -26,20 +26,19 @@
         android:background="@drawable/keyboard_popup_panel_background"
         >
     <org.pocketworkstation.pckeyboard.LatinKeyboardBaseView
-            xmlns:latin="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/LatinKeyboardBaseView"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/keyboard_background"
+        xmlns:latin="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/LatinKeyboardBaseView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/keyboard_background"
 
-            latin:keyBackground="@drawable/btn_keyboard_key_stone"
-            latin:keyTextColor="@color/latinkeyboard_key_color_black"
-            latin:keyHintColor="#FF777777"
-            latin:keyCursorColor="@color/latinkeyboard_dim_color_black"
-            latin:shadowColor="@color/latinkeyboard_key_color_white"
-            latin:invertSymbols="true"
-            latin:keyPreviewLayout="@layout/null_layout"
-            latin:popupLayout="@layout/null_layout"
+        latin:keyBackground="@drawable/btn_keyboard_key_stone"
+        latin:keyTextColor="@color/latinkeyboard_key_color_black"
+        latin:keyHintColor="#FF777777"
+        latin:keyCursorColor="@color/latinkeyboard_dim_color_black"
+        latin:shadowColor="@color/latinkeyboard_key_color_white"
+        latin:invertSymbols="true"
+        latin:keyPreviewLayout="@layout/null_layout"
+        latin:popupLayout="@layout/null_layout"
         />
 </LinearLayout>

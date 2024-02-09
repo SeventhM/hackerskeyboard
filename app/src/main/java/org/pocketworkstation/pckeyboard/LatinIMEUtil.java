@@ -16,8 +16,6 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import android.view.inputmethod.InputMethodManager;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateUtils;
@@ -146,7 +144,7 @@ public class LatinIMEUtil {
             }
         }
         public String getLastString() {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < mLength; ++i) {
                 char c = mCharBuf[normalize(mEnd - 1 - i)];
                 if (!((LatinIME)mContext).isWordSeparator(c)) {

@@ -105,7 +105,7 @@ public class SeekBarPreference extends DialogPreference {
             val = min + delta;
         }
         // Hack: Round number to 2 significant digits so that it looks nicer.
-        val = Float.valueOf(String.format(Locale.US, "%.2g", val));
+        val = Float.parseFloat(String.format(Locale.US, "%.2g", val));
         return val;
     }
 

@@ -92,9 +92,9 @@ public class Suggest implements Dictionary.WordCallback {
     // 1280 is the size of the BASE_CHARS array in ExpandableDictionary, which is a basic set of
     // latin characters.
     private int[] mNextLettersFrequencies = new int[1280];
-    private ArrayList<CharSequence> mSuggestions = new ArrayList<CharSequence>();
-    ArrayList<CharSequence> mBigramSuggestions  = new ArrayList<CharSequence>();
-    private ArrayList<CharSequence> mStringPool = new ArrayList<CharSequence>();
+    private ArrayList<CharSequence> mSuggestions = new ArrayList<>();
+    ArrayList<CharSequence> mBigramSuggestions  = new ArrayList<>();
+    private ArrayList<CharSequence> mStringPool = new ArrayList<>();
     private boolean mHaveCorrection;
     private CharSequence mOriginalWord;
     private String mLowerOriginalWord;
@@ -378,7 +378,7 @@ public class Suggest implements Dictionary.WordCallback {
 
     private void removeFromSuggestions(int index) {
         CharSequence garbage = mSuggestions.remove(index);
-        if (garbage != null && garbage instanceof StringBuilder) {
+        if (garbage instanceof StringBuilder) {
             mStringPool.add(garbage);
         }
     }
@@ -518,7 +518,7 @@ public class Suggest implements Dictionary.WordCallback {
         int garbageSize = suggestions.size();
         while (poolSize < prefMaxSuggestions && garbageSize > 0) {
             CharSequence garbage = suggestions.get(garbageSize - 1);
-            if (garbage != null && garbage instanceof StringBuilder) {
+            if (garbage instanceof StringBuilder) {
                 mStringPool.add(garbage);
                 poolSize++;
             }

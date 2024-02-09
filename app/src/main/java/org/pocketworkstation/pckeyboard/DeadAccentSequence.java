@@ -19,7 +19,6 @@ package org.pocketworkstation.pckeyboard;
 import java.text.Normalizer;
 
 import android.os.Build;
-import android.util.Log;
 
 public class DeadAccentSequence extends ComposeSequence {
     private static final String TAG = "HK/DeadAccent";
@@ -30,15 +29,15 @@ public class DeadAccentSequence extends ComposeSequence {
     
     private static void putAccent(String nonSpacing, String spacing, String ascii) {
         if (ascii == null) ascii = spacing;
-        put("" + nonSpacing + " ", ascii);
+        put(nonSpacing + " ", ascii);
         put(nonSpacing + nonSpacing, spacing);
         put(Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing, spacing);
     }
     
     public static String getSpacing(char nonSpacing) {
-        String spacing = get("" + Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing);
+        String spacing = get(String.valueOf(Keyboard.DEAD_KEY_PLACEHOLDER) + nonSpacing);
         if (spacing == null) spacing = DeadAccentSequence.normalize(" " + nonSpacing);
-        if (spacing == null) return "" + nonSpacing;
+        if (spacing == null) return String.valueOf(nonSpacing);
         return spacing;
     }
     
@@ -73,10 +72,7 @@ public class DeadAccentSequence extends ComposeSequence {
 
 	private static String doNormalise(String input)
 	{
-		if (Build.VERSION.SDK_INT >= 9) {
-			return Normalizer.normalize(input, Normalizer.Form.NFC);
-		}
-		return input;
+		return Normalizer.normalize(input, Normalizer.Form.NFC);
 	}
 
     public static String normalize(String input) {

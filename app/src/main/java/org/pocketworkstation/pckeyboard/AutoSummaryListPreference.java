@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 public class AutoSummaryListPreference extends ListPreference {
-    private static final String TAG = "HK/AutoSummaryListPreference";
+    private static final String TAG = "HK/AutoSummaryListPreference"; // TODO make 23 characters
 
     public AutoSummaryListPreference(Context context) {
         super(context);

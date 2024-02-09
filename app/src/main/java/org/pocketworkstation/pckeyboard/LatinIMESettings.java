@@ -159,10 +159,10 @@ public class LatinIMESettings extends PreferenceActivity
         updateSummaries();
     }
 
-    static Map<Integer, String> INPUT_CLASSES = new HashMap<Integer, String>();
-    static Map<Integer, String> DATETIME_VARIATIONS = new HashMap<Integer, String>();
-    static Map<Integer, String> TEXT_VARIATIONS = new HashMap<Integer, String>();
-    static Map<Integer, String> NUMBER_VARIATIONS = new HashMap<Integer, String>();
+    static Map<Integer, String> INPUT_CLASSES = new HashMap<>();
+    static Map<Integer, String> DATETIME_VARIATIONS = new HashMap<>();
+    static Map<Integer, String> TEXT_VARIATIONS = new HashMap<>();
+    static Map<Integer, String> NUMBER_VARIATIONS = new HashMap<>();
     static {
         INPUT_CLASSES.put(0x00000004, "DATETIME");
         INPUT_CLASSES.put(0x00000002, "NUMBER");
@@ -265,11 +265,8 @@ public class LatinIMESettings extends PreferenceActivity
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            default:
-                Log.e(TAG, "unknown dialog " + id);
-                return null;
-        }
+        Log.e(TAG, "unknown dialog " + id);
+        return null;
     }
 
     public void onDismiss(DialogInterface dialog) {

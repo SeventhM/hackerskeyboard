@@ -484,7 +484,7 @@ public class LatinKeyboard extends Keyboard {
         // Place left and right arrow just before and after language text.
         final float baseline = height * SPACEBAR_LANGUAGE_BASELINE;
         final int top = (int)(baseline - arrowHeight);
-        final float remains = (width - textWidth) / 2;
+        final float remains = (float) (width - textWidth) / 2;
         lArrow.setBounds((int)(remains - arrowWidth), top, (int)remains, (int)baseline);
         rArrow.setBounds((int)(remains + textWidth), top, (int)(remains + textWidth + arrowWidth),
                 (int)baseline);
@@ -519,10 +519,10 @@ public class LatinKeyboard extends Keyboard {
             final float baseline = height * SPACEBAR_LANGUAGE_BASELINE;
             final float descent = paint.descent();
             paint.setColor(shadowColor);
-            canvas.drawText(language, width / 2, baseline - descent - 1, paint);
+            canvas.drawText(language, (float) width / 2, baseline - descent - 1, paint);
             paint.setColor(mRes.getColor(R.color.latinkeyboard_dim_color_white));
 
-            canvas.drawText(language, width / 2, baseline - descent, paint);
+            canvas.drawText(language, (float) width / 2, baseline - descent, paint);
 
             // Put arrows that are already layed out on either side of the text
             if (mLanguageSwitcher.getLocaleCount() > 1) {
@@ -683,12 +683,12 @@ public class LatinKeyboard extends Keyboard {
                         mPrefLetter = code;
                         mPrefLetterX = x;
                         mPrefLetterY = y;
-                        for (int i = 0; i < nearby.length; i++) {
-                            Key k = nearbyKeys.get(nearby[i]);
+                        for (int j : nearby) {
+                            Key k = nearbyKeys.get(j);
                             if (k != key && inPrefList(k.codes[0], pref)) {
                                 final int dist = distanceFrom(k, x, y);
                                 if (dist < (int) (k.width * OVERLAP_PERCENTAGE_LOW_PROB) &&
-                                        (pref[k.codes[0]] > pref[mPrefLetter] * 3))  {
+                                        (pref[k.codes[0]] > pref[mPrefLetter] * 3)) {
                                     mPrefLetter = k.codes[0];
                                     mPrefDistance = dist;
                                     if (DEBUG_PREFERRED_LETTER) {
@@ -711,12 +711,12 @@ public class LatinKeyboard extends Keyboard {
                 //   return inside;
                 // else return thiskey == prefletter;
 
-                for (int i = 0; i < nearby.length; i++) {
-                    Key k = nearbyKeys.get(nearby[i]);
+                for (int j : nearby) {
+                    Key k = nearbyKeys.get(j);
                     if (inPrefList(k.codes[0], pref)) {
                         final int dist = distanceFrom(k, x, y);
                         if (dist < (int) (k.width * OVERLAP_PERCENTAGE_HIGH_PROB)
-                                && dist < mPrefDistance)  {
+                                && dist < mPrefDistance) {
                             mPrefLetter = k.codes[0];
                             mPrefLetterX = x;
                             mPrefLetterY = y;
@@ -923,9 +923,9 @@ public class LatinKeyboard extends Keyboard {
                 // Draw language text with shadow
                 final float baseline = mHeight * SPACEBAR_LANGUAGE_BASELINE - paint.descent();
                 paint.setColor(mRes.getColor(R.color.latinkeyboard_feedback_language_text));
-                canvas.drawText(mCurrentLanguage, width / 2 + diff, baseline, paint);
-                canvas.drawText(mNextLanguage, diff - width / 2, baseline, paint);
-                canvas.drawText(mPrevLanguage, diff + width + width / 2, baseline, paint);
+                canvas.drawText(mCurrentLanguage, (float) width / 2 + diff, baseline, paint);
+                canvas.drawText(mNextLanguage, diff - (float) width / 2, baseline, paint);
+                canvas.drawText(mPrevLanguage, diff + width + (float) width / 2, baseline, paint);
 
                 setDefaultBounds(lArrow);
                 rArrow.setBounds(width - rArrow.getIntrinsicWidth(), 0, width,

@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 
 /**
  * Variant of SeekBarPreference that stores values as string preferences.
- * 
+ * <p>
  * This is for compatibility with existing preferences, switching types
  * leads to runtime errors when upgrading or downgrading.
  */
@@ -26,7 +26,7 @@ public class SeekBarPreferenceString extends SeekBarPreference {
     private float floatFromString(String pref) {
         Matcher num = FLOAT_RE.matcher(pref);
         if (!num.matches()) return 0.0f;
-        return Float.valueOf(num.group(1));
+        return Float.parseFloat(num.group(1));
     }
     
     @Override
@@ -39,7 +39,7 @@ public class SeekBarPreferenceString extends SeekBarPreference {
         if (restorePersistedValue) {
             setVal(floatFromString(getPersistedString("0.0")));
         } else {
-            setVal(Float.valueOf((Float) defaultValue));
+            setVal((Float) defaultValue);
         }
         savePrevVal();
     }

@@ -16,12 +16,10 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import android.inputmethodservice.InputMethodService;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.inputmethod.EditorInfo;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,10 +35,10 @@ public class ComposeSequence {
     private static final String TAG = "HK/ComposeSequence";
     
     protected static final Map<String, String> mMap =
-    	new HashMap<String, String>();
+            new HashMap<>();
 
     protected static final Set<String> mPrefixes =
-    	new HashSet<String>();
+            new HashSet<>();
 
     // Some convenience aliases for use in compose strings
     protected static final char UP          = (char)LatinKeyboardView.KEYCODE_DPAD_UP;
@@ -136,29 +134,29 @@ public class ComposeSequence {
     }
 
     protected static String format(String seq) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         boolean quoted = false;
         final int end = seq.length();
 
         for (int i = 0; i < end; ++i) {
             char c = seq.charAt(i);
             if (keyNames.get(c) != null) {
-                output += (quoted ? "\" " : ' ') + keyNames.get(c);
+                output.append(quoted ? "\" " : ' ').append(keyNames.get(c));
                 quoted = false;
             } else {
                 if (!quoted)
-                    output += output.length() != 0 ? " \"" : "\"";
+                    output.append(output.length() != 0 ? " \"" : "\"");
                 if (c < ' ' || c == '"' || c == '\\')
-                    output += "\\" + (c < ' ' ? c + 64 : c);
+                    output.append("\\").append(c < ' ' ? c + 64 : c);
                 else
-                    output += c;
+                    output.append(c);
                 quoted = true;
             }
         }
         if (quoted)
-            output += '"';
+            output.append('"');
 
-        return output;
+        return output.toString();
     }
 
     protected static void put(String key, String value) {
@@ -173,11 +171,11 @@ public class ComposeSequence {
             Log.w(TAG, "compose sequence is a subset: " + format(key));
 
         mMap.put(key, value);
-    	for (int i = 1; i < key.length(); ++i) {
+        for (int i = 1; i < key.length(); ++i) {
             String substr = key.substring(0, i);
             found |= mMap.containsKey(substr);
             mPrefixes.add(substr);
-    	}
+        }
 
         if (found)
             Log.w(TAG, "compose sequence is a superset: " + format(key));
