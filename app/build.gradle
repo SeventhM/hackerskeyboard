@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     defaultConfig {
-        compileSdk 33
+        compileSdk 34
         namespace 'org.pocketworkstation.pckeyboard'
         applicationId 'org.pocketworkstation.pckeyboard'
         minSdkVersion 14
