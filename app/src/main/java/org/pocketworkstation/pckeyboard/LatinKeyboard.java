@@ -35,6 +35,8 @@ import android.util.Log;
 import android.view.ViewConfiguration;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -124,22 +126,35 @@ public class LatinKeyboard extends Keyboard {
         mContext = context;
         mMode = mode;
         mRes = res;
-        mShiftLockIcon = res.getDrawable(R.drawable.sym_keyboard_shift_locked);
-        mShiftLockPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_shift_locked);
+        mShiftLockIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_shift_locked,null);
+        mShiftLockPreviewIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_feedback_shift_locked,null);
         setDefaultBounds(mShiftLockPreviewIcon);
-        mSpaceIcon = res.getDrawable(R.drawable.sym_keyboard_space);
-        mSpaceAutoCompletionIndicator = res.getDrawable(R.drawable.sym_keyboard_space_led);
-        mSpacePreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_space);
-        mMicIcon = res.getDrawable(R.drawable.sym_keyboard_mic);
-        mMicPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_mic);
-        mSettingsIcon = res.getDrawable(R.drawable.sym_keyboard_settings);
-        mSettingsPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_settings);
+        mSpaceIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_space, null);
+        mSpaceAutoCompletionIndicator = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_space_led, null);
+        mSpacePreviewIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_feedback_space, null);
+        mMicIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_mic, null);
+        mMicPreviewIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_feedback_mic, null);
+        mSettingsIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_settings, null);
+        mSettingsPreviewIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_feedback_settings, null);
         setDefaultBounds(mMicPreviewIcon);
-        mButtonArrowLeftIcon = res.getDrawable(R.drawable.sym_keyboard_language_arrows_left);
-        mButtonArrowRightIcon = res.getDrawable(R.drawable.sym_keyboard_language_arrows_right);
-        m123MicIcon = res.getDrawable(R.drawable.sym_keyboard_123_mic);
-        m123MicPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_123_mic);
-        mHintIcon = res.getDrawable(R.drawable.hint_popup);
+        mButtonArrowLeftIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_language_arrows_left, null);
+        mButtonArrowRightIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_language_arrows_right, null);
+        m123MicIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_123_mic, null);
+        m123MicPreviewIcon = ResourcesCompat.getDrawable(
+                res, R.drawable.sym_keyboard_feedback_123_mic, null);
+        mHintIcon = ResourcesCompat.getDrawable(res, R.drawable.hint_popup, null);
         setDefaultBounds(m123MicPreviewIcon);
         sSpacebarVerticalCorrection = res.getDimensionPixelOffset(
                 R.dimen.spacebar_vertical_correction);
@@ -201,9 +216,10 @@ public class LatinKeyboard extends Keyboard {
                     mEnterKey.label = res.getText(R.string.label_done_key);
                     break;
                 case EditorInfo.IME_ACTION_SEARCH:
-                    mEnterKey.iconPreview = res.getDrawable(
-                            R.drawable.sym_keyboard_feedback_search);
-                    mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_search);
+                    mEnterKey.iconPreview = ResourcesCompat.getDrawable(
+                            res, R.drawable.sym_keyboard_feedback_search, null);
+                    mEnterKey.icon = ResourcesCompat.getDrawable(
+                            res, R.drawable.sym_keyboard_search, null);
                     mEnterKey.label = null;
                     break;
                 case EditorInfo.IME_ACTION_SEND:
@@ -213,9 +229,10 @@ public class LatinKeyboard extends Keyboard {
                     break;
                 default:
                     // Keep Return key in IM mode, we have a dedicated smiley key.
-                    mEnterKey.iconPreview = res.getDrawable(
-                            R.drawable.sym_keyboard_feedback_return);
-                    mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_return);
+                    mEnterKey.iconPreview = ResourcesCompat.getDrawable(
+                            res, R.drawable.sym_keyboard_feedback_return, null);
+                    mEnterKey.icon = ResourcesCompat.getDrawable(
+                            res, R.drawable.sym_keyboard_return, null);
                     mEnterKey.label = null;
                     break;
             }
@@ -407,9 +424,10 @@ public class LatinKeyboard extends Keyboard {
             // sym_keyboard_space_led can be shared with Black and White symbol themes.
             if (isAutoCompletion) {
                 mSpaceKey.icon = new BitmapDrawable(mRes,
-                        drawSpaceBar(OPACITY_FULLY_OPAQUE, isAutoCompletion));
+                        drawSpaceBar(OPACITY_FULLY_OPAQUE, true));
             } else {
-                mSpaceKey.icon = mRes.getDrawable(R.drawable.sym_keyboard_space);
+                mSpaceKey.icon = ResourcesCompat.getDrawable(
+                        mRes, R.drawable.sym_keyboard_space, null);
             }
         }
     }
@@ -551,10 +569,9 @@ public class LatinKeyboard extends Keyboard {
     }
 
     private int getSpacePreviewWidth() {
-        final int width = Math.min(
-        		Math.max(mSpaceKey.width, (int)(getMinWidth() * SPACEBAR_POPUP_MIN_RATIO)), 
+        return Math.min(
+        		Math.max(mSpaceKey.width, (int)(getMinWidth() * SPACEBAR_POPUP_MIN_RATIO)),
         		(int)(getScreenHeight() * SPACEBAR_POPUP_MAX_RATIO));
-        return width;
     }
     
     private void updateLocaleDrag(int diff) {
@@ -780,8 +797,7 @@ public class LatinKeyboard extends Keyboard {
             Log.i(TAG, "getTextSizeFromTheme error: resId " + resId + " > " + array.length());
             return defValue;
         }
-        int textSize = array.getDimensionPixelSize(resId, defValue);
-        return textSize;
+        return array.getDimensionPixelSize(resId, defValue);
     }
 
     // TODO LatinKey could be static class
@@ -816,8 +832,7 @@ public class LatinKeyboard extends Keyboard {
         public boolean isInside(int x, int y) {
             // TODO This should be done by parent.isInside(this, x, y)
             // if Key.parent were protected.
-            boolean result = LatinKeyboard.this.isInside(this, x, y);
-            return result;
+            return LatinKeyboard.this.isInside(this, x, y);
         }
 
         boolean isInsideSuper(int x, int y) {
@@ -879,10 +894,10 @@ public class LatinKeyboard extends Keyboard {
             mTextPaint.setAlpha(OPACITY_FULLY_OPAQUE);
             mTextPaint.setAntiAlias(true);
             mMiddleX = (mWidth - mBackground.getIntrinsicWidth()) / 2;
-            mLeftDrawable =
-                    mRes.getDrawable(R.drawable.sym_keyboard_feedback_language_arrows_left);
-            mRightDrawable =
-                    mRes.getDrawable(R.drawable.sym_keyboard_feedback_language_arrows_right);
+            mLeftDrawable = ResourcesCompat.getDrawable(
+                    mRes, R.drawable.sym_keyboard_feedback_language_arrows_left, null);
+            mRightDrawable = ResourcesCompat.getDrawable(
+                    mRes, R.drawable.sym_keyboard_feedback_language_arrows_right, null);
             mThreshold = ViewConfiguration.get(mContext).getScaledTouchSlop();
         }
 

@@ -17,9 +17,13 @@
 package org.pocketworkstation.pckeyboard;
 
 import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * Base class for an in-memory dictionary that can grow dynamically and can
@@ -112,6 +116,14 @@ public class ExpandableDictionary extends Dictionary {
         if (!mUpdatingDictionary) {
             mUpdatingDictionary = true;
             mRequiresReload = false;
+            /*ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                loadDictionaryAsync();
+                synchronized (mUpdatingLock) {
+                    mUpdatingDictionary = false;
+                }
+            });*/
             new LoadDictionaryTask().execute();
         }
     }
@@ -275,14 +287,14 @@ public class ExpandableDictionary extends Dictionary {
                     }
                 }
                 if (children != null) {
-                    getWordsRec(children, codes, word, depth + 1, completion, snr, inputIndex,
+                    getWordsRec(children, codes, word, depth + 1, true, snr, inputIndex,
                             skipPos, callback);
                 }
             } else if ((c == QUOTE && currentChars[0] != QUOTE) || depth == skipPos) {
                 // Skip the ' and continue deeper
                 word[depth] = c;
                 if (children != null) {
-                    getWordsRec(children, codes, word, depth + 1, completion, snr, inputIndex, 
+                    getWordsRec(children, codes, word, depth + 1, false, snr, inputIndex,
                             skipPos, callback);
                 }
             } else {

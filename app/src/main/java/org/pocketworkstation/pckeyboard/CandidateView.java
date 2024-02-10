@@ -35,6 +35,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -96,8 +98,10 @@ public class CandidateView extends View {
      */
     public CandidateView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mSelectionHighlight = context.getResources().getDrawable(
-                R.drawable.list_selector_background_pressed);
+        mSelectionHighlight = ResourcesCompat.getDrawable(
+                context.getResources(),
+                R.drawable.list_selector_background_pressed,
+                null);
 
         LayoutInflater inflate =
             (LayoutInflater) context
@@ -115,7 +119,9 @@ public class CandidateView extends View {
         mColorNormal = res.getColor(R.color.candidate_normal);
         mColorRecommended = res.getColor(R.color.candidate_recommended);
         mColorOther = res.getColor(R.color.candidate_other);
-        mDivider = res.getDrawable(R.drawable.keyboard_suggest_strip_divider);
+        mDivider = ResourcesCompat.getDrawable(
+                res, R.drawable.keyboard_suggest_strip_divider, null);
+        //mDivider = res.getDrawable(R.drawable.keyboard_suggest_strip_divider);
         mAddToDictionaryHint = res.getString(R.string.hint_add_to_dictionary);
 
         mPaint = new Paint();

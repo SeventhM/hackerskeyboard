@@ -19,6 +19,8 @@ package org.pocketworkstation.pckeyboard;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,6 +29,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -166,6 +170,13 @@ public class AutoDictionary extends ExpandableDictionary {
             // Nothing pending? Return
             if (mPendingWrites.isEmpty()) return;
             // Create a background thread to write the pending entries
+            /*ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                mMap = getContext();
+                mLocale = sOpenHelper;
+                mDbHelper = mLocale;
+            };*/
             new UpdateDbTask(getContext(), sOpenHelper, mPendingWrites, mLocale).execute();
             // Create a new map for writing new entries into while the old one is written to db
             mPendingWrites = new HashMap<>();

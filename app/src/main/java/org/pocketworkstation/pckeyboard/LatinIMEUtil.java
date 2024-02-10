@@ -73,6 +73,7 @@ public class LatinIMEUtil {
     }
 
     /* package */ static class RingCharBuffer {
+        // TODO make nonstatic
         private static RingCharBuffer sRingCharBuffer = new RingCharBuffer();
         private static final char PLACEHOLDER_DELIMITER_CHAR = '\uFFFC';
         private static final int INVALID_COORDINATE = -2;

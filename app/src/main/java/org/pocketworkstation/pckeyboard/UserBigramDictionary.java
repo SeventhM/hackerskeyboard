@@ -352,14 +352,17 @@ public class UserBigramDictionary extends ExpandableDictionary {
                 int pairId;
                 if (c.moveToFirst()) {
                     // existing pair
-                    pairId = c.getInt(c.getColumnIndex(MAIN_COLUMN_ID));
+                    int columnIndex = c.getColumnIndex(MAIN_COLUMN_ID);
+                    if (columnIndex != -1)
+                        pairId = c.getInt(columnIndex);
+                    else pairId = 0;
                     db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
                             new String[]{Integer.toString(pairId)});
                 } else {
                     // new pair
-                    Long pairIdLong = db.insert(MAIN_TABLE_NAME, null,
+                    long pairIdLong = db.insert(MAIN_TABLE_NAME, null,
                             getContentValues(bi.word1, bi.word2, mLocale));
-                    pairId = pairIdLong.intValue();
+                    pairId = (int) pairIdLong;
                 }
                 c.close();
 

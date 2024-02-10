@@ -43,6 +43,7 @@ public class SeekBarPreference extends DialogPreference {
         mAsPercent = a.getBoolean(R.styleable.SeekBarPreference_asPercent, false);
         mLogScale = a.getBoolean(R.styleable.SeekBarPreference_logScale, false);
         mDisplayFormat = a.getString(R.styleable.SeekBarPreference_displayFormat);
+        a.recycle();
     }
 
     @Override
