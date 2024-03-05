@@ -23,6 +23,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InflateException;
 
+import java.io.Console;
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -625,20 +626,26 @@ public class KeyboardSwitcher implements
             for (int i = 0; i < LatinIMEUtil.GCUtils.GC_TRY_LOOP_MAX && tryGC; ++i) {
                 try {
                     mInputView = (LatinKeyboardView) mInputMethodService
-                            .getLayoutInflater().inflate(THEMES[newLayout],
-                                    null);
-                    tryGC = false;
+                            .getLayoutInflater().inflate(THEMES[newLayout], null);
+                    if (mInputView != null)
+                        tryGC = false;
                 } catch (OutOfMemoryError e) {
                     tryGC = LatinIMEUtil.GCUtils.getInstance().tryGCOrWait(
                             mLayoutId + "," + newLayout, e);
                 } catch (InflateException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(mLayoutId + "," + newLayout);
                     tryGC = LatinIMEUtil.GCUtils.getInstance().tryGCOrWait(
                             mLayoutId + "," + newLayout, e);
                 }
             }
-            mInputView.setExtensionLayoutResId(THEMES[newLayout]);
-            mInputView.setOnKeyboardActionListener(mInputMethodService);
-            mInputView.setPadding(0, 0, 0, 0);
+            //if (mInputView == null) return;
+            if (mInputView != null)
+                mInputView.setExtensionLayoutResId(THEMES[newLayout]);
+            if (mInputView != null)
+                mInputView.setOnKeyboardActionListener(mInputMethodService);
+            if (mInputView != null)
+                mInputView.setPadding(0, 0, 0, 0);
             mLayoutId = newLayout;
         }
         mInputMethodService.mHandler.post(() -> {

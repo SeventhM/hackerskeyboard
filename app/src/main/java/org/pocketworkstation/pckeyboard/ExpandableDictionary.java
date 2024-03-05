@@ -17,13 +17,9 @@
 package org.pocketworkstation.pckeyboard;
 
 import java.util.LinkedList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 
 /**
  * Base class for an in-memory dictionary that can grow dynamically and can
