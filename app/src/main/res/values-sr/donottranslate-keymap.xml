@@ -27,31 +27,31 @@
     <string name="key_ae02_main">2</string>
     <string name="key_ae02_shift">\"</string>
     <string name="key_ae02_alt">2\"²⅔</string>
-    
+
     <string name="key_ae06_main">6</string>
     <string name="key_ae06_shift">&amp;</string>
     <string name="key_ae06_alt">6&amp;↑↓←→</string>
-    
+
     <string name="key_ae07_main">7</string>
     <string name="key_ae07_shift">/</string>
     <string name="key_ae07_alt">7/⅞♪</string>
-    
+
     <string name="key_ae08_main">8</string>
     <string name="key_ae08_shift">(</string>
     <string name="key_ae08_alt">8(•★∞†‡</string>
-    
+
     <string name="key_ae09_main">9</string>
     <string name="key_ae09_shift">)</string>
     <string name="key_ae09_alt">9)√</string>
-    
+
     <string name="key_ae10_main">0</string>
     <string name="key_ae10_shift">=</string>
     <string name="key_ae10_alt">0=ⁿ°</string>
-    
+
     <string name="key_ae11_main">\'</string>
     <string name="key_ae11_shift">\?</string>
     <string name="key_ae11_alt">\'\?—–</string>
-    
+
     <string name="key_ae12_main">+</string>
     <string name="key_ae12_shift">*</string>
     <string name="key_ae12_alt">+*≈≠±×÷</string>
@@ -60,11 +60,11 @@
     <string name="key_ad01_main">љ</string>
     <string name="key_ad01_shift">Љ</string>
     <string name="key_ad01_alt"></string>
-    
+
     <string name="key_ad02_main">њ</string>
     <string name="key_ad02_shift">Њ</string>
     <string name="key_ad02_alt"></string>
-    
+
     <string name="key_ad03_main">е</string>
     <string name="key_ad03_shift">Е</string>
     <string name="key_ad03_alt"></string>
@@ -72,11 +72,11 @@
     <string name="key_ad04_main">р</string>
     <string name="key_ad04_shift">Р</string>
     <string name="key_ad04_alt"></string>
-    
+
     <string name="key_ad05_main">т</string>
     <string name="key_ad05_shift">Т</string>
     <string name="key_ad05_alt"></string>
-    
+
     <string name="key_ad06_main">з</string>
     <string name="key_ad06_shift">З</string>
     <string name="key_ad06_alt"></string>
@@ -84,28 +84,28 @@
     <string name="key_ad07_main">у</string>
     <string name="key_ad07_shift">У</string>
     <string name="key_ad07_alt"></string>
-    
+
     <string name="key_ad08_main">и</string>
     <string name="key_ad08_shift">И</string>
     <string name="key_ad08_alt"></string>
-    
+
     <string name="key_ad09_main">о</string>
     <string name="key_ad09_shift">О</string>
     <string name="key_ad09_alt"></string>
-    
+
     <string name="key_ad10_main">п</string>
     <string name="key_ad10_shift">П</string>
     <string name="key_ad10_alt"></string>
-    
+
     <string name="key_ad11_main">ш</string>
     <string name="key_ad11_shift">Ш</string>
     <string name="key_ad11_alt">[{</string>
-    
+
     <string name="key_ad12_main">ђ</string>
     <string name="key_ad12_shift">Ђ</string>
     <string name="key_ad12_alt">]}</string>
 
-    
+
     <string name="key_ac01_main">а</string>
     <string name="key_ac01_shift">А</string>
     <string name="key_ac01_alt"></string>

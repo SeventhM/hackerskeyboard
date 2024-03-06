@@ -79,7 +79,6 @@ implied.
     <string name="key_ae12_alt">=+≈≠±×÷</string>
 
 
-
     <string name="key_ad01_main">,</string>
     <string name="key_ad01_shift">ы</string>
     <string name="key_ad01_alt"></string>
@@ -133,7 +132,6 @@ implied.
     <string name="key_bksl_alt">;:</string>
 
 
-
     <string name="key_ac01_main">ь</string>
     <string name="key_ac01_shift">ѝ</string>
     <string name="key_ac01_alt"></string>
@@ -177,7 +175,6 @@ implied.
     <string name="key_ac11_main">ч</string>
     <string name="key_ac11_shift">Ч</string>
     <string name="key_ac11_alt"></string>
-
 
 
     <string name="key_ab01_main">ю</string>

@@ -28,8 +28,8 @@ import android.util.Log;
 public class ContactsDictionary extends ExpandableDictionary {
 
     private static final String[] PROJECTION = {
-        Contacts._ID,
-        Contacts.DISPLAY_NAME,
+            Contacts._ID,
+            Contacts.DISPLAY_NAME,
     };
 
     private static final String TAG = "ContactsDictionary";
@@ -53,7 +53,7 @@ public class ContactsDictionary extends ExpandableDictionary {
         ContentResolver cres = context.getContentResolver();
 
         cres.registerContentObserver(
-                Contacts.CONTENT_URI, true,mObserver = new ContentObserver(null) {
+                Contacts.CONTENT_URI, true, mObserver = new ContentObserver(null) {
                     @Override
                     public void onChange(boolean self) {
                         setRequiresReload(true);
@@ -88,7 +88,7 @@ public class ContactsDictionary extends ExpandableDictionary {
             if (cursor != null) {
                 addWords(cursor);
             }
-        } catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             Log.e(TAG, "Contacts DB is having problems");
         }
         mLastLoadedContacts = SystemClock.uptimeMillis();
@@ -115,7 +115,7 @@ public class ContactsDictionary extends ExpandableDictionary {
                                     char c = name.charAt(j);
 
                                     if (!(c == '-' || c == '\'' ||
-                                          Character.isLetter(c))) {
+                                            Character.isLetter(c))) {
                                         break;
                                     }
                                 }
@@ -145,7 +145,7 @@ public class ContactsDictionary extends ExpandableDictionary {
                 }
             }
             cursor.close();
-        } catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             Log.e(TAG, "Contacts DB is having problems");
         }
     }

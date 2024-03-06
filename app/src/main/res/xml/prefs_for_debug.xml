@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2010 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2010 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,31 +14,28 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:title="@string/prefs_debug_mode"
-        android:key="english_ime_debug_settings">
+    android:key="english_ime_debug_settings"
+    android:title="@string/prefs_debug_mode">
 
     <CheckBoxPreference
-            android:key="enable_logging"
-            android:title="@string/prefs_enable_log"
-            android:summary="@string/prefs_description_log"
-            android:persistent="true"
-            android:defaultValue="false"
-            />
+        android:defaultValue="false"
+        android:key="enable_logging"
+        android:persistent="true"
+        android:summary="@string/prefs_description_log"
+        android:title="@string/prefs_enable_log" />
 
     <ListPreference
-            android:key="pref_keyboard_layout_20100902"
-            android:title="@string/keyboard_layout"
-            android:persistent="true"
-            android:entryValues="@array/keyboard_layout_modes_values"
-            android:entries="@array/keyboard_layout_modes"
-            android:defaultValue="4"
-            />
+        android:defaultValue="4"
+        android:entries="@array/keyboard_layout_modes"
+        android:entryValues="@array/keyboard_layout_modes_values"
+        android:key="pref_keyboard_layout_20100902"
+        android:persistent="true"
+        android:title="@string/keyboard_layout" />
 
     <CheckBoxPreference
-            android:key="debug_mode"
-            android:title="@string/prefs_debug_mode"
-            android:persistent="true"
-            android:defaultValue="false"
-            />
+        android:defaultValue="false"
+        android:key="debug_mode"
+        android:persistent="true"
+        android:title="@string/prefs_debug_mode" />
 
 </PreferenceScreen>

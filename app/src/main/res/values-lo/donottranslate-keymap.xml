@@ -25,9 +25,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="key_tlde_main">\"</string>
-  <string name="key_tlde_shift">\'</string>
+    <string name="key_tlde_shift">\'</string>
     <string name="key_tlde_alt">`~</string>
-    
+
     <string name="key_ae01_main">ຢ</string>
     <string name="key_ae01_shift">1</string>
     <string name="key_ae01_alt">1!¡¹½⅓¼⅛</string>
@@ -35,43 +35,43 @@
     <string name="key_ae02_main">ຟ</string>
     <string name="key_ae02_shift">2</string>
     <string name="key_ae02_alt">2\@²⅔</string>
-    
+
     <string name="key_ae03_main">ໂ</string>
     <string name="key_ae03_shift">3</string>
     <string name="key_ae03_alt">3#³¾⅜♥♠♦♣</string>
-    
+
     <string name="key_ae04_main">ຖ</string>
     <string name="key_ae04_shift">4</string>
     <string name="key_ae04_alt">4$⁴¢£€¥</string>
-    
+
     <string name="key_ae05_main">ຸ</string>
     <string name="key_ae05_shift">໌</string>
     <string name="key_ae05_alt">5%⅝‰</string>
-    
+
     <string name="key_ae06_main">ູ</string>
     <string name="key_ae06_shift">ຼ</string>
     <string name="key_ae06_alt">6^↑↓←→</string>
-    
+
     <string name="key_ae07_main">ຄ</string>
     <string name="key_ae07_shift">5</string>
     <string name="key_ae07_alt">7&amp;⅞♪</string>
-    
+
     <string name="key_ae08_main">ຕ</string>
     <string name="key_ae08_shift">6</string>
     <string name="key_ae08_alt">8*•★∞†‡</string>
-    
+
     <string name="key_ae09_main">ຈ</string>
     <string name="key_ae09_shift">7</string>
     <string name="key_ae09_alt">9(√</string>
-    
+
     <string name="key_ae10_main">ຂ</string>
     <string name="key_ae10_shift">8</string>
     <string name="key_ae10_alt">0)ⁿ°</string>
-    
+
     <string name="key_ae11_main">ຊ</string>
     <string name="key_ae11_shift">9</string>
     <string name="key_ae11_alt">-_—–</string>
-    
+
     <string name="key_ae12_main">ໍ</string>
     <string name="key_ae12_shift">ໍ່</string>
     <string name="key_ae12_alt">=+≈≠±×÷</string>
@@ -80,11 +80,11 @@
     <string name="key_ad01_main">ົ</string>
     <string name="key_ad01_shift">ົ້</string>
     <string name="key_ad01_alt"></string>
-    
+
     <string name="key_ad02_main">ໄ</string>
     <string name="key_ad02_shift">0</string>
     <string name="key_ad02_alt"></string>
-    
+
     <string name="key_ad03_main">ຳ</string>
     <string name="key_ad03_shift">*</string>
     <string name="key_ad03_alt"></string>
@@ -92,11 +92,11 @@
     <string name="key_ad04_main">ພ</string>
     <string name="key_ad04_shift">_</string>
     <string name="key_ad04_alt"></string>
-    
+
     <string name="key_ad05_main">ະ</string>
     <string name="key_ad05_shift">+</string>
     <string name="key_ad05_alt"></string>
-    
+
     <string name="key_ad06_main">ິ</string>
     <string name="key_ad06_shift">ິ້</string>
     <string name="key_ad06_alt"></string>
@@ -104,23 +104,23 @@
     <string name="key_ad07_main">ີ</string>
     <string name="key_ad07_shift">ີ້</string>
     <string name="key_ad07_alt"></string>
-    
+
     <string name="key_ad08_main">ຮ</string>
     <string name="key_ad08_shift">ຣ</string>
     <string name="key_ad08_alt"></string>
-    
+
     <string name="key_ad09_main">ນ</string>
     <string name="key_ad09_shift">ໜ</string>
     <string name="key_ad09_alt"></string>
-    
+
     <string name="key_ad10_main">ຍ</string>
     <string name="key_ad10_shift">ຽ</string>
     <string name="key_ad10_alt"></string>
-    
+
     <string name="key_ad11_main">ບ</string>
     <string name="key_ad11_shift">-</string>
     <string name="key_ad11_alt">[{</string>
-    
+
     <string name="key_ad12_main">ລ</string>
     <string name="key_ad12_shift">ຫຼ</string>
     <string name="key_ad12_alt">]}</string>
@@ -128,8 +128,8 @@
     <string name="key_bksl_main">/</string>
     <string name="key_bksl_shift">\\</string>
     <string name="key_bksl_alt">\\|</string>
-    
-    
+
+
     <string name="key_ac01_main">ັ</string>
     <string name="key_ac01_shift">ັ້</string>
     <string name="key_ac01_alt"></string>

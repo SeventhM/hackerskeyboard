@@ -16,15 +16,15 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import java.io.InputStream;
+import android.content.Context;
+import android.util.Log;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.Channels;
 import java.util.Arrays;
-
-import android.content.Context;
-import android.util.Log;
 
 /**
  * Implements a static, compacted, binary dictionary of standard words.
@@ -47,6 +47,15 @@ public class BinaryDictionary extends Dictionary {
     private static final int TYPED_LETTER_MULTIPLIER = 2;
     private static final boolean ENABLE_MISSED_CHARACTERS = true;
 
+    static {
+        try {
+            System.loadLibrary("jni_pckeyboard");
+            Log.i("PCKeyboard", "loaded jni_pckeyboard");
+        } catch (UnsatisfiedLinkError ule) {
+            Log.e("BinaryDictionary", "Could not load native library jni_pckeyboard");
+        }
+    }
+
     private int mDicTypeId;
     private long mNativeDict;
     private int mDictLength;
@@ -59,19 +68,11 @@ public class BinaryDictionary extends Dictionary {
     // unexpected deallocation of the direct buffer.
     private ByteBuffer mNativeDictDirectBuffer;
 
-    static {
-        try {
-            System.loadLibrary("jni_pckeyboard");
-            Log.i("PCKeyboard", "loaded jni_pckeyboard");
-        } catch (UnsatisfiedLinkError ule) {
-            Log.e("BinaryDictionary", "Could not load native library jni_pckeyboard");
-        }
-    }
-
     /**
      * Create a dictionary from a raw resource file
+     *
      * @param context application context for reading resources
-     * @param resId the resource containing the raw binary dictionary
+     * @param resId   the resource containing the raw binary dictionary
      */
     public BinaryDictionary(Context context, int[] resId, int dicTypeId) {
         if (resId != null && resId.length > 0 && resId[0] != 0) {
@@ -82,6 +83,7 @@ public class BinaryDictionary extends Dictionary {
 
     /**
      * Create a dictionary from input streams
+     *
      * @param context application context for reading resources
      * @param streams the resource streams containing the raw binary dictionary
      */
@@ -94,7 +96,8 @@ public class BinaryDictionary extends Dictionary {
 
     /**
      * Create a dictionary from a byte buffer. This is used for testing.
-     * @param context application context for reading resources
+     *
+     * @param context    application context for reading resources
      * @param byteBuffer a ByteBuffer containing the binary dictionary
      */
     public BinaryDictionary(Context context, ByteBuffer byteBuffer, int dicTypeId) {
@@ -114,15 +117,19 @@ public class BinaryDictionary extends Dictionary {
     }
 
     private native long openNative(ByteBuffer bb, int typedLetterMultiplier,
-            int fullWordMultiplier, int dictSize);
+                                   int fullWordMultiplier, int dictSize);
+
     private native void closeNative(long dict);
+
     private native boolean isValidWordNative(long nativeData, char[] word, int wordLength);
+
     private native int getSuggestionsNative(long dict, int[] inputCodes, int codesSize,
-            char[] outputChars, int[] frequencies, int maxWordLength, int maxWords,
-            int maxAlternatives, int skipPos, int[] nextLettersFrequencies, int nextLettersSize);
+                                            char[] outputChars, int[] frequencies, int maxWordLength, int maxWords,
+                                            int maxAlternatives, int skipPos, int[] nextLettersFrequencies, int nextLettersSize);
+
     private native int getBigramsNative(long dict, char[] prevWord, int prevWordLength,
-            int[] inputCodes, int inputCodesLength, char[] outputChars, int[] frequencies,
-            int maxWordLength, int maxBigrams, int maxAlternatives);
+                                        int[] inputCodes, int inputCodesLength, char[] outputChars, int[] frequencies,
+                                        int maxWordLength, int maxBigrams, int maxAlternatives);
 
     private final void loadDictionary(InputStream[] is) {
         try {
@@ -134,7 +141,7 @@ public class BinaryDictionary extends Dictionary {
             }
 
             mNativeDictDirectBuffer =
-                ByteBuffer.allocateDirect(total).order(ByteOrder.nativeOrder());
+                    ByteBuffer.allocateDirect(total).order(ByteOrder.nativeOrder());
             int got = 0;
             for (InputStream inputStream : is) {
                 got += Channels.newChannel(inputStream).read(mNativeDictDirectBuffer);
@@ -163,7 +170,7 @@ public class BinaryDictionary extends Dictionary {
             }
         }
     }
-    
+
     private final void loadDictionary(Context context, int[] resId) {
         InputStream[] is = null;
         is = new InputStream[resId.length];
@@ -176,7 +183,7 @@ public class BinaryDictionary extends Dictionary {
 
     @Override
     public void getBigrams(final WordComposer codes, final CharSequence previousWord,
-            final WordCallback callback, int[] nextLettersFrequencies) {
+                           final WordCallback callback, int[] nextLettersFrequencies) {
 
         char[] chars = previousWord.toString().toCharArray();
         Arrays.fill(mOutputChars_bigrams, (char) 0);
@@ -208,7 +215,7 @@ public class BinaryDictionary extends Dictionary {
 
     @Override
     public void getWords(final WordComposer codes, final WordCallback callback,
-            int[] nextLettersFrequencies) {
+                         int[] nextLettersFrequencies) {
         final int codesSize = codes.size();
         // Won't deal with really long words.
         if (codesSize > MAX_WORD_LENGTH - 1) return;

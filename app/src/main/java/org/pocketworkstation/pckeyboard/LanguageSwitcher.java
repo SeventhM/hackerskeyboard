@@ -16,12 +16,12 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import java.util.Locale;
-
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+
+import java.util.Locale;
 
 /**
  * Keeps track of list of selected input languages and the current
@@ -33,18 +33,26 @@ public class LanguageSwitcher {
     private Locale[] mLocales;
     private LatinIME mIme;
     private String[] mSelectedLanguageArray;
-    private String   mSelectedLanguages;
-    private int      mCurrentIndex = 0;
-    private String   mDefaultInputLanguage;
-    private Locale   mDefaultInputLocale;
-    private Locale   mSystemLocale;
+    private String mSelectedLanguages;
+    private int mCurrentIndex = 0;
+    private String mDefaultInputLanguage;
+    private Locale mDefaultInputLocale;
+    private Locale mSystemLocale;
 
     public LanguageSwitcher(LatinIME ime) {
         mIme = ime;
         mLocales = new Locale[0];
     }
 
-    public Locale[]  getLocales() {
+    static String toTitleCase(String s) {
+        if (s.length() == 0) {
+            return s;
+        }
+
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    public Locale[] getLocales() {
         return mLocales;
     }
 
@@ -54,12 +62,13 @@ public class LanguageSwitcher {
 
     /**
      * Loads the currently selected input languages from shared preferences.
+     *
      * @param sp
      * @return whether there was any change
      */
     public boolean loadLocales(SharedPreferences sp) {
         String selectedLanguages = sp.getString(LatinIME.PREF_SELECTED_LANGUAGES, null);
-        String currentLanguage   = sp.getString(LatinIME.PREF_INPUT_LANGUAGE, null);
+        String currentLanguage = sp.getString(LatinIME.PREF_INPUT_LANGUAGE, null);
         if (selectedLanguages == null || selectedLanguages.length() < 1) {
             loadDefaults();
             if (mLocales.length == 0) {
@@ -120,19 +129,19 @@ public class LanguageSwitcher {
         if (lang.length() > 2) lang = lang.substring(0, 2);
         return !InputLanguageSelection.NOCAPS_LANGUAGES.contains(lang);
     }
-    
+
     public boolean allowDeadKeys() {
         String lang = getInputLanguage();
         if (lang.length() > 2) lang = lang.substring(0, 2);
-        return !InputLanguageSelection.NODEADKEY_LANGUAGES.contains(lang);        
+        return !InputLanguageSelection.NODEADKEY_LANGUAGES.contains(lang);
     }
-    
+
     public boolean allowAutoSpace() {
         String lang = getInputLanguage();
         if (lang.length() > 2) lang = lang.substring(0, 2);
-        return !InputLanguageSelection.NOAUTOSPACE_LANGUAGES.contains(lang);                
+        return !InputLanguageSelection.NOAUTOSPACE_LANGUAGES.contains(lang);
     }
-    
+
     /**
      * Returns the list of enabled language codes.
      */
@@ -143,6 +152,7 @@ public class LanguageSwitcher {
     /**
      * Returns the currently selected input locale, or the display locale if no specific
      * locale was selected for input.
+     *
      * @return
      */
     public Locale getInputLocale() {
@@ -159,6 +169,7 @@ public class LanguageSwitcher {
     /**
      * Returns the next input locale in the list. Wraps around to the beginning of the
      * list if we're at the end of the list.
+     *
      * @return
      */
     public Locale getNextInputLocale() {
@@ -168,15 +179,8 @@ public class LanguageSwitcher {
     }
 
     /**
-     * Sets the system locale (display UI) used for comparing with the input language.
-     * @param locale the locale of the system
-     */
-    public void setSystemLocale(Locale locale) {
-        mSystemLocale = locale;
-    }
-
-    /**
      * Returns the system locale.
+     *
      * @return the system locale
      */
     public Locale getSystemLocale() {
@@ -184,8 +188,18 @@ public class LanguageSwitcher {
     }
 
     /**
+     * Sets the system locale (display UI) used for comparing with the input language.
+     *
+     * @param locale the locale of the system
+     */
+    public void setSystemLocale(Locale locale) {
+        mSystemLocale = locale;
+    }
+
+    /**
      * Returns the previous input locale in the list. Wraps around to the end of the
      * list if we're at the beginning of the list.
+     *
      * @return
      */
     public Locale getPrevInputLocale() {
@@ -215,13 +229,5 @@ public class LanguageSwitcher {
         Editor editor = sp.edit();
         editor.putString(LatinIME.PREF_INPUT_LANGUAGE, getInputLanguage());
         SharedPreferencesCompat.apply(editor);
-    }
-
-    static String toTitleCase(String s) {
-        if (s.length() == 0) {
-            return s;
-        }
-
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 }

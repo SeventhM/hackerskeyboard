@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,9 +17,7 @@
 */
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- <string name="english_ime_name" msgid="7252517407088836577">"מקלדת Android"</string> -->
     <!-- <string name="english_ime_settings" msgid="6661589557206947774">"הגדרות מקלדת של Android"</string> -->
     <string name="english_ime_input_options" msgid="3909945612939668554">"אפשרויות קלט"</string>
@@ -58,11 +55,11 @@
     <!-- no translation found for settings_key_modes:2 (7317310620171067848) -->
     <string name="bigram_suggestion" msgid="1323347224043514969">"הצעות של צמדי אותיות (Bigram)"</string>
     <string name="bigram_suggestion_summary" msgid="4383845146070101531">"השתמש במילה הקודמת כדי לשפר את ההצעה"</string>
-  <string-array name="prediction_modes">
-    <item msgid="4870266572388153286">"ללא"</item>
-    <item msgid="1669461741568287396">"בסיסי"</item>
-    <item msgid="4894328801530136615">"מתקדם"</item>
-  </string-array>
+    <string-array name="prediction_modes">
+        <item msgid="4870266572388153286">"ללא"</item>
+        <item msgid="1669461741568287396">"בסיסי"</item>
+        <item msgid="4894328801530136615">"מתקדם"</item>
+    </string-array>
     <string name="added_word" msgid="8993883354622484372">"<xliff:g id="WORD">%s</xliff:g> : נשמרה"</string>
     <string name="tip_long_press" msgid="6101270866284343344">"החזק מקש לחוץ כדי לראות אקצנטים (ø, ö וכדומה)"</string>
     <string name="tip_dismiss" msgid="7585579046862204381">"לחץ על המקש \'הקודם\' ↶ כדי לסגור את המקלדת בכל עת"</string>
@@ -105,16 +102,16 @@
     <string name="cancel" msgid="6830980399865683324">"ביטול"</string>
     <string name="ok" msgid="7898366843681727667">"אישור"</string>
     <string name="voice_input" msgid="2466640768843347841">"קלט קולי"</string>
-  <string-array name="voice_input_modes">
-    <item msgid="1349082139076086774">"במקלדת הראשית"</item>
-    <item msgid="8529385602829095903">"מקלדת סמלים מופעלת"</item>
-    <item msgid="7283103513488381103">"כבוי"</item>
-  </string-array>
-  <string-array name="voice_input_modes_summary">
-    <item msgid="554248625705084903">"מיקרופון במקלדת הראשית"</item>
-    <item msgid="6907837061058876770">"מיקרופון במקלדת סמלים"</item>
-    <item msgid="3664304608587798036">"הקלט הקולי מושבת"</item>
-  </string-array>
+    <string-array name="voice_input_modes">
+        <item msgid="1349082139076086774">"במקלדת הראשית"</item>
+        <item msgid="8529385602829095903">"מקלדת סמלים מופעלת"</item>
+        <item msgid="7283103513488381103">"כבוי"</item>
+    </string-array>
+    <string-array name="voice_input_modes_summary">
+        <item msgid="554248625705084903">"מיקרופון במקלדת הראשית"</item>
+        <item msgid="6907837061058876770">"מיקרופון במקלדת סמלים"</item>
+        <item msgid="3664304608587798036">"הקלט הקולי מושבת"</item>
+    </string-array>
     <string name="auto_submit" msgid="9151008027068358518">"שליחה אוטומטית לאחר הקלטת קול"</string>
     <string name="auto_submit_summary" msgid="4961875269610384226">"הקש על Enter באופן אוטומטי בעת חיפוש או מעבר לשדה הבא."</string>
     <string name="open_the_keyboard" msgid="2215920976029260466"><font size="17"><b>"פתח את המקלדת"\n</b></font><font size="3">\n</font>"גע בשדה טקסט כלשהו."</string>

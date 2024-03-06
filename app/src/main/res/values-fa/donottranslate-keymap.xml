@@ -27,7 +27,7 @@
     <string name="key_tlde_main">‍</string>
     <string name="key_tlde_shift">÷</string>
     <string name="key_tlde_alt">‍÷~</string>
-    
+
     <string name="key_ae01_main">۱</string>
     <string name="key_ae01_shift">!</string>
     <string name="key_ae01_alt">۱!`1</string>
@@ -35,43 +35,43 @@
     <string name="key_ae02_main">۲</string>
     <string name="key_ae02_shift">٬</string>
     <string name="key_ae02_alt">۲٬\@2</string>
-    
+
     <string name="key_ae03_main">۳</string>
     <string name="key_ae03_shift">٫</string>
     <string name="key_ae03_alt">۳٫#♥♠♦♣3</string>
-    
+
     <string name="key_ae04_main">۴</string>
     <string name="key_ae04_shift">﷼</string>
     <string name="key_ae04_alt">۴﷼$€¥¢£4</string>
-    
+
     <string name="key_ae05_main">۵</string>
     <string name="key_ae05_shift">٪</string>
     <string name="key_ae05_alt">۵٪%5</string>
-    
+
     <string name="key_ae06_main">۶</string>
     <string name="key_ae06_shift">×</string>
     <string name="key_ae06_alt">۶×^↑↓←→6</string>
-    
+
     <string name="key_ae07_main">۷</string>
     <string name="key_ae07_shift">،</string>
     <string name="key_ae07_alt">۷،&amp;♪7</string>
-    
+
     <string name="key_ae08_main">۸</string>
     <string name="key_ae08_shift">*</string>
     <string name="key_ae08_alt">۸*•★∞†‡8</string>
-    
+
     <string name="key_ae09_main">۹</string>
     <string name="key_ae09_shift">)</string>
     <string name="key_ae09_alt">۹)√9</string>
-    
+
     <string name="key_ae10_main">۰</string>
     <string name="key_ae10_shift">(</string>
     <string name="key_ae10_alt">۰(ⁿ°0</string>
-    
+
     <string name="key_ae11_main">-</string>
     <string name="key_ae11_shift">ـ</string>
     <string name="key_ae11_alt">-ـ—–</string>
-    
+
     <string name="key_ae12_main">=</string>
     <string name="key_ae12_shift">+</string>
     <string name="key_ae12_alt">=+≈≠±×÷</string>
@@ -80,11 +80,11 @@
     <string name="key_ad01_main">ض</string>
     <string name="key_ad01_shift">ْ</string>
     <string name="key_ad01_alt">ضْ</string>
-    
+
     <string name="key_ad02_main">ص</string>
     <string name="key_ad02_shift">ٌ</string>
     <string name="key_ad02_alt">صٌ</string>
-    
+
     <string name="key_ad03_main">ث</string>
     <string name="key_ad03_shift">ٍ</string>
     <string name="key_ad03_alt">ثٍ€</string>
@@ -92,11 +92,11 @@
     <string name="key_ad04_main">ق</string>
     <string name="key_ad04_shift">ً</string>
     <string name="key_ad04_alt">قً</string>
-    
+
     <string name="key_ad05_main">ف</string>
     <string name="key_ad05_shift">ُ</string>
     <string name="key_ad05_alt">فُ</string>
-    
+
     <string name="key_ad06_main">غ</string>
     <string name="key_ad06_shift">ِ</string>
     <string name="key_ad06_alt">غِ</string>
@@ -104,23 +104,23 @@
     <string name="key_ad07_main">ع</string>
     <string name="key_ad07_shift">َ</string>
     <string name="key_ad07_alt">عَ</string>
-    
+
     <string name="key_ad08_main">ه</string>
     <string name="key_ad08_shift">ّ</string>
     <string name="key_ad08_alt">هّ</string>
-    
+
     <string name="key_ad09_main">خ</string>
     <string name="key_ad09_shift">]</string>
     <string name="key_ad09_alt">خ]</string>
-    
+
     <string name="key_ad10_main">ح</string>
     <string name="key_ad10_shift">[</string>
     <string name="key_ad10_alt">ح[</string>
-    
+
     <string name="key_ad11_main">ج</string>
     <string name="key_ad11_shift">}</string>
     <string name="key_ad11_alt">ج}</string>
-    
+
     <string name="key_ad12_main">چ</string>
     <string name="key_ad12_shift">{</string>
     <string name="key_ad12_alt">چ{</string>
@@ -128,8 +128,8 @@
     <string name="key_bksl_main">\\</string>
     <string name="key_bksl_shift">|</string>
     <string name="key_bksl_alt">\\|</string>
-    
-    
+
+
     <string name="key_ac01_main">ش</string>
     <string name="key_ac01_shift">ؤ</string>
     <string name="key_ac01_alt">شؤ</string>
@@ -218,6 +218,6 @@
     <string name="key_ab10_main">/</string>
     <string name="key_ab10_shift">؟</string>
     <string name="key_ab10_alt">/؟?</string>
-  
+
     <string name="key_space_shift">&#x200c;</string>
 </resources>

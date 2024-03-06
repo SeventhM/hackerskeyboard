@@ -27,7 +27,7 @@
     <string name="key_tlde_main">²</string>
     <string name="key_tlde_shift">²</string>
     <string name="key_tlde_alt">²³¹</string>
-    
+
     <string name="key_ae01_main">&amp;</string>
     <string name="key_ae01_shift">1</string>
     <string name="key_ae01_alt">1&amp;½⅓¼⅛</string>
@@ -35,43 +35,43 @@
     <string name="key_ae02_main">é</string>
     <string name="key_ae02_shift">2</string>
     <string name="key_ae02_alt">é2É&#x301;&#x303;~\@⅔</string>
-    
+
     <string name="key_ae03_main">\"</string>
     <string name="key_ae03_shift">3</string>
     <string name="key_ae03_alt">\"3#¾⅜</string>
-    
+
     <string name="key_ae04_main">\'</string>
     <string name="key_ae04_shift">4</string>
     <string name="key_ae04_alt">\'4{—⁴</string>
-    
+
     <string name="key_ae05_main">(</string>
     <string name="key_ae05_shift">5</string>
     <string name="key_ae05_alt">(5[–⅝</string>
-    
+
     <string name="key_ae06_main">-</string>
     <string name="key_ae06_shift">6</string>
     <string name="key_ae06_alt">-6|↑↓←→</string>
-    
+
     <string name="key_ae07_main">è</string>
     <string name="key_ae07_shift">7</string>
     <string name="key_ae07_alt">è7&#x300;`È⅞♪</string>
-    
+
     <string name="key_ae08_main">_</string>
     <string name="key_ae08_shift">8</string>
     <string name="key_ae08_alt">_8\\™∞†‡</string>
-    
+
     <string name="key_ae09_main">ç</string>
     <string name="key_ae09_shift">9</string>
     <string name="key_ae09_alt">ç9^Ç√</string>
-    
+
     <string name="key_ae10_main">à</string>
     <string name="key_ae10_shift">0</string>
     <string name="key_ae10_alt">à0\@À°</string>
-    
+
     <string name="key_ae11_main">)</string>
     <string name="key_ae11_shift">°</string>
     <string name="key_ae11_alt">)°]≠≈</string>
-    
+
     <string name="key_ae12_main">=</string>
     <string name="key_ae12_shift">+</string>
     <string name="key_ae12_alt">=+}±</string>
@@ -80,11 +80,11 @@
     <string name="key_ad01_main">a</string>
     <string name="key_ad01_shift">A</string>
     <string name="key_ad01_alt">@string/alternates_for_a</string>
-    
+
     <string name="key_ad02_main">z</string>
     <string name="key_ad02_shift">Z</string>
     <string name="key_ad02_alt">@string/alternates_for_z</string>
-    
+
     <string name="key_ad03_main">e</string>
     <string name="key_ad03_shift">E</string>
     <string name="key_ad03_alt">@string/alternates_for_e</string>
@@ -92,11 +92,11 @@
     <string name="key_ad04_main">r</string>
     <string name="key_ad04_shift">R</string>
     <string name="key_ad04_alt">@string/alternates_for_r</string>
-    
+
     <string name="key_ad05_main">t</string>
     <string name="key_ad05_shift">T</string>
     <string name="key_ad05_alt">@string/alternates_for_t</string>
-    
+
     <string name="key_ad06_main">y</string>
     <string name="key_ad06_shift">Y</string>
     <string name="key_ad06_alt">@string/alternates_for_y</string>
@@ -104,23 +104,23 @@
     <string name="key_ad07_main">u</string>
     <string name="key_ad07_shift">U</string>
     <string name="key_ad07_alt">@string/alternates_for_u</string>
-    
+
     <string name="key_ad08_main">i</string>
     <string name="key_ad08_shift">I</string>
     <string name="key_ad08_alt">@string/alternates_for_i</string>
-    
+
     <string name="key_ad09_main">o</string>
     <string name="key_ad09_shift">O</string>
     <string name="key_ad09_alt">@string/alternates_for_o</string>
-    
+
     <string name="key_ad10_main">p</string>
     <string name="key_ad10_shift">P</string>
     <string name="key_ad10_alt">@string/alternates_for_p</string>
-    
+
     <string name="key_ad11_main">&#x302;</string>
     <string name="key_ad11_shift">&#x308;</string>
     <string name="key_ad11_alt">&#x302;&#x308;^Å</string>
-    
+
     <string name="key_ad12_main">$</string>
     <string name="key_ad12_shift">£</string>
     <string name="key_ad12_alt">$£øØ€¥¢</string>
@@ -128,8 +128,8 @@
     <string name="key_bksl_main">*</string>
     <string name="key_bksl_shift">µ</string>
     <string name="key_bksl_alt">*µ`</string>
-    
-    
+
+
     <string name="key_ac01_main">q</string>
     <string name="key_ac01_shift">Q</string>
     <string name="key_ac01_alt">@string/alternates_for_q</string>

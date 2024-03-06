@@ -25,18 +25,18 @@ import android.provider.UserDictionary.Words;
 import android.util.Log;
 
 public class UserDictionary extends ExpandableDictionary {
-    
+
     private static final String[] PROJECTION = {
-        Words._ID,
-        Words.WORD,
-        Words.FREQUENCY
+            Words._ID,
+            Words.WORD,
+            Words.FREQUENCY
     };
-    
+
     private static final int INDEX_WORD = 1;
     private static final int INDEX_FREQUENCY = 2;
 
     private static final String TAG = "HK/UserDictionary";
-    
+
     private ContentObserver mObserver;
     private String mLocale;
 
@@ -46,7 +46,7 @@ public class UserDictionary extends ExpandableDictionary {
         // Perform a managed query. The Activity will handle closing and requerying the cursor
         // when needed.
         ContentResolver cres = context.getContentResolver();
-        
+
         cres.registerContentObserver(Words.CONTENT_URI, true, mObserver = new ContentObserver(null) {
             @Override
             public void onChange(boolean self) {
@@ -69,17 +69,18 @@ public class UserDictionary extends ExpandableDictionary {
     @Override
     public void loadDictionaryAsync() {
         Cursor cursor = getContext().getContentResolver()
-                .query(Words.CONTENT_URI, PROJECTION, "(locale IS NULL) or (locale=?)", 
-                        new String[] { mLocale }, null);
+                .query(Words.CONTENT_URI, PROJECTION, "(locale IS NULL) or (locale=?)",
+                        new String[]{mLocale}, null);
         addWords(cursor);
     }
 
     /**
      * Adds a word to the dictionary and makes it persistent.
-     * @param word the word to add. If the word is capitalized, then the dictionary will
-     * recognize it as a capitalized word when searched.
+     *
+     * @param word      the word to add. If the word is capitalized, then the dictionary will
+     *                  recognize it as a capitalized word when searched.
      * @param frequency the frequency of occurrence of the word. A frequency of 255 is considered
-     * the highest.
+     *                  the highest.
      * @TODO use a higher or float range for frequency
      */
     @Override
@@ -111,7 +112,7 @@ public class UserDictionary extends ExpandableDictionary {
 
     @Override
     public synchronized void getWords(final WordComposer codes, final WordCallback callback,
-            int[] nextLettersFrequencies) {
+                                      int[] nextLettersFrequencies) {
         super.getWords(codes, callback, nextLettersFrequencies);
     }
 

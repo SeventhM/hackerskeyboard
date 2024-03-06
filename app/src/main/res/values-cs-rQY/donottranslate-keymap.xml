@@ -27,7 +27,7 @@
     <string name="key_tlde_main">;</string>
     <string name="key_tlde_shift">°</string>
     <string name="key_tlde_alt">;°`~</string>
-    
+
     <string name="key_ae01_main">+</string>
     <string name="key_ae01_shift">1</string>
     <string name="key_ae01_alt">+1~!¹¡½⅓¼⅛</string>
@@ -35,7 +35,7 @@
     <string name="key_ae02_main">ě</string>
     <string name="key_ae02_shift">2</string>
     <string name="key_ae02_alt">ě2\@²⅛⅔</string>
-    
+
     <string name="key_ae03_main">š</string>
     <string name="key_ae03_shift">3</string>
     <string name="key_ae03_alt">š3#³£¾⅜</string>
@@ -43,35 +43,35 @@
     <string name="key_ae04_main">č</string>
     <string name="key_ae04_shift">4</string>
     <string name="key_ae04_alt">č4$¼¤⁴¢¥</string>
-    
+
     <string name="key_ae05_main">ř</string>
     <string name="key_ae05_shift">5</string>
     <string name="key_ae05_alt">ř5%½⅜‰</string>
-    
+
     <string name="key_ae06_main">ž</string>
     <string name="key_ae06_shift">6</string>
     <string name="key_ae06_alt">ž6^¬⅝</string>
-    
+
     <string name="key_ae07_main">ý</string>
     <string name="key_ae07_shift">7</string>
     <string name="key_ae07_alt">ý7&amp;{⅞♪√</string>
-    
+
     <string name="key_ae08_main">á</string>
     <string name="key_ae08_shift">8</string>
     <string name="key_ae08_alt">á8*[™∞</string>
-    
+
     <string name="key_ae09_main">í</string>
     <string name="key_ae09_shift">9</string>
     <string name="key_ae09_alt">í9(]±</string>
-    
+
     <string name="key_ae10_main">é</string>
     <string name="key_ae10_shift">0</string>
     <string name="key_ae10_alt">é0)}°ⁿ≈≠</string>
-    
+
     <string name="key_ae11_main">=</string>
     <string name="key_ae11_shift">%</string>
     <string name="key_ae11_alt">=%-_\?\¿</string>
-    
+
     <string name="key_ae12_main">&#x0301;</string>
     <string name="key_ae12_shift">&#x030c;</string>
     <string name="key_ae12_alt">&#x0301;&#x030c;&lt;&gt;|</string>
@@ -80,11 +80,11 @@
     <string name="key_ad01_main">q</string>
     <string name="key_ad01_shift">Q</string>
     <string name="key_ad01_alt">@string/alternates_for_q</string>
-    
+
     <string name="key_ad02_main">w</string>
     <string name="key_ad02_shift">W</string>
     <string name="key_ad02_alt">@string/alternates_for_w</string>
-    
+
     <string name="key_ad03_main">e</string>
     <string name="key_ad03_shift">E</string>
     <string name="key_ad03_alt">@string/alternates_for_e</string>
@@ -92,11 +92,11 @@
     <string name="key_ad04_main">r</string>
     <string name="key_ad04_shift">R</string>
     <string name="key_ad04_alt">@string/alternates_for_r</string>
-    
+
     <string name="key_ad05_main">t</string>
     <string name="key_ad05_shift">T</string>
     <string name="key_ad05_alt">@string/alternates_for_t</string>
-    
+
     <string name="key_ad06_main">y</string>
     <string name="key_ad06_shift">Y</string>
     <string name="key_ad06_alt">@string/alternates_for_y</string>
@@ -104,23 +104,23 @@
     <string name="key_ad07_main">u</string>
     <string name="key_ad07_shift">U</string>
     <string name="key_ad07_alt">@string/alternates_for_u</string>
-    
+
     <string name="key_ad08_main">i</string>
     <string name="key_ad08_shift">I</string>
     <string name="key_ad08_alt">@string/alternates_for_i</string>
-    
+
     <string name="key_ad09_main">o</string>
     <string name="key_ad09_shift">O</string>
     <string name="key_ad09_alt">@string/alternates_for_o</string>
-    
+
     <string name="key_ad10_main">p</string>
     <string name="key_ad10_shift">P</string>
     <string name="key_ad10_alt">@string/alternates_for_p</string>
-    
+
     <string name="key_ad11_main">ú</string>
     <string name="key_ad11_shift">/</string>
     <string name="key_ad11_alt">ú/÷[{</string>
-    
+
     <string name="key_ad12_main">)</string>
     <string name="key_ad12_shift">(</string>
     <string name="key_ad12_alt">)(×]}</string>
@@ -128,8 +128,8 @@
     <string name="key_bksl_main">\'</string>
     <string name="key_bksl_shift">\\</string>
     <string name="key_bksl_alt">\'\\|¤</string>
-    
-    
+
+
     <string name="key_ac01_main">a</string>
     <string name="key_ac01_shift">A</string>
     <string name="key_ac01_alt">@string/alternates_for_a</string>

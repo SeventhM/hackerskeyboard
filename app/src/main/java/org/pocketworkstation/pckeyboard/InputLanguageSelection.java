@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2008-2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,15 +21,12 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.preference.CheckBoxPreference;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceGroup;
-import androidx.preference.PreferenceManager;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -39,60 +36,58 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class InputLanguageSelection extends PreferenceFragmentCompat {
-    private static final String TAG = "PCKeyboardILS";
-    private ArrayList<Loc> mAvailableLanguages = new ArrayList<>();
-    private static final String[] BLACKLIST_LANGUAGES = {
-        "ko", "ja", "zh"
-    };
-
+public class InputLanguageSelection extends PreferenceActivity {
     // Languages for which auto-caps should be disabled
     public static final Set<String> NOCAPS_LANGUAGES = new HashSet<>();
+    // Languages which should not use dead key logic. The modifier is entered after the base character.
+    public static final Set<String> NODEADKEY_LANGUAGES = new HashSet<>();
+    // Languages which should not auto-add space after completions
+    public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<>();
+    private static final String TAG = "PCKeyboardILS";
+    private static final String[] BLACKLIST_LANGUAGES = {
+            "ko", "ja", "zh"
+    };
+    // Run the GetLanguages.sh script to update the following lists based on
+    // the available keyboard resources and dictionaries.
+    private static final String[] KBD_LOCALIZATIONS = {
+            "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "de_NE",
+            "el", "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "es_US",
+            "fa", "fi", "fr", "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "in",
+            "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl", "pl",
+            "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
+            "sr", "sv", "ta", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
+    };
+    private static final String[] KBD_5_ROW = {
+            "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
+            "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "fa", "fi", "fr",
+            "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
+            "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
+            "sr", "sv", "ta", "th", "tr", "uk"
+    };
+    private static final String[] KBD_4_ROW = {
+            "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
+            "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
+            "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
+            "sl", "sr", "sv", "tr", "uk"
+    };
+
     static {
         NOCAPS_LANGUAGES.add("ar");
         NOCAPS_LANGUAGES.add("iw");
         NOCAPS_LANGUAGES.add("th");
     }
 
-    // Languages which should not use dead key logic. The modifier is entered after the base character.
-    public static final Set<String> NODEADKEY_LANGUAGES = new HashSet<>();
     static {
         NODEADKEY_LANGUAGES.add("ar");
         NODEADKEY_LANGUAGES.add("iw"); // TODO: currently no niqqud in the keymap?
         NODEADKEY_LANGUAGES.add("th");
     }
 
-    // Languages which should not auto-add space after completions
-    public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<>();
     static {
         NOAUTOSPACE_LANGUAGES.add("th");
     }
 
-    // Run the GetLanguages.sh script to update the following lists based on
-    // the available keyboard resources and dictionaries.
-    private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "de_NE",
-        "el", "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "es_US",
-        "fa", "fi", "fr", "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "in",
-        "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl", "pl",
-        "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
-        "sr", "sv", "ta", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
-    };
-
-    private static final String[] KBD_5_ROW = {
-        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-        "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "fa", "fi", "fr",
-        "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
-        "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
-        "sr", "sv", "ta", "th", "tr", "uk"
-    };
-
-    private static final String[] KBD_4_ROW = {
-        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-        "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
-        "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
-        "sl", "sr", "sv", "tr", "uk"
-    };
+    private ArrayList<Loc> mAvailableLanguages = new ArrayList<>();
 
     private static String getLocaleName(Locale l) {
         String lang = l.getLanguage();
@@ -100,9 +95,9 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
         if (lang.equals("en") && country.equals("DV")) {
             return "English (Dvorak)";
         } else if (lang.equals("en") && country.equals("EX")) {
-                return "English (4x11)";
+            return "English (4x11)";
         } else if (lang.equals("en") && country.equals("CX")) {
-                return "English (Carpalx)";
+            return "English (Carpalx)";
         } else if (lang.equals("es") && country.equals("LA")) {
             return "Español (Latinoamérica)";
         } else if (lang.equals("cs") && country.equals("QY")) {
@@ -125,39 +120,31 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
             return LanguageSwitcher.toTitleCase(l.getDisplayName(l));
         }
     }
-    
-    private static class Loc implements Comparable<Object> {
-        static Collator sCollator = Collator.getInstance();
 
-        String label;
-        Locale locale;
-
-        public Loc(String label, Locale locale) {
-            this.label = label;
-            this.locale = locale;
+    private static String asString(Set<String> set) {
+        StringBuilder out = new StringBuilder();
+        out.append("set(");
+        String[] parts = new String[set.size()];
+        parts = set.toArray(parts);
+        Arrays.sort(parts);
+        for (int i = 0; i < parts.length; ++i) {
+            if (i > 0) out.append(", ");
+            out.append(parts[i]);
         }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return this.label;
-        }
-
-        public int compareTo(Object o) {
-            return sCollator.compare(this.label, ((Loc) o).label);
-        }
+        out.append(")");
+        return out.toString();
     }
 
     @Override
-    public void onCreate(Bundle icicle) {
+    protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.language_prefs);
         // Get the settings preferences
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         String selectedLanguagePref = sp.getString(LatinIME.PREF_SELECTED_LANGUAGES, "");
         Log.i(TAG, "selected languages: " + selectedLanguagePref);
         String[] languageList = selectedLanguagePref.split(",");
-        
+
         mAvailableLanguages = getUniqueLocales();
 
         // Compatibility hack for v1.22 and older - if a selected language 5-code isn't
@@ -180,10 +167,10 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
 
         PreferenceGroup parent = getPreferenceScreen();
         for (int i = 0; i < mAvailableLanguages.size(); i++) {
-            CheckBoxPreference pref = new CheckBoxPreference(this.getContext());
+            CheckBoxPreference pref = new CheckBoxPreference(this);
             Locale locale = mAvailableLanguages.get(i).locale;
             pref.setTitle(mAvailableLanguages.get(i).label +
-            		" [" + locale.toString() + "]");
+                    " [" + locale.toString() + "]");
             String fivecode = get5Code(locale);
             String language = locale.getLanguage();
             boolean checked = languageSelections.contains(fivecode);
@@ -191,26 +178,21 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
             boolean has4Row = arrayContains(KBD_4_ROW, fivecode) || arrayContains(KBD_4_ROW, language);
             boolean has5Row = arrayContains(KBD_5_ROW, fivecode) || arrayContains(KBD_5_ROW, language);
             List<String> summaries = new ArrayList<>(3);
-            if (has5Row) summaries.add("5-row");           
-            if (has4Row) summaries.add("4-row");           
+            if (has5Row) summaries.add("5-row");
+            if (has4Row) summaries.add("4-row");
             if (hasDictionary(locale)) {
-            	summaries.add(getResources().getString(R.string.has_dictionary));
+                summaries.add(getResources().getString(R.string.has_dictionary));
             }
             if (!summaries.isEmpty()) {
-            	StringBuilder summary = new StringBuilder();
-            	for (int j = 0; j < summaries.size(); ++j) {
-            		if (j > 0) summary.append(", ");
-            		summary.append(summaries.get(j));
-            	}
-            	pref.setSummary(summary.toString());
+                StringBuilder summary = new StringBuilder();
+                for (int j = 0; j < summaries.size(); ++j) {
+                    if (j > 0) summary.append(", ");
+                    summary.append(summaries.get(j));
+                }
+                pref.setSummary(summary.toString());
             }
             parent.addPreference(pref);
         }
-    }
-
-    @Override
-    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
-
     }
 
     private boolean hasDictionary(Locale locale) {
@@ -222,14 +204,14 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
         res.updateConfiguration(conf, res.getDisplayMetrics());
 
         int[] dictionaries = LatinIME.getDictionary(res);
-        BinaryDictionary bd = new BinaryDictionary(this.getContext(), dictionaries, Suggest.DIC_MAIN);
+        BinaryDictionary bd = new BinaryDictionary(this, dictionaries, Suggest.DIC_MAIN);
 
         // Is the dictionary larger than a placeholder? Arbitrarily chose a lower limit of
         // 4000-5000 words, whereas the LARGE_DICTIONARY is about 20000+ words.
         if (bd.getSize() > Suggest.LARGE_DICTIONARY_THRESHOLD / 4) {
             haveDictionary = true;
         } else {
-            BinaryDictionary plug = PluginManager.getDictionary(getContext(), locale.getLanguage());
+            BinaryDictionary plug = PluginManager.getDictionary(getApplicationContext(), locale.getLanguage());
             if (plug != null) {
                 bd.close();
                 bd = plug;
@@ -269,32 +251,18 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
             }
         }
         if (checkedLanguages.length() < 1) checkedLanguages = null; // Save null
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         Editor editor = sp.edit();
-        editor.putString(LatinIME.PREF_SELECTED_LANGUAGES, checkedLanguages != null ? checkedLanguages.toString() : null);
+        editor.putString(LatinIME.PREF_SELECTED_LANGUAGES, checkedLanguages.toString());
         SharedPreferencesCompat.apply(editor);
     }
 
-    private static String asString(Set<String> set) {
-        StringBuilder out = new StringBuilder();
-        out.append("set(");
-        String[] parts = new String[set.size()];
-        parts = set.toArray(parts);
-        Arrays.sort(parts);
-        for (int i = 0; i < parts.length; ++i) {
-            if (i > 0) out.append(", ");
-            out.append(parts[i]);
-        }
-        out.append(")");
-        return out.toString();
-    }
-    
     ArrayList<Loc> getUniqueLocales() {
         Set<String> localeSet = new HashSet<>();
         Set<String> langSet = new HashSet<>();
         // Ignore the system (asset) locale list, it's inconsistent and incomplete
 //        String[] sysLocales = getAssets().getLocales();
-//        
+//
 //        // First, add zz_ZZ style full language+country locales
 //        for (int i = 0; i < sysLocales.length; ++i) {
 //        	String sl = sysLocales[i];
@@ -302,7 +270,7 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
 //        	localeSet.add(sl);
 //        	langSet.add(sl.substring(0, 2));
 //        }
-//        
+//
 //        // Add entries for system languages without country, but only if there's
 //        // no full locale for that language yet.
 //        for (int i = 0; i < sysLocales.length; ++i) {
@@ -310,7 +278,7 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
 //        	if (sl.length() != 2 || langSet.contains(sl)) continue;
 //        	localeSet.add(sl);
 //        }
-        
+
         // Add entries for additional languages supported by the keyboard.
         for (String kbdLocalization : KBD_LOCALIZATIONS) {
             String kl = kbdLocalization;
@@ -380,5 +348,26 @@ public class InputLanguageSelection extends PreferenceFragmentCompat {
             if (s.equalsIgnoreCase(value)) return true;
         }
         return false;
+    }
+
+    private static class Loc implements Comparable<Object> {
+        static Collator sCollator = Collator.getInstance();
+
+        String label;
+        Locale locale;
+
+        public Loc(String label, Locale locale) {
+            this.label = label;
+            this.locale = locale;
+        }
+
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        public int compareTo(Object o) {
+            return sCollator.compare(this.label, ((Loc) o).label);
+        }
     }
 }

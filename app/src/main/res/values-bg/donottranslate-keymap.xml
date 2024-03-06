@@ -177,8 +177,6 @@ implied.
     <string name="key_ac11_alt"></string>
 
 
-
-
     <string name="key_ab01_main">з</string>
     <string name="key_ab01_shift">З</string>
     <string name="key_ab01_alt"></string>
@@ -214,7 +212,7 @@ implied.
     <string name="key_ab09_main">.</string>
     <string name="key_ab09_shift">&gt;</string>
     <string name="key_ab09_alt">&gt;≥»›…</string>
-       
+
 
     <string name="key_ab10_main">/</string>
     <string name="key_ab10_shift">\?</string>

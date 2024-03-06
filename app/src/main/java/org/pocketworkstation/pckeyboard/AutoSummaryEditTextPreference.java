@@ -15,7 +15,7 @@ public class AutoSummaryEditTextPreference extends EditTextPreference {
     }
 
     public AutoSummaryEditTextPreference(Context context, AttributeSet attrs,
-            int defStyle) {
+                                         int defStyle) {
         super(context, attrs, defStyle);
     }
 

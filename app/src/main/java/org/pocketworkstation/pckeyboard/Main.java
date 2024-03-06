@@ -25,12 +25,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.BufferType;
+import android.widget.Toast;
 
 public class Main extends Activity {
 
@@ -43,57 +42,41 @@ public class Main extends Activity {
         String html = getString(R.string.main_body);
         html += "<p><i>Version: " + getString(R.string.auto_version) + "</i></p>";
         Spanned content = Html.fromHtml(html);
-        TextView description = (TextView) findViewById(R.id.main_description);
+        TextView description = findViewById(R.id.main_description);
         description.setMovementMethod(LinkMovementMethod.getInstance());
         description.setText(content, BufferType.SPANNABLE);
 
 
-        final Button setup1 = (Button) findViewById(R.id.main_setup_btn_configure_imes);
-        setup1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0);
-            }
+        final Button setup1 = findViewById(R.id.main_setup_btn_configure_imes);
+        setup1.setOnClickListener(v -> startActivityForResult(new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0));
+
+        final Button setup2 = findViewById(R.id.main_setup_btn_set_ime);
+        setup2.setOnClickListener(v -> {
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.showInputMethodPicker();
         });
 
-        final Button setup2 = (Button) findViewById(R.id.main_setup_btn_set_ime);
-        setup2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mgr.showInputMethodPicker();
-            }
-        });
-        
         final Activity that = this;
 
-        final Button setup4 = (Button) findViewById(R.id.main_setup_btn_input_lang);
-        setup4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivityForResult(new Intent(that, InputLanguageSelection.class), 0);
-            }
-        });
+        final Button setup4 = findViewById(R.id.main_setup_btn_input_lang);
+        setup4.setOnClickListener(v -> startActivityForResult(new Intent(that, InputLanguageSelection.class), 0));
 
-        final Button setup3 = (Button) findViewById(R.id.main_setup_btn_get_dicts);
-        setup3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_URI));
-                try {
-                	startActivity(it);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(
-                            		R.string.no_market_warning), Toast.LENGTH_LONG)
-                            .show();
-                }
+        final Button setup3 = findViewById(R.id.main_setup_btn_get_dicts);
+        setup3.setOnClickListener(v -> {
+            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_URI));
+            try {
+                startActivity(it);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(getApplicationContext(),
+                                getResources().getString(
+                                        R.string.no_market_warning), Toast.LENGTH_LONG)
+                        .show();
             }
         });
         // PluginManager.getPluginDictionaries(getApplicationContext()); // why?
 
-        final Button setup5 = (Button) findViewById(R.id.main_setup_btn_settings);
-        setup5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivityForResult(new Intent(that, LatinIMESettings.class), 0);
-            }
-        });
-    }    
+        final Button setup5 = findViewById(R.id.main_setup_btn_settings);
+        setup5.setOnClickListener(v -> startActivityForResult(new Intent(that, LatinIMESettings.class), 0));
+    }
 }
 

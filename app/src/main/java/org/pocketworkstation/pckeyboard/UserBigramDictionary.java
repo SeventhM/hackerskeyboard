@@ -16,10 +16,6 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -30,6 +26,9 @@ import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * Stores all the pairs user types in databases. Prune the database if the size
  * gets too big. Unlike AutoDictionary, it even stores the pairs that are already
@@ -38,36 +37,27 @@ import android.util.Log;
 public class UserBigramDictionary extends ExpandableDictionary {
     private static final String TAG = "UserBigramDictionary";
 
-    /** Any pair being typed or picked */
+    /**
+     * Any pair being typed or picked
+     */
     private static final int FREQUENCY_FOR_TYPED = 2;
-
-    /** Maximum frequency for all pairs */
-    private static final int FREQUENCY_MAX = 127;
-
     /**
      * If this pair is typed 6 times, it would be suggested.
      * Should be smaller than ContactsDictionary.FREQUENCY_FOR_CONTACTS_BIGRAM
      */
     protected static final int SUGGEST_THRESHOLD = 6 * FREQUENCY_FOR_TYPED;
-
-    /** Maximum number of pairs. Pruning will start when databases goes above this number. */
-    private static int sMaxUserBigrams = 10000;
-
     /**
-     * When it hits maximum bigram pair, it will delete until you are left with
-     * only (sMaxUserBigrams - sDeleteUserBigrams) pairs.
-     * Do not keep this number small to avoid deleting too often.
+     * Maximum frequency for all pairs
      */
-    private static int sDeleteUserBigrams = 1000;
-
+    private static final int FREQUENCY_MAX = 127;
     /**
      * Database version should increase if the database structure changes
      */
     private static final int DATABASE_VERSION = 1;
-
     private static final String DATABASE_NAME = "userbigram_dict.db";
-
-    /** Name of the words table in the database */
+    /**
+     * Name of the words table in the database
+     */
     private static final String MAIN_TABLE_NAME = "main";
     // TODO: Consume less space by using a unique id for locale instead of the whole
     // 2-5 character string. (Same TODO from AutoDictionary)
@@ -75,23 +65,26 @@ public class UserBigramDictionary extends ExpandableDictionary {
     private static final String MAIN_COLUMN_WORD1 = "word1";
     private static final String MAIN_COLUMN_WORD2 = "word2";
     private static final String MAIN_COLUMN_LOCALE = "locale";
-
-    /** Name of the frequency table in the database */
+    /**
+     * Name of the frequency table in the database
+     */
     private static final String FREQ_TABLE_NAME = "frequency";
     private static final String FREQ_COLUMN_ID = BaseColumns._ID;
     private static final String FREQ_COLUMN_PAIR_ID = "pair_id";
     private static final String FREQ_COLUMN_FREQUENCY = "freq";
-
-    private final LatinIME mIme;
-
-    /** Locale for which this auto dictionary is storing words */
-    private String mLocale;
-
-    private HashSet<Bigram> mPendingWrites = new HashSet<>();
-    private final Object mPendingWritesLock = new Object();
-    private static volatile boolean sUpdatingDB = false;
-
     private final static HashMap<String, String> sDictProjectionMap;
+    /**
+     * Maximum number of pairs. Pruning will start when databases goes above this number.
+     */
+    private static int sMaxUserBigrams = 10000;
+    /**
+     * When it hits maximum bigram pair, it will delete until you are left with
+     * only (sMaxUserBigrams - sDeleteUserBigrams) pairs.
+     * Do not keep this number small to avoid deleting too often.
+     */
+    private static int sDeleteUserBigrams = 1000;
+    private static volatile boolean sUpdatingDB = false;
+    private static DatabaseHelper sOpenHelper = null;
 
     static {
         sDictProjectionMap = new HashMap<>();
@@ -105,38 +98,13 @@ public class UserBigramDictionary extends ExpandableDictionary {
         sDictProjectionMap.put(FREQ_COLUMN_FREQUENCY, FREQ_COLUMN_FREQUENCY);
     }
 
-    private static DatabaseHelper sOpenHelper = null;
-
-    private static class Bigram {
-        String word1;
-        String word2;
-        int frequency;
-
-        Bigram(String word1, String word2, int frequency) {
-            this.word1 = word1;
-            this.word2 = word2;
-            this.frequency = frequency;
-        }
-
-        @Override
-        public boolean equals(Object bigram) {
-            Bigram bigram2 = (Bigram) bigram;
-            return (word1.equals(bigram2.word1) && word2.equals(bigram2.word2));
-        }
-
-        @Override
-        public int hashCode() {
-            return (word1 + " " + word2).hashCode();
-        }
-    }
-
-    public void setDatabaseMax(int maxUserBigram) {
-        sMaxUserBigrams = maxUserBigram;
-    }
-
-    public void setDatabaseDelete(int deleteUserBigram) {
-        sDeleteUserBigrams = deleteUserBigram;
-    }
+    private final LatinIME mIme;
+    private final Object mPendingWritesLock = new Object();
+    /**
+     * Locale for which this auto dictionary is storing words
+     */
+    private String mLocale;
+    private HashSet<Bigram> mPendingWrites = new HashSet<>();
 
     public UserBigramDictionary(Context context, LatinIME ime, String locale, int dicTypeId) {
         super(context, dicTypeId);
@@ -148,6 +116,14 @@ public class UserBigramDictionary extends ExpandableDictionary {
         if (mLocale != null && mLocale.length() > 1) {
             loadDictionary();
         }
+    }
+
+    public void setDatabaseMax(int maxUserBigram) {
+        sMaxUserBigrams = maxUserBigram;
+    }
+
+    public void setDatabaseDelete(int deleteUserBigram) {
+        sDeleteUserBigrams = deleteUserBigram;
     }
 
     @Override
@@ -198,7 +174,9 @@ public class UserBigramDictionary extends ExpandableDictionary {
         }
     }
 
-    /** Used for testing purpose **/
+    /**
+     * Used for testing purpose
+     **/
     void waitUntilUpdateDBDone() {
         synchronized (mPendingWritesLock) {
             while (sUpdatingDB) {
@@ -242,16 +220,39 @@ public class UserBigramDictionary extends ExpandableDictionary {
         // main INNER JOIN frequency ON (main._id=freq.pair_id)
         qb.setTables(MAIN_TABLE_NAME + " INNER JOIN " + FREQ_TABLE_NAME + " ON ("
                 + MAIN_TABLE_NAME + "." + MAIN_COLUMN_ID + "=" + FREQ_TABLE_NAME + "."
-                + FREQ_COLUMN_PAIR_ID +")");
+                + FREQ_COLUMN_PAIR_ID + ")");
 
         qb.setProjectionMap(sDictProjectionMap);
 
         // Get the database and run the query
         SQLiteDatabase db = sOpenHelper.getReadableDatabase();
         Cursor c = qb.query(db,
-                new String[] { MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD2, FREQ_COLUMN_FREQUENCY },
+                new String[]{MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD2, FREQ_COLUMN_FREQUENCY},
                 selection, selectionArgs, null, null, null);
         return c;
+    }
+
+    private static class Bigram {
+        String word1;
+        String word2;
+        int frequency;
+
+        Bigram(String word1, String word2, int frequency) {
+            this.word1 = word1;
+            this.word2 = word2;
+            this.frequency = frequency;
+        }
+
+        @Override
+        public boolean equals(Object bigram) {
+            Bigram bigram2 = (Bigram) bigram;
+            return (word1.equals(bigram2.word1) && word2.equals(bigram2.word2));
+        }
+
+        @Override
+        public int hashCode() {
+            return (word1 + " " + word2).hashCode();
+        }
     }
 
     /**
@@ -301,13 +302,15 @@ public class UserBigramDictionary extends ExpandableDictionary {
         private final String mLocale;
 
         public UpdateDbTask(Context context, DatabaseHelper openHelper,
-                HashSet<Bigram> pendingWrites, String locale) {
+                            HashSet<Bigram> pendingWrites, String locale) {
             mMap = pendingWrites;
             mLocale = locale;
             mDbHelper = openHelper;
         }
 
-        /** Prune any old data if the database is getting too big. */
+        /**
+         * Prune any old data if the database is getting too big.
+         */
         private void checkPruneData(SQLiteDatabase db) {
             db.execSQL("PRAGMA foreign_keys = ON;");
             try (Cursor c = db.query(FREQ_TABLE_NAME, new String[]{FREQ_COLUMN_PAIR_ID},
@@ -384,10 +387,10 @@ public class UserBigramDictionary extends ExpandableDictionary {
         }
 
         private ContentValues getFrequencyContentValues(int pairId, int frequency) {
-           ContentValues values = new ContentValues(2);
-           values.put(FREQ_COLUMN_PAIR_ID, pairId);
-           values.put(FREQ_COLUMN_FREQUENCY, frequency);
-           return values;
+            ContentValues values = new ContentValues(2);
+            values.put(FREQ_COLUMN_PAIR_ID, pairId);
+            values.put(FREQ_COLUMN_FREQUENCY, frequency);
+            return values;
         }
     }
 

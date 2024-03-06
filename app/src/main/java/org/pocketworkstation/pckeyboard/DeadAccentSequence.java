@@ -18,29 +18,9 @@ package org.pocketworkstation.pckeyboard;
 
 import java.text.Normalizer;
 
-import android.os.Build;
-
 public class DeadAccentSequence extends ComposeSequence {
     private static final String TAG = "HK/DeadAccent";
 
-    public DeadAccentSequence(ComposeSequencing user) {
-        super(user);
-    }
-    
-    private static void putAccent(String nonSpacing, String spacing, String ascii) {
-        if (ascii == null) ascii = spacing;
-        put(nonSpacing + " ", ascii);
-        put(nonSpacing + nonSpacing, spacing);
-        put(Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing, spacing);
-    }
-    
-    public static String getSpacing(char nonSpacing) {
-        String spacing = get(String.valueOf(Keyboard.DEAD_KEY_PLACEHOLDER) + nonSpacing);
-        if (spacing == null) spacing = DeadAccentSequence.normalize(" " + nonSpacing);
-        if (spacing == null) return String.valueOf(nonSpacing);
-        return spacing;
-    }
-    
     static {
         // space + combining diacritical
         // cf. http://unicode.org/charts/PDF/U0300.pdf
@@ -55,7 +35,7 @@ public class DeadAccentSequence extends ComposeSequence {
         putAccent("\u0308", "\u00a8", "¨");  // diaeresis
         putAccent("\u0309", "\u02c0", null);  // hook above
         putAccent("\u030a", "\u02da", "°");  // ring above
-        putAccent("\u030b", "\u02dd", "\"");  // double acute 
+        putAccent("\u030b", "\u02dd", "\"");  // double acute
         putAccent("\u030c", "\u02c7", null);  // caron
         putAccent("\u030d", "\u02c8", null);  // vertical line above
         putAccent("\u030e", "\"", "\"");  // double vertical line above
@@ -68,42 +48,59 @@ public class DeadAccentSequence extends ComposeSequence {
         put("\u0308\u0301\u03c5", "\u03b0");  // Greek Dialytika+Tonos, upsilon
         put("\u0301\u0308\u03c5", "\u03b0");  // Greek Dialytika+Tonos, upsilon
         put("\u0301\u03cb", "\u03b0");        // Greek Dialytika+Tonos, upsilon
-   }
+    }
 
-	private static String doNormalise(String input)
-	{
-		return Normalizer.normalize(input, Normalizer.Form.NFC);
-	}
+    public DeadAccentSequence(ComposeSequencing user) {
+        super(user);
+    }
+
+    private static void putAccent(String nonSpacing, String spacing, String ascii) {
+        if (ascii == null) ascii = spacing;
+        put(nonSpacing + " ", ascii);
+        put(nonSpacing + nonSpacing, spacing);
+        put(Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing, spacing);
+    }
+
+    public static String getSpacing(char nonSpacing) {
+        String spacing = get(String.valueOf(Keyboard.DEAD_KEY_PLACEHOLDER) + nonSpacing);
+        if (spacing == null) spacing = DeadAccentSequence.normalize(" " + nonSpacing);
+        if (spacing == null) return String.valueOf(nonSpacing);
+        return spacing;
+    }
+
+    private static String doNormalise(String input) {
+        return Normalizer.normalize(input, Normalizer.Form.NFC);
+    }
 
     public static String normalize(String input) {
-    	String lookup = mMap.get(input);
+        String lookup = mMap.get(input);
         return lookup != null ? lookup : doNormalise(input);
     }
-    
-    public boolean execute(int code) {
-    	String composed = executeToString(code);
-    	if (composed != null) {
-    	        //Log.i(TAG, "composed=" + composed + " len=" + composed.length());
-    		if (composed.equals("")) {
-    			// Unrecognised - try to use the built-in Java text normalisation
-    			int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
-    			if (Character.getType(c) != Character.NON_SPACING_MARK) {
-					StringBuilder buildComposed = new StringBuilder(10);
-					buildComposed.append(composeBuffer);
-					// FIXME? Put the combining character(s) temporarily at the end, else this won't work
-					composed = doNormalise(buildComposed.reverse().toString());
-    				if (composed.equals("")) {
-    					return true; // incomplete :-)
-    				}
-    			} else {
-    				return true; // there may be multiple combining accents
-    			}
-    		}
 
-    		clear();
-    		composeUser.onText(composed);
-    		return false;
-    	}
-    	return true;
+    public boolean execute(int code) {
+        String composed = executeToString(code);
+        if (composed != null) {
+            //Log.i(TAG, "composed=" + composed + " len=" + composed.length());
+            if (composed.equals("")) {
+                // Unrecognised - try to use the built-in Java text normalisation
+                int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
+                if (Character.getType(c) != Character.NON_SPACING_MARK) {
+                    StringBuilder buildComposed = new StringBuilder(10);
+                    buildComposed.append(composeBuffer);
+                    // FIXME? Put the combining character(s) temporarily at the end, else this won't work
+                    composed = doNormalise(buildComposed.reverse().toString());
+                    if (composed.equals("")) {
+                        return true; // incomplete :-)
+                    }
+                } else {
+                    return true; // there may be multiple combining accents
+                }
+            }
+
+            clear();
+            composeUser.onText(composed);
+            return false;
+        }
+        return true;
     }
 }

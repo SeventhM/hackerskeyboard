@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,9 +17,7 @@
 */
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- <string name="english_ime_name" msgid="7252517407088836577">"Tipkovnica Android"</string> -->
     <!-- <string name="english_ime_settings" msgid="6661589557206947774">"Nastavitve tipkovnice Android"</string> -->
     <string name="english_ime_input_options" msgid="3909945612939668554">"Možnosti vnosa"</string>
@@ -58,11 +55,11 @@
     <!-- no translation found for settings_key_modes:2 (7317310620171067848) -->
     <string name="bigram_suggestion" msgid="1323347224043514969">"Bigramni predlogi"</string>
     <string name="bigram_suggestion_summary" msgid="4383845146070101531">"Predlog izboljšaj s prejšnjo besedo"</string>
-  <string-array name="prediction_modes">
-    <item msgid="4870266572388153286">"Brez"</item>
-    <item msgid="1669461741568287396">"Osnovni"</item>
-    <item msgid="4894328801530136615">"Dodatno"</item>
-  </string-array>
+    <string-array name="prediction_modes">
+        <item msgid="4870266572388153286">"Brez"</item>
+        <item msgid="1669461741568287396">"Osnovni"</item>
+        <item msgid="4894328801530136615">"Dodatno"</item>
+    </string-array>
     <string name="added_word" msgid="8993883354622484372">"<xliff:g id="WORD">%s</xliff:g>: shranjeno"</string>
     <string name="tip_long_press" msgid="6101270866284343344">"Držite tipko, da prikažete poudarke (ø, ö itd.)"</string>
     <string name="tip_dismiss" msgid="7585579046862204381">"Kadar koli lahko pritisnete tipko »Nazaj« ↶, da zaprete tipkovnico"</string>
@@ -105,16 +102,16 @@
     <string name="cancel" msgid="6830980399865683324">"Prekliči"</string>
     <string name="ok" msgid="7898366843681727667">"V redu"</string>
     <string name="voice_input" msgid="2466640768843347841">"Glasovni vnos"</string>
-  <string-array name="voice_input_modes">
-    <item msgid="1349082139076086774">"Na glavni tipkovnici"</item>
-    <item msgid="8529385602829095903">"Na tipkovnici s simboli"</item>
-    <item msgid="7283103513488381103">"Izklopljeno"</item>
-  </string-array>
-  <string-array name="voice_input_modes_summary">
-    <item msgid="554248625705084903">"Mikrofon na glavni tipkovnici"</item>
-    <item msgid="6907837061058876770">"Mikrofon na tipkovnici s simboli"</item>
-    <item msgid="3664304608587798036">"Glasovni vnos je onemogočen"</item>
-  </string-array>
+    <string-array name="voice_input_modes">
+        <item msgid="1349082139076086774">"Na glavni tipkovnici"</item>
+        <item msgid="8529385602829095903">"Na tipkovnici s simboli"</item>
+        <item msgid="7283103513488381103">"Izklopljeno"</item>
+    </string-array>
+    <string-array name="voice_input_modes_summary">
+        <item msgid="554248625705084903">"Mikrofon na glavni tipkovnici"</item>
+        <item msgid="6907837061058876770">"Mikrofon na tipkovnici s simboli"</item>
+        <item msgid="3664304608587798036">"Glasovni vnos je onemogočen"</item>
+    </string-array>
     <string name="auto_submit" msgid="9151008027068358518">"Samodejno pošlji po govoru"</string>
     <string name="auto_submit_summary" msgid="4961875269610384226">"Samodejno pritisni »Enter« pri iskanju ali prehodu na naslednje polje."</string>
     <string name="open_the_keyboard" msgid="2215920976029260466"><font size="17"><b>"Odprite tipkovnico"\n</b></font><font size="3">\n</font>"Dotaknite se katerega koli besedilnega polja."</string>

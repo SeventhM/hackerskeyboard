@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,9 +17,7 @@
 */
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- <string name="english_ime_name" msgid="7252517407088836577">"Klávesnica Android"</string> -->
     <!-- <string name="english_ime_settings" msgid="6661589557206947774">"Nastavenia klávesnice Android"</string> -->
     <string name="english_ime_input_options" msgid="3909945612939668554">"Možnosti zadávania textu a údajov"</string>
@@ -58,11 +55,11 @@
     <!-- no translation found for settings_key_modes:2 (7317310620171067848) -->
     <string name="bigram_suggestion" msgid="1323347224043514969">"Návrh Bigram"</string>
     <string name="bigram_suggestion_summary" msgid="4383845146070101531">"Na zlepšenie návrhu použiť predchádzajúce slovo"</string>
-  <string-array name="prediction_modes">
-    <item msgid="4870266572388153286">"Žiadne"</item>
-    <item msgid="1669461741568287396">"Základné"</item>
-    <item msgid="4894328801530136615">"Rozšírené"</item>
-  </string-array>
+    <string-array name="prediction_modes">
+        <item msgid="4870266572388153286">"Žiadne"</item>
+        <item msgid="1669461741568287396">"Základné"</item>
+        <item msgid="4894328801530136615">"Rozšírené"</item>
+    </string-array>
     <string name="added_word" msgid="8993883354622484372">"<xliff:g id="WORD">%s</xliff:g> : Uložené"</string>
     <string name="tip_long_press" msgid="6101270866284343344">"Podržaním klávesu zobrazíte diakritiku (á, ž atď.)"</string>
     <string name="tip_dismiss" msgid="7585579046862204381">"Stlačením klávesu Späť ↶ môžete klávesnicu kedykoľvek zavrieť."</string>
@@ -105,16 +102,16 @@
     <string name="cancel" msgid="6830980399865683324">"Zrušiť"</string>
     <string name="ok" msgid="7898366843681727667">"OK"</string>
     <string name="voice_input" msgid="2466640768843347841">"Hlasový vstup"</string>
-  <string-array name="voice_input_modes">
-    <item msgid="1349082139076086774">"Na hlavnej klávesnici"</item>
-    <item msgid="8529385602829095903">"Na klávesnici so symbolmi"</item>
-    <item msgid="7283103513488381103">"Vypnuté"</item>
-  </string-array>
-  <string-array name="voice_input_modes_summary">
-    <item msgid="554248625705084903">"Mikrofón na hlavnej klávesnici"</item>
-    <item msgid="6907837061058876770">"Mikrofón na klávesnici so symbolmi"</item>
-    <item msgid="3664304608587798036">"Hlasový vstup je zakázaný"</item>
-  </string-array>
+    <string-array name="voice_input_modes">
+        <item msgid="1349082139076086774">"Na hlavnej klávesnici"</item>
+        <item msgid="8529385602829095903">"Na klávesnici so symbolmi"</item>
+        <item msgid="7283103513488381103">"Vypnuté"</item>
+    </string-array>
+    <string-array name="voice_input_modes_summary">
+        <item msgid="554248625705084903">"Mikrofón na hlavnej klávesnici"</item>
+        <item msgid="6907837061058876770">"Mikrofón na klávesnici so symbolmi"</item>
+        <item msgid="3664304608587798036">"Hlasový vstup je zakázaný"</item>
+    </string-array>
     <string name="auto_submit" msgid="9151008027068358518">"Po hlasovom vstupe automaticky odoslať"</string>
     <string name="auto_submit_summary" msgid="4961875269610384226">"Pri vyhľadávaní alebo prechode na ďalšie pole automaticky stlačiť kláves Enter."</string>
     <string name="open_the_keyboard" msgid="2215920976029260466"><font size="17"><b>"Otvorte klávesnicu"\n</b></font><font size="3">\n</font>"Dotknite sa ľubovoľného textového poľa."</string>

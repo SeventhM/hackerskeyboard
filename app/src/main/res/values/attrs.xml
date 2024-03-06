@@ -83,7 +83,7 @@
     <declare-styleable name="LatinKeyboardBaseView">
         <attr name="keyboardViewStyle" />
 
-        <attr name="keyBackground"/>
+        <attr name="keyBackground" />
 
         <attr name="keyTextSize" />
 
@@ -97,9 +97,9 @@
 
         <attr name="invertSymbols" />
 
-	    <attr name="recolorSymbols" />
+        <attr name="recolorSymbols" />
 
-	    <attr name="backgroundAlpha" />
+        <attr name="backgroundAlpha" />
 
         <attr name="keyPreviewLayout" />
 
@@ -117,9 +117,9 @@
         <attr name="shadowRadius" />
         <attr name="backgroundDimAmount" />
 
-        <attr name="keyTextStyle"/>
+        <attr name="keyTextStyle" />
 
-        <attr name="symbolColorScheme"/>
+        <attr name="symbolColorScheme" />
 
     </declare-styleable>
 
@@ -160,7 +160,7 @@
         <attr name="shadowRadius" />
         <attr name="backgroundDimAmount" />
 
-        <attr name="keyTextStyle"/>
+        <attr name="keyTextStyle" />
 
         <attr name="symbolColorScheme" />
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /*
 **
 ** Copyright 2011, The Android Open Source Project
@@ -18,396 +17,427 @@
 */
 -->
 
-<Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:keyWidth="7.1428571485%p"
+<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
     app:horizontalGap="0px"
-    app:verticalGap="@dimen/key_bottom_gap"
-    app:layoutRows="5"
+    app:keyWidth="7.1428571485%p"
     app:layoutColumns="14"
->
-    <Row app:rowEdgeFlags="top" app:extension="true">
-        <Key app:keyLabel="F1" app:codes="@integer/key_fkey_f1" app:isModifier="true" app:keyEdgeFlags="left"/>
-        <Key app:keyLabel="F2" app:codes="@integer/key_fkey_f2" app:isModifier="true" />
-        <Key app:keyLabel="F3" app:codes="@integer/key_fkey_f3" app:isModifier="true" />
-        <Key app:keyLabel="F4" app:codes="@integer/key_fkey_f4" app:isModifier="true" />
-        <Key app:keyLabel="F5" app:codes="@integer/key_fkey_f5" app:isModifier="true" />
-        <Key app:keyLabel="F6" app:codes="@integer/key_fkey_f6" app:isModifier="true" />
-        <Key app:keyLabel="F7" app:codes="@integer/key_fkey_f7" app:isModifier="true" />
-        <Key app:keyLabel="F8" app:codes="@integer/key_fkey_f8" app:isModifier="true" />
-        <Key app:keyLabel="F9" app:codes="@integer/key_fkey_f9" app:isModifier="true" />
-        <Key app:keyLabel="F10" app:codes="@integer/key_fkey_f10" app:isModifier="true" />
-        <Key app:keyLabel="F11" app:codes="@integer/key_fkey_f11" app:isModifier="true" />
-        <Key app:keyLabel="F12" app:codes="@integer/key_fkey_f12" app:isModifier="true" />
-	<Key
+    app:layoutRows="5"
+    app:verticalGap="@dimen/key_bottom_gap">
+    <Row
+        app:extension="true"
+        app:rowEdgeFlags="top">
+        <Key
+            app:codes="@integer/key_fkey_f1"
+            app:isModifier="true"
+            app:keyEdgeFlags="left"
+            app:keyLabel="F1" />
+        <Key
+            app:codes="@integer/key_fkey_f2"
+            app:isModifier="true"
+            app:keyLabel="F2" />
+        <Key
+            app:codes="@integer/key_fkey_f3"
+            app:isModifier="true"
+            app:keyLabel="F3" />
+        <Key
+            app:codes="@integer/key_fkey_f4"
+            app:isModifier="true"
+            app:keyLabel="F4" />
+        <Key
+            app:codes="@integer/key_fkey_f5"
+            app:isModifier="true"
+            app:keyLabel="F5" />
+        <Key
+            app:codes="@integer/key_fkey_f6"
+            app:isModifier="true"
+            app:keyLabel="F6" />
+        <Key
+            app:codes="@integer/key_fkey_f7"
+            app:isModifier="true"
+            app:keyLabel="F7" />
+        <Key
+            app:codes="@integer/key_fkey_f8"
+            app:isModifier="true"
+            app:keyLabel="F8" />
+        <Key
+            app:codes="@integer/key_fkey_f9"
+            app:isModifier="true"
+            app:keyLabel="F9" />
+        <Key
+            app:codes="@integer/key_fkey_f10"
+            app:isModifier="true"
+            app:keyLabel="F10" />
+        <Key
+            app:codes="@integer/key_fkey_f11"
+            app:isModifier="true"
+            app:keyLabel="F11" />
+        <Key
+            app:codes="@integer/key_fkey_f12"
+            app:isModifier="true"
+            app:keyLabel="F12" />
+        <Key
             app:codes="@integer/key_home"
-            app:isModifier="true"            
+            app:isModifier="true"
             app:keyLabel="Home" />
-	<Key
+        <Key
             app:codes="@integer/key_end"
-            app:isModifier="true"            
-            app:keyLabel="End"
-            app:keyEdgeFlags="right" />
+            app:isModifier="true"
+            app:keyEdgeFlags="right"
+            app:keyLabel="End" />
         />
     </Row>
-    <Row
-        app:rowEdgeFlags="top"
-    >
+    <Row app:rowEdgeFlags="top">
         <Key
+            app:keyEdgeFlags="left"
             app:keyLabel="@string/key_tlde_main"
-            app:shiftLabel="@string/key_tlde_shift"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_tlde_alt"
             app:keyWidth="4.5714285%p"
-            app:keyEdgeFlags="left" />
+            app:popupCharacters="@string/key_tlde_alt"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:shiftLabel="@string/key_tlde_shift" />
         <Key
             app:keyLabel="@string/key_ae01_main"
-            app:shiftLabel="@string/key_ae01_shift"
+            app:popupCharacters="@string/key_ae01_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ae01_alt" />
+            app:shiftLabel="@string/key_ae01_shift" />
         <Key
             app:keyLabel="@string/key_ae02_main"
-            app:shiftLabel="@string/key_ae02_shift"
+            app:popupCharacters="@string/key_ae02_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ae02_alt" />
+            app:shiftLabel="@string/key_ae02_shift" />
         <Key
             app:keyLabel="@string/key_ae03_main"
-            app:shiftLabel="@string/key_ae03_shift"
+            app:popupCharacters="@string/key_ae03_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ae03_alt" />
+            app:shiftLabel="@string/key_ae03_shift" />
         <Key
             app:keyLabel="@string/key_ae04_main"
-            app:shiftLabel="@string/key_ae04_shift"
+            app:popupCharacters="@string/key_ae04_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ae04_alt" />
+            app:shiftLabel="@string/key_ae04_shift" />
         <Key
             app:keyLabel="@string/key_ae05_main"
-            app:shiftLabel="@string/key_ae05_shift"
+            app:popupCharacters="@string/key_ae05_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ae05_alt" />
+            app:shiftLabel="@string/key_ae05_shift" />
         <Key
             app:keyLabel="@string/key_ae06_main"
-            app:shiftLabel="@string/key_ae06_shift"
+            app:popupCharacters="@string/key_ae06_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ae06_alt" />
+            app:shiftLabel="@string/key_ae06_shift" />
         <Key
             app:keyLabel="@string/key_ae07_main"
-            app:shiftLabel="@string/key_ae07_shift"
+            app:popupCharacters="@string/key_ae07_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ae07_alt" />
+            app:shiftLabel="@string/key_ae07_shift" />
         <Key
             app:keyLabel="@string/key_ae08_main"
-            app:shiftLabel="@string/key_ae08_shift"
+            app:popupCharacters="@string/key_ae08_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ae08_alt" />
+            app:shiftLabel="@string/key_ae08_shift" />
         <Key
             app:keyLabel="@string/key_ae09_main"
-            app:shiftLabel="@string/key_ae09_shift"
+            app:popupCharacters="@string/key_ae09_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ae09_alt" />
+            app:shiftLabel="@string/key_ae09_shift" />
         <Key
             app:keyLabel="@string/key_ae10_main"
-            app:shiftLabel="@string/key_ae10_shift"
+            app:popupCharacters="@string/key_ae10_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ae10_alt" />
+            app:shiftLabel="@string/key_ae10_shift" />
         <Key
             app:keyLabel="@string/key_ae11_main"
-            app:shiftLabel="@string/key_ae11_shift"
+            app:popupCharacters="@string/key_ae11_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ae11_alt" />
+            app:shiftLabel="@string/key_ae11_shift" />
         <Key
             app:keyLabel="@string/key_ae12_main"
-            app:shiftLabel="@string/key_ae12_shift"
+            app:popupCharacters="@string/key_ae12_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ae12_alt" />
+            app:shiftLabel="@string/key_ae12_shift" />
         <Key
             app:codes="@integer/key_delete"
-            app:keyIcon="@drawable/sym_keyboard_delete"
             app:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            app:keyWidth="9.7142855%p"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:keyWidth="9.7142855%p" />
     </Row>
     <Row>
         <Key
             app:codes="@integer/key_tab"
-            app:keyIcon="@drawable/sym_keyboard_tab"
             app:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            app:isModifier="true"
             app:keyEdgeFlags="left"
-            app:isModifier="true" />
+            app:keyIcon="@drawable/sym_keyboard_tab" />
         <Key
             app:keyLabel="@string/key_ad01_main"
-            app:shiftLabel="@string/key_ad01_shift"
+            app:popupCharacters="@string/key_ad01_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad01_alt" />
+            app:shiftLabel="@string/key_ad01_shift" />
         <Key
             app:keyLabel="@string/key_ad02_main"
-            app:shiftLabel="@string/key_ad02_shift"
+            app:popupCharacters="@string/key_ad02_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad02_alt" />
+            app:shiftLabel="@string/key_ad02_shift" />
         <Key
             app:keyLabel="@string/key_ad03_main"
-            app:shiftLabel="@string/key_ad03_shift"
+            app:popupCharacters="@string/key_ad03_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad03_alt" />
+            app:shiftLabel="@string/key_ad03_shift" />
         <Key
             app:keyLabel="@string/key_ad04_main"
-            app:shiftLabel="@string/key_ad04_shift"
+            app:popupCharacters="@string/key_ad04_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad04_alt" />
+            app:shiftLabel="@string/key_ad04_shift" />
         <Key
             app:keyLabel="@string/key_ad05_main"
-            app:shiftLabel="@string/key_ad05_shift"
+            app:popupCharacters="@string/key_ad05_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad05_alt" />
+            app:shiftLabel="@string/key_ad05_shift" />
         <Key
             app:keyLabel="@string/key_ad06_main"
-            app:shiftLabel="@string/key_ad06_shift"
+            app:popupCharacters="@string/key_ad06_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad06_alt" />
+            app:shiftLabel="@string/key_ad06_shift" />
         <Key
             app:keyLabel="@string/key_ad07_main"
-            app:shiftLabel="@string/key_ad07_shift"
+            app:popupCharacters="@string/key_ad07_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad07_alt" />
+            app:shiftLabel="@string/key_ad07_shift" />
         <Key
             app:keyLabel="@string/key_ad08_main"
-            app:shiftLabel="@string/key_ad08_shift"
+            app:popupCharacters="@string/key_ad08_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad08_alt" />
+            app:shiftLabel="@string/key_ad08_shift" />
         <Key
             app:keyLabel="@string/key_ad09_main"
-            app:shiftLabel="@string/key_ad09_shift"
+            app:popupCharacters="@string/key_ad09_alt"
             app:popupKeyboard="@xml/kbd_popup_narrow_template"
-            app:popupCharacters="@string/key_ad09_alt" />
+            app:shiftLabel="@string/key_ad09_shift" />
 
         <Key
             app:keyLabel="@string/key_ad10_main"
-            app:shiftLabel="@string/key_ad10_shift"
-            app:popupKeyboard="@xml/kbd_popup_template"
             app:popupCharacters="@string/key_ad10_alt"
-            />
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:shiftLabel="@string/key_ad10_shift" />
         <Key
             app:keyLabel="@string/key_ad11_main"
-            app:shiftLabel="@string/key_ad11_shift"
+            app:popupCharacters="@string/key_ad11_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad11_alt" />res/xml/kbd_full.xml
+            app:shiftLabel="@string/key_ad11_shift" />res/xml/kbd_full.xml
         <Key
             app:keyLabel="@string/key_ad12_main"
-            app:shiftLabel="@string/key_ad12_shift"
+            app:popupCharacters="@string/key_ad12_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ad12_alt" />
+            app:shiftLabel="@string/key_ad12_shift" />
         <Key
+            app:keyEdgeFlags="right"
             app:keyLabel="@string/key_bksl_main"
-            app:shiftLabel="@string/key_bksl_shift"
-            app:popupKeyboard="@xml/kbd_popup_template"
             app:popupCharacters="@string/key_bksl_alt"
-            app:keyEdgeFlags="right" />
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:shiftLabel="@string/key_bksl_shift" />
     </Row>
     <Row>
         <Key
-            app:keyLabel="Ctrl"
-            app:keyWidth="10.7142855%p"
             app:codes="@integer/key_ctrl_left"
+            app:isModifier="true"
             app:isSticky="true"
             app:keyEdgeFlags="left"
-            app:isModifier="true" />
+            app:keyLabel="Ctrl"
+            app:keyWidth="10.7142855%p" />
         <Key
             app:keyLabel="@string/key_ac01_main"
-            app:shiftLabel="@string/key_ac01_shift"
+            app:popupCharacters="@string/key_ac01_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac01_alt" />
+            app:shiftLabel="@string/key_ac01_shift" />
         <Key
             app:keyLabel="@string/key_ac02_main"
-            app:shiftLabel="@string/key_ac02_shift"
+            app:popupCharacters="@string/key_ac02_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac02_alt" />
+            app:shiftLabel="@string/key_ac02_shift" />
         <Key
             app:keyLabel="@string/key_ac03_main"
-            app:shiftLabel="@string/key_ac03_shift"
+            app:popupCharacters="@string/key_ac03_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac03_alt" />
+            app:shiftLabel="@string/key_ac03_shift" />
         <Key
             app:keyLabel="@string/key_ac04_main"
-            app:shiftLabel="@string/key_ac04_shift"
+            app:popupCharacters="@string/key_ac04_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac04_alt" />
+            app:shiftLabel="@string/key_ac04_shift" />
         <Key
             app:keyLabel="@string/key_ac05_main"
-            app:shiftLabel="@string/key_ac05_shift"
+            app:popupCharacters="@string/key_ac05_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac05_alt" />
+            app:shiftLabel="@string/key_ac05_shift" />
         <Key
             app:keyLabel="@string/key_ac06_main"
-            app:shiftLabel="@string/key_ac06_shift"
+            app:popupCharacters="@string/key_ac06_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac06_alt" />
+            app:shiftLabel="@string/key_ac06_shift" />
         <Key
             app:keyLabel="@string/key_ac07_main"
-            app:shiftLabel="@string/key_ac07_shift"
+            app:popupCharacters="@string/key_ac07_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac07_alt" />
+            app:shiftLabel="@string/key_ac07_shift" />
         <Key
             app:keyLabel="@string/key_ac08_main"
-            app:shiftLabel="@string/key_ac08_shift"
+            app:popupCharacters="@string/key_ac08_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac08_alt" />
+            app:shiftLabel="@string/key_ac08_shift" />
         <Key
             app:keyLabel="@string/key_ac09_main"
-            app:shiftLabel="@string/key_ac09_shift"
+            app:popupCharacters="@string/key_ac09_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac09_alt" />
+            app:shiftLabel="@string/key_ac09_shift" />
         <Key
             app:keyLabel="@string/key_ac10_main"
-            app:shiftLabel="@string/key_ac10_shift"
+            app:popupCharacters="@string/key_ac10_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac10_alt" />
+            app:shiftLabel="@string/key_ac10_shift" />
         <Key
             app:keyLabel="@string/key_ac11_main"
-            app:shiftLabel="@string/key_ac11_shift"
+            app:popupCharacters="@string/key_ac11_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ac11_alt" />
+            app:shiftLabel="@string/key_ac11_shift" />
         <Key
             app:codes="@integer/key_return"
-            app:keyIcon="@drawable/sym_keyboard_return"
             app:iconPreview="@drawable/sym_keyboard_feedback_return"
-            app:keyWidth="10.7142855%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:keyWidth="10.7142855%p" />
     </Row>
     <Row>
         <Key
             app:codes="@integer/key_shift"
-            app:keyIcon="@drawable/sym_keyboard_shift"
             app:iconPreview="@drawable/sym_keyboard_feedback_shift"
             app:isModifier="true"
             app:isSticky="true"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_shift" />
         <Key
             app:keyLabel="@string/key_lsgt_main"
-            app:shiftLabel="@string/key_lsgt_shift"
+            app:popupCharacters="@string/key_lsgt_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_lsgt_alt" />
+            app:shiftLabel="@string/key_lsgt_shift" />
         <Key
             app:keyLabel="@string/key_ab01_main"
-            app:shiftLabel="@string/key_ab01_shift"
+            app:popupCharacters="@string/key_ab01_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab01_alt" />
+            app:shiftLabel="@string/key_ab01_shift" />
         <Key
             app:keyLabel="@string/key_ab02_main"
-            app:shiftLabel="@string/key_ab02_shift"
+            app:popupCharacters="@string/key_ab02_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab02_alt" />
+            app:shiftLabel="@string/key_ab02_shift" />
         <Key
             app:keyLabel="@string/key_ab03_main"
-            app:shiftLabel="@string/key_ab03_shift"
+            app:popupCharacters="@string/key_ab03_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab03_alt" />
+            app:shiftLabel="@string/key_ab03_shift" />
         <Key
             app:keyLabel="@string/key_ab04_main"
-            app:shiftLabel="@string/key_ab04_shift"
+            app:popupCharacters="@string/key_ab04_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab04_alt" />
+            app:shiftLabel="@string/key_ab04_shift" />
         <Key
             app:keyLabel="@string/key_ab05_main"
-            app:shiftLabel="@string/key_ab05_shift"
+            app:popupCharacters="@string/key_ab05_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab05_alt" />
+            app:shiftLabel="@string/key_ab05_shift" />
         <Key
             app:keyLabel="@string/key_ab06_main"
-            app:shiftLabel="@string/key_ab06_shift"
+            app:popupCharacters="@string/key_ab06_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab06_alt" />
+            app:shiftLabel="@string/key_ab06_shift" />
         <Key
             app:keyLabel="@string/key_ab07_main"
-            app:shiftLabel="@string/key_ab07_shift"
+            app:popupCharacters="@string/key_ab07_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab07_alt" />
+            app:shiftLabel="@string/key_ab07_shift" />
         <Key
             app:keyLabel="@string/key_ab08_main"
-            app:shiftLabel="@string/key_ab08_shift"
+            app:popupCharacters="@string/key_ab08_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab08_alt" />
+            app:shiftLabel="@string/key_ab08_shift" />
         <Key
             app:keyLabel="@string/key_ab09_main"
-            app:shiftLabel="@string/key_ab09_shift"
+            app:popupCharacters="@string/key_ab09_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab09_alt" />
+            app:shiftLabel="@string/key_ab09_shift" />
         <Key
             app:keyLabel="@string/key_ab10_main"
-            app:shiftLabel="@string/key_ab10_shift"
+            app:popupCharacters="@string/key_ab10_alt"
             app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="@string/key_ab10_alt" />
+            app:shiftLabel="@string/key_ab10_shift" />
         <Key
             app:codes="@integer/key_dpad_up"
-            app:isRepeatable="true"
-            app:keyLabel="&#x25b3;"
             app:isCursor="true"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyLabel="&#x25b3;" />
         <Key
             app:codes="@integer/key_shift"
-            app:keyIcon="@drawable/sym_keyboard_shift"
+            app:isModifier="true"
             app:keyEdgeFlags="right"
-            app:isModifier="true" />
+            app:keyIcon="@drawable/sym_keyboard_shift" />
     </Row>
-    <Row
-        app:rowEdgeFlags="bottom"
-    >
+    <Row app:rowEdgeFlags="bottom">
         <Key
-            app:keyLabel="Esc"
             app:codes="@integer/key_escape"
-            app:keyWidth="10.7142855%p"
+            app:isModifier="true"
             app:keyEdgeFlags="left"
-            app:isModifier="true" />
+            app:keyLabel="Esc"
+            app:keyWidth="10.7142855%p" />
         <Key
             app:codes="@integer/key_f1"
             app:isModifier="true" />
         <Key
             app:codes="@integer/key_alt_left"
-            app:keyLabel="Alt"
+            app:isModifier="true"
             app:isSticky="true"
-            app:isModifier="true" />
+            app:keyLabel="Alt" />
         <Key
             app:codes="@integer/key_meta_left"
-            app:keyLabel="&#x2756;"
+            app:isModifier="true"
             app:isSticky="true"
-            app:isModifier="true" />
+            app:keyLabel="&#x2756;" />
         <Key
             app:codes="@integer/key_space"
-            app:shiftLabel="@string/key_space_shift"
-            app:keyIcon="@drawable/sym_keyboard_space"
             app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:isModifier="true"
+            app:keyIcon="@drawable/sym_keyboard_space"
             app:keyWidth="32.1428571372%p"
-            app:isModifier="true" />
+            app:shiftLabel="@string/key_space_shift" />
         <Key
             app:codes="@integer/key_fn"
-            app:keyLabel="Fn"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyLabel="Fn" />
         <Key
             app:codes="@integer/key_dpad_center"
-            app:isModifier="true"
             app:isCursor="true"
+            app:isModifier="true"
             app:keyLabel="&#x25cb;" />
         <Key
             app:codes="@integer/key_dpad_left"
+            app:isCursor="true"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:isCursor="true"
             app:keyLabel="&#x25c1;" />
         <Key
             app:codes="@integer/key_dpad_down"
+            app:isCursor="true"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:isCursor="true"
             app:keyLabel="&#x25bd;" />
         <Key
             app:codes="@integer/key_dpad_right"
-            app:isModifier="true"
-            app:keyLabel="&#x25b7;"
-            app:isRepeatable="true"
             app:isCursor="true"
-            app:keyEdgeFlags="right" />
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right"
+            app:keyLabel="&#x25b7;" />
     </Row>
 </Keyboard>

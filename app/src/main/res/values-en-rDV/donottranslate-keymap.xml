@@ -29,7 +29,7 @@
     <string name="key_tlde_main">`</string>
     <string name="key_tlde_shift">~</string>
     <string name="key_tlde_alt">`~</string>
-    
+
     <string name="key_ae01_main">1</string>
     <string name="key_ae01_shift">!</string>
     <string name="key_ae01_alt">1!¡¹½⅓¼⅛</string>
@@ -37,57 +37,56 @@
     <string name="key_ae02_main">2</string>
     <string name="key_ae02_shift">\@</string>
     <string name="key_ae02_alt">2\@²⅔</string>
-    
+
     <string name="key_ae03_main">3</string>
     <string name="key_ae03_shift">#</string>
     <string name="key_ae03_alt">3#³¾⅜♥♠♦♣</string>
-    
+
     <string name="key_ae04_main">4</string>
     <string name="key_ae04_shift">$</string>
     <string name="key_ae04_alt">4$⁴¢£€¥</string>
-    
+
     <string name="key_ae05_main">5</string>
     <string name="key_ae05_shift">%</string>
     <string name="key_ae05_alt">5%⅝‰</string>
-    
+
     <string name="key_ae06_main">6</string>
     <string name="key_ae06_shift">^</string>
     <string name="key_ae06_alt">6^↑↓←→</string>
-    
+
     <string name="key_ae07_main">7</string>
     <string name="key_ae07_shift">&amp;</string>
     <string name="key_ae07_alt">7&amp;⅞♪</string>
-    
+
     <string name="key_ae08_main">8</string>
     <string name="key_ae08_shift">*</string>
     <string name="key_ae08_alt">8*•★∞†‡</string>
-    
+
     <string name="key_ae09_main">9</string>
     <string name="key_ae09_shift">(</string>
     <string name="key_ae09_alt">9(√</string>
-    
+
     <string name="key_ae10_main">0</string>
     <string name="key_ae10_shift">)</string>
     <string name="key_ae10_alt">0)ⁿ°</string>
-    
+
     <string name="key_ae11_main">[</string>
     <string name="key_ae11_shift">{</string>
     <string name="key_ae11_alt">[{</string>
-    
+
     <string name="key_ae12_main">]</string>
     <string name="key_ae12_shift">}</string>
     <string name="key_ae12_alt">]}</string>
 
 
-
     <string name="key_ad01_main">\'</string>
     <string name="key_ad01_shift">\"</string>
     <string name="key_ad01_alt">\'\"‘’“”</string>
-    
+
     <string name="key_ad02_main">,</string>
     <string name="key_ad02_shift">&lt;</string>
     <string name="key_ad02_alt">,&lt;≤«‹</string>
-    
+
     <string name="key_ad03_main">.</string>
     <string name="key_ad03_shift">&gt;</string>
     <string name="key_ad03_alt">&gt;≥»›…</string>
@@ -95,11 +94,11 @@
     <string name="key_ad04_main">p</string>
     <string name="key_ad04_shift">P</string>
     <string name="key_ad04_alt">@string/alternates_for_p</string>
-    
+
     <string name="key_ad05_main">y</string>
     <string name="key_ad05_shift">Y</string>
     <string name="key_ad05_alt">@string/alternates_for_y</string>
-    
+
     <string name="key_ad06_main">f</string>
     <string name="key_ad06_shift">F</string>
     <string name="key_ad06_alt">@string/alternates_for_f</string>
@@ -107,23 +106,23 @@
     <string name="key_ad07_main">g</string>
     <string name="key_ad07_shift">G</string>
     <string name="key_ad07_alt">@string/alternates_for_g</string>
-    
+
     <string name="key_ad08_main">c</string>
     <string name="key_ad08_shift">C</string>
     <string name="key_ad08_alt">@string/alternates_for_c</string>
-    
+
     <string name="key_ad09_main">r</string>
     <string name="key_ad09_shift">R</string>
     <string name="key_ad09_alt">@string/alternates_for_r</string>
-    
+
     <string name="key_ad10_main">l</string>
     <string name="key_ad10_shift">L</string>
     <string name="key_ad10_alt">@string/alternates_for_l</string>
-    
+
     <string name="key_ad11_main">/</string>
     <string name="key_ad11_shift">\?</string>
     <string name="key_ad11_alt">/\?¿</string>
-    
+
     <string name="key_ad12_main">=</string>
     <string name="key_ad12_shift">+</string>
     <string name="key_ad12_alt">=+≈≠±×÷</string>
@@ -131,8 +130,8 @@
     <string name="key_bksl_main">\\</string>
     <string name="key_bksl_shift">|</string>
     <string name="key_bksl_alt">\\|</string>
-    
-    
+
+
     <string name="key_ac01_main">a</string>
     <string name="key_ac01_shift">A</string>
     <string name="key_ac01_alt">@string/alternates_for_a</string>

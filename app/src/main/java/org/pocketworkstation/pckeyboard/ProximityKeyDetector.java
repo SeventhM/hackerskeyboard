@@ -41,14 +41,14 @@ class ProximityKeyDetector extends KeyDetector {
         int closestKeyDist = mProximityThresholdSquare + 1;
         int[] distances = mDistances;
         Arrays.fill(distances, Integer.MAX_VALUE);
-        int [] nearestKeyIndices = mKeyboard.getNearestKeys(touchX, touchY);
+        int[] nearestKeyIndices = mKeyboard.getNearestKeys(touchX, touchY);
         final int keyCount = nearestKeyIndices.length;
-        for (int nearestKeyIndex : nearestKeyIndices) {
-            final Key key = keys[nearestKeyIndex];
+        for (int index : nearestKeyIndices) {
+            final Key key = keys[index];
             int dist = 0;
             boolean isInside = key.isInside(touchX, touchY);
             if (isInside) {
-                primaryIndex = nearestKeyIndex;
+                primaryIndex = index;
             }
 
             if (((mProximityCorrectOn
@@ -59,7 +59,7 @@ class ProximityKeyDetector extends KeyDetector {
                 final int nCodes = key.codes.length;
                 if (dist < closestKeyDist) {
                     closestKeyDist = dist;
-                    closestKey = nearestKeyIndex;
+                    closestKey = index;
                 }
 
                 if (allKeys == null) continue;

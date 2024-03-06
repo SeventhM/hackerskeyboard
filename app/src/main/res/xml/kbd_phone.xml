@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,20 +17,15 @@
 */
 -->
 
-<Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:keyWidth="26.67%p"
+<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
     app:horizontalGap="0px"
-    app:verticalGap="@dimen/key_bottom_gap"
->
-    <Row
-        app:rowEdgeFlags="top"
-    >
+    app:keyWidth="26.67%p"
+    app:verticalGap="@dimen/key_bottom_gap">
+    <Row app:rowEdgeFlags="top">
         <Key
             app:codes="49"
-            app:keyIcon="@drawable/sym_keyboard_num1"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_num1" />
         <Key
             app:codes="50"
             app:keyIcon="@drawable/sym_keyboard_num2" />
@@ -39,16 +33,16 @@
             app:codes="51"
             app:keyIcon="@drawable/sym_keyboard_num3" />
         <Key
-            app:keyLabel="-"
-            app:keyWidth="20%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyLabel="-"
+            app:keyWidth="20%p" />
     </Row>
     <Row>
         <Key
             app:codes="52"
-            app:keyIcon="@drawable/sym_keyboard_num4"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_num4" />
         <Key
             app:codes="53"
             app:keyIcon="@drawable/sym_keyboard_num5" />
@@ -56,16 +50,16 @@
             app:codes="54"
             app:keyIcon="@drawable/sym_keyboard_num6" />
         <Key
-            app:keyLabel="."
-            app:keyWidth="20%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyLabel="."
+            app:keyWidth="20%p" />
     </Row>
     <Row>
         <Key
             app:codes="55"
-            app:keyIcon="@drawable/sym_keyboard_num7"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_num7" />
         <Key
             app:codes="56"
             app:keyIcon="@drawable/sym_keyboard_num8" />
@@ -74,33 +68,31 @@
             app:keyIcon="@drawable/sym_keyboard_num9" />
         <Key
             app:codes="@integer/key_delete"
-            app:keyIcon="@drawable/sym_keyboard_delete"
             app:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            app:keyWidth="20%p"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:keyWidth="20%p" />
     </Row>
-    <Row
-        app:rowEdgeFlags="bottom"
-    >
+    <Row app:rowEdgeFlags="bottom">
         <Key
             app:codes="@integer/key_symbol"
-            app:keyIcon="@drawable/sym_keyboard_numalt"
             app:iconPreview="@drawable/sym_keyboard_feedback_numalt"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_numalt" />
         <Key
             app:codes="48"
             app:keyIcon="@drawable/sym_keyboard_num0" />
         <Key
             app:codes="@integer/key_space"
-            app:keyIcon="@drawable/sym_keyboard_space"
-            app:iconPreview="@drawable/sym_keyboard_feedback_space" />
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyIcon="@drawable/sym_keyboard_space" />
         <Key
             app:codes="@integer/key_return"
-            app:keyIcon="@drawable/sym_keyboard_return"
-            app:keyWidth="20%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:keyWidth="20%p" />
     </Row>
 </Keyboard>

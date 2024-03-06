@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,172 +17,149 @@
 */
 -->
 
-<Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:keyWidth="10%p"
+<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
     app:horizontalGap="0px"
-    app:verticalGap="@dimen/key_bottom_gap"
->
-    <Row
-        app:rowEdgeFlags="top"
-    >
+    app:keyWidth="10%p"
+    app:verticalGap="@dimen/key_bottom_gap">
+    <Row app:rowEdgeFlags="top">
         <Key
-            app:keyLabel="~"
-            app:keyEdgeFlags="left" />
-        <Key
-            app:keyLabel="`" />
-        <Key
-            app:keyLabel="|" />
+            app:keyEdgeFlags="left"
+            app:keyLabel="~" />
+        <Key app:keyLabel="`" />
+        <Key app:keyLabel="|" />
         <Key
             app:keyLabel="•"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="♪♥♠♦♣" />
-        <Key
-            app:keyLabel="√" />
+            app:popupCharacters="♪♥♠♦♣"
+            app:popupKeyboard="@xml/kbd_popup_template" />
+        <Key app:keyLabel="√" />
         <Key
             app:keyLabel="π"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="Π" />
+            app:popupCharacters="Π"
+            app:popupKeyboard="@xml/kbd_popup_template" />
+        <Key app:keyLabel="÷" />
+        <Key app:keyLabel="×" />
+        <Key app:keyLabel="{" />
         <Key
-            app:keyLabel="÷" />
-        <Key
-            app:keyLabel="×" />
-        <Key
-            app:keyLabel="{" />
-        <Key
-            app:keyLabel="}"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyLabel="}" />
     </Row>
     <Row>
         <Key
             app:codes="@integer/key_tab"
-            app:keyLabel="\u21E5"
-            app:keyEdgeFlags="left" />
-        <Key
-            app:keyLabel="£" />
-        <Key
-            app:keyLabel="¢" />
-        <Key
-            app:keyLabel="€" />
-        <Key
-            app:keyLabel="°" />
+            app:keyEdgeFlags="left"
+            app:keyLabel="\u21E5" />
+        <Key app:keyLabel="£" />
+        <Key app:keyLabel="¢" />
+        <Key app:keyLabel="€" />
+        <Key app:keyLabel="°" />
         <Key
             app:keyLabel="^"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="↑↓←→" />
-        <Key
-            app:keyLabel="_" />
+            app:popupCharacters="↑↓←→"
+            app:popupKeyboard="@xml/kbd_popup_template" />
+        <Key app:keyLabel="_" />
         <Key
             app:keyLabel="="
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="≠≈∞" />
+            app:popupCharacters="≠≈∞"
+            app:popupKeyboard="@xml/kbd_popup_template" />
+        <Key app:keyLabel="[" />
         <Key
-            app:keyLabel="[" />
-        <Key
-            app:keyLabel="]"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyLabel="]" />
     </Row>
     <Row>
         <Key
             app:codes="@integer/key_shift"
-            app:keyLabel="@string/label_alt_key"
-            app:keyWidth="15%p"
             app:isModifier="true"
             app:isSticky="true"
-            app:keyEdgeFlags="left" />
-        <Key
-            app:keyLabel="™" />
-        <Key
-            app:keyLabel="®" />
-        <Key
-            app:keyLabel="©" />
+            app:keyEdgeFlags="left"
+            app:keyLabel="@string/label_alt_key"
+            app:keyWidth="15%p" />
+        <Key app:keyLabel="™" />
+        <Key app:keyLabel="®" />
+        <Key app:keyLabel="©" />
         <Key
             app:keyLabel="¶"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="§" />
-        <Key
-            app:keyLabel="\\" />
+            app:popupCharacters="§"
+            app:popupKeyboard="@xml/kbd_popup_template" />
+        <Key app:keyLabel="\\" />
         <Key
             app:keyLabel="&lt;"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="≤«‹" />
+            app:popupCharacters="≤«‹"
+            app:popupKeyboard="@xml/kbd_popup_template" />
         <Key
             app:keyLabel="&gt;"
-            app:popupKeyboard="@xml/kbd_popup_template"
-            app:popupCharacters="≥»›" />
+            app:popupCharacters="≥»›"
+            app:popupKeyboard="@xml/kbd_popup_template" />
         <Key
             app:codes="@integer/key_delete"
-            app:keyIcon="@drawable/sym_keyboard_delete"
             app:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            app:keyWidth="15%p"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:keyWidth="15%p" />
     </Row>
     <Row
         app:keyboardMode="@+id/mode_symbols"
-        app:rowEdgeFlags="bottom"
-    >
+        app:rowEdgeFlags="bottom">
         <Key
             app:codes="@integer/key_symbol"
-            app:keyLabel="@string/label_alpha_key"
-            app:keyWidth="20%p"
             app:isModifier="true"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyLabel="@string/label_alpha_key"
+            app:keyWidth="20%p" />
         <Key
-            app:keyLabel="„"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyLabel="„" />
         <Key
             app:codes="@integer/key_space"
-            app:keyIcon="@drawable/sym_keyboard_space"
             app:iconPreview="@drawable/sym_keyboard_feedback_space"
-            app:keyWidth="40%p"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:keyWidth="40%p" />
         <Key
-            app:keyLabel="…"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyLabel="…" />
         <Key
             app:codes="@integer/key_return"
-            app:keyIcon="@drawable/sym_keyboard_return"
             app:iconPreview="@drawable/sym_keyboard_feedback_return"
-            app:keyWidth="20%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:keyWidth="20%p" />
     </Row>
     <Row
         app:keyboardMode="@+id/mode_symbols_with_settings_key"
-        app:rowEdgeFlags="bottom"
-    >
+        app:rowEdgeFlags="bottom">
         <Key
             app:codes="@integer/key_symbol"
-            app:keyLabel="@string/label_alpha_key"
-            app:keyWidth="15%p"
             app:isModifier="true"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyLabel="@string/label_alpha_key"
+            app:keyWidth="15%p" />
         <Key
             app:codes="@integer/key_settings"
-            app:keyIcon="@drawable/sym_keyboard_settings"
             app:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyIcon="@drawable/sym_keyboard_settings" />
         <Key
-            app:keyLabel="„"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyLabel="„" />
         <Key
             app:codes="@integer/key_space"
-            app:keyIcon="@drawable/sym_keyboard_space"
             app:iconPreview="@drawable/sym_keyboard_feedback_space"
-            app:keyWidth="30%p"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:keyWidth="30%p" />
         <Key
-            app:keyLabel="…"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyLabel="…" />
         <Key
             app:codes="@integer/key_return"
-            app:keyIcon="@drawable/sym_keyboard_return"
             app:iconPreview="@drawable/sym_keyboard_feedback_return"
-            app:keyWidth="25%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:keyWidth="25%p" />
     </Row>
 </Keyboard>

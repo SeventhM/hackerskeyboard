@@ -16,12 +16,6 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Map.Entry;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,10 +23,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Stores new words temporarily until they are promoted to the user dictionary
@@ -52,32 +48,25 @@ public class AutoDictionary extends ExpandableDictionary {
     private static final int VALIDITY_THRESHOLD = 2 * FREQUENCY_FOR_PICKED;
     // If the user touches a typed word 4 times or more, it will be added to the user dict.
     private static final int PROMOTION_THRESHOLD = 4 * FREQUENCY_FOR_PICKED;
-
-    private LatinIME mIme;
-    // Locale for which this auto dictionary is storing words
-    private String mLocale;
-
-    private HashMap<String,Integer> mPendingWrites = new HashMap<>();
-    private final Object mPendingWritesLock = new Object();
-
     private static final String DATABASE_NAME = "auto_dict.db";
     private static final int DATABASE_VERSION = 1;
-
     // These are the columns in the dictionary
     // TODO: Consume less space by using a unique id for locale instead of the whole
     // 2-5 character string.
     private static final String COLUMN_ID = BaseColumns._ID;
     private static final String COLUMN_WORD = "word";
     private static final String COLUMN_FREQUENCY = "freq";
-    private static final String COLUMN_LOCALE = "locale";
-
-    /** Sort by descending order of frequency. */
+    /**
+     * Sort by descending order of frequency.
+     */
     public static final String DEFAULT_SORT_ORDER = COLUMN_FREQUENCY + " DESC";
-
-    /** Name of the words table in the auto_dict.db */
+    private static final String COLUMN_LOCALE = "locale";
+    /**
+     * Name of the words table in the auto_dict.db
+     */
     private static final String AUTODICT_TABLE_NAME = "words";
-
     private static HashMap<String, String> sDictProjectionMap;
+    private static DatabaseHelper sOpenHelper = null;
 
     static {
         sDictProjectionMap = new HashMap<>();
@@ -87,7 +76,11 @@ public class AutoDictionary extends ExpandableDictionary {
         sDictProjectionMap.put(COLUMN_LOCALE, COLUMN_LOCALE);
     }
 
-    private static DatabaseHelper sOpenHelper = null;
+    private final Object mPendingWritesLock = new Object();
+    private LatinIME mIme;
+    // Locale for which this auto dictionary is storing words
+    private String mLocale;
+    private HashMap<String, Integer> mPendingWrites = new HashMap<>();
 
     public AutoDictionary(Context context, LatinIME ime, String locale, int dicTypeId) {
         super(context, dicTypeId);
@@ -170,17 +163,22 @@ public class AutoDictionary extends ExpandableDictionary {
             // Nothing pending? Return
             if (mPendingWrites.isEmpty()) return;
             // Create a background thread to write the pending entries
-            /*ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
-                mMap = getContext();
-                mLocale = sOpenHelper;
-                mDbHelper = mLocale;
-            };*/
             new UpdateDbTask(getContext(), sOpenHelper, mPendingWrites, mLocale).execute();
             // Create a new map for writing new entries into while the old one is written to db
             mPendingWrites = new HashMap<>();
         }
+    }
+
+    private Cursor query(String selection, String[] selectionArgs) {
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables(AUTODICT_TABLE_NAME);
+        qb.setProjectionMap(sDictProjectionMap);
+
+        // Get the database and run the query
+        SQLiteDatabase db = sOpenHelper.getReadableDatabase();
+        Cursor c = qb.query(db, null, selection, selectionArgs, null, null,
+                DEFAULT_SORT_ORDER);
+        return c;
     }
 
     /**
@@ -211,18 +209,6 @@ public class AutoDictionary extends ExpandableDictionary {
         }
     }
 
-    private Cursor query(String selection, String[] selectionArgs) {
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(AUTODICT_TABLE_NAME);
-        qb.setProjectionMap(sDictProjectionMap);
-
-        // Get the database and run the query
-        SQLiteDatabase db = sOpenHelper.getReadableDatabase();
-        Cursor c = qb.query(db, null, selection, selectionArgs, null, null,
-                DEFAULT_SORT_ORDER);
-        return c;
-    }
-
     /**
      * Async task to write pending words to the database so that it stays in sync with
      * the in-memory trie.
@@ -233,7 +219,7 @@ public class AutoDictionary extends ExpandableDictionary {
         private final String mLocale;
 
         public UpdateDbTask(Context context, DatabaseHelper openHelper,
-                HashMap<String, Integer> pendingWrites, String locale) {
+                            HashMap<String, Integer> pendingWrites, String locale) {
             mMap = pendingWrites;
             mLocale = locale;
             mDbHelper = openHelper;
@@ -243,11 +229,11 @@ public class AutoDictionary extends ExpandableDictionary {
         protected Void doInBackground(Void... v) {
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
             // Write all the entries to the db
-            Set<Entry<String,Integer>> mEntries = mMap.entrySet();
-            for (Entry<String,Integer> entry : mEntries) {
+            Set<Entry<String, Integer>> mEntries = mMap.entrySet();
+            for (Entry<String, Integer> entry : mEntries) {
                 Integer freq = entry.getValue();
                 db.delete(AUTODICT_TABLE_NAME, COLUMN_WORD + "=? AND " + COLUMN_LOCALE + "=?",
-                        new String[] { entry.getKey(), mLocale });
+                        new String[]{entry.getKey(), mLocale});
                 if (freq != null) {
                     db.insert(AUTODICT_TABLE_NAME, null,
                             getContentValues(entry.getKey(), freq, mLocale));

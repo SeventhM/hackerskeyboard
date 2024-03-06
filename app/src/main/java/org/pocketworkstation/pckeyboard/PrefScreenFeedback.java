@@ -42,7 +42,7 @@ public class PrefScreenFeedback extends PreferenceActivity
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         (new BackupManager(this)).dataChanged();
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();

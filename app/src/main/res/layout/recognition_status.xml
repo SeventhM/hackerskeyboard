@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* 
 **
 ** Copyright 2009, The Android Open Source Project
@@ -16,82 +15,77 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
---> 
+-->
 
 
-<LinearLayout 
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:orientation="vertical"
-      android:layout_height="wrap_content"
-      android:layout_width="wrap_content"
-      android:background="@android:color/black"
-      android:paddingBottom="0dip"
-      android:paddingLeft="0dip"
-      android:paddingRight="0dip"
->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    android:paddingLeft="0dip"
+    android:paddingRight="0dip"
+    android:paddingBottom="0dip">
 
-    <LinearLayout 
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       android:id="@+id/main_image"
-       android:orientation="vertical"
-       android:background="@drawable/voice_ime_background"
-                 android:scaleType="fitXY"
-                 android:layout_width="match_parent"
-                 android:layout_height="180dip"
-                 android:paddingBottom="2dip"
-                 android:paddingTop="2dip"
-    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_image"
+        android:layout_width="match_parent"
+        android:layout_height="180dip"
+        android:background="@drawable/voice_ime_background"
+        android:orientation="vertical"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:scaleType="fitXY">
 
-    <TextView android:id="@+id/text"
-        android:text="@string/voice_initializing"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="15dip"
-        android:textSize="28sp"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-    />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dip"
+            android:text="@string/voice_initializing"
+            android:textColor="#ffffff"
+            android:textSize="28sp" />
 
-    <ImageView android:id="@+id/image"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="20dip"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/mic_slash"
-    />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dip"
+            android:src="@drawable/mic_slash" />
 
-    <ProgressBar android:id="@+id/progress"
-        android:layout_height="60dip"
-        android:layout_width="60dip"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:indeterminate="true"
-        android:indeterminateOnly="false"
-    />
-
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateOnly="false"
+            android:visibility="gone" />
 
 
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/button"
-        android:orientation="vertical"
-        android:background="@drawable/ok_cancel"
-        android:scaleType="fitXY"
+    <LinearLayout
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="42dip"
+        android:background="@drawable/ok_cancel"
+        android:orientation="vertical"
         android:paddingLeft="1dip"
         android:paddingRight="1dip"
-    >
+        android:scaleType="fitXY">
 
-    <TextView android:id="@+id/button_text"
-        android:text="@string/cancel"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="7dip"
-        android:textSize="19sp"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-    />
+        <TextView
+            android:id="@+id/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="7dip"
+            android:text="@string/cancel"
+            android:textColor="#ffffff"
+            android:textSize="19sp" />
     </LinearLayout>
 
 </LinearLayout>

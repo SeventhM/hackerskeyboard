@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* 
 **
 ** Copyright 2011, The Android Open Source Project
@@ -18,310 +17,303 @@
 */
 -->
 
-<Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:keyWidth="7.1428571485%p"
+<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
     app:horizontalGap="0px"
-    app:verticalGap="@dimen/key_bottom_gap"
-    app:layoutRows="5"
+    app:keyWidth="7.1428571485%p"
     app:layoutColumns="14"
->
-    <Row
-        app:rowEdgeFlags="top"
-    >
+    app:layoutRows="5"
+    app:verticalGap="@dimen/key_bottom_gap">
+    <Row app:rowEdgeFlags="top">
         <Key
             app:codes="@integer/key_f1"
-            app:keyWidth="10.7142855%p"
-            app:keyEdgeFlags="left" 
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyEdgeFlags="left"
+            app:keyWidth="10.7142855%p" />
         <Key
             app:codes="@integer/key_fkey_f1"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F1" />            
+            app:keyLabel="F1"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f2"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F2" />         
+            app:keyLabel="F2"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f3"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F3" />
+            app:keyLabel="F3"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f4"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F4" />
+            app:keyLabel="F4"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"            
-            app:keyLabel="7" />
+            app:keyLabel="7"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"            
-            app:keyLabel="8" />
+            app:keyLabel="8"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"            
-            app:keyLabel="9" />
+            app:keyLabel="9"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"            
-            app:keyLabel="/" />
+            app:keyLabel="/"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_home"
-            app:keyWidth="10.7142855%p"
-            app:isModifier="true"
-            app:isRepeatable="true"            
-            app:keyLabel="Home" />
-        <Key
-            app:codes="@integer/key_delete"
-            app:keyIcon="@drawable/sym_keyboard_delete"
-            app:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            app:keyWidth="14.2857142%p"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:keyEdgeFlags="right" />
+            app:keyLabel="Home"
+            app:keyWidth="10.7142855%p" />
+        <Key
+            app:codes="@integer/key_delete"
+            app:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:keyWidth="14.2857142%p" />
     </Row>
     <Row>
         <Key
             app:codes="@integer/key_tab"
-            app:keyIcon="@drawable/sym_keyboard_tab"
             app:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            app:keyWidth="10.7142855%p"
             app:isModifier="true"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_tab"
+            app:keyWidth="10.7142855%p" />
         <Key
             app:codes="@integer/key_fkey_f5"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F5" />
+            app:keyLabel="F5"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f6"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F6" />
+            app:keyLabel="F6"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f7"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F7" />
+            app:keyLabel="F7"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f8"
-            app:keyWidth="8.035714%p"            
             app:isModifier="true"
-            app:keyLabel="F8" />
+            app:keyLabel="F8"
+            app:keyWidth="8.035714%p" />
 
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="4" />
+            app:keyLabel="4"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="5" />
+            app:keyLabel="5"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="6" />
+            app:keyLabel="6"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="*" />
+            app:keyLabel="*"
+            app:keyWidth="8.035714%p" />
 
         <Key
             app:codes="@integer/key_end"
-            app:keyWidth="10.7142855%p"
-            app:isModifier="true"            
+            app:isModifier="true"
+            app:isRepeatable="true"
             app:keyLabel="End"
-            app:isRepeatable="true" />
+            app:keyWidth="10.7142855%p" />
 
         <Key
             app:codes="@integer/key_insert"
-            app:keyLabel="Ins"
-            app:isRepeatable="true"            
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyLabel="Ins" />
 
         <Key
             app:codes="@integer/key_forward_del"
-            app:keyLabel="Del"
-            app:isRepeatable="true"            
-            app:isModifier="true"            
-            app:keyEdgeFlags="right" />
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right"
+            app:keyLabel="Del" />
     </Row>
     <Row>
         <Key
-            app:keyLabel="Ctrl"
-            app:keyWidth="10.7142855%p"
             app:codes="@integer/key_ctrl_left"
+            app:isModifier="true"
             app:isSticky="true"
-            app:keyEdgeFlags="left" 
-            app:isModifier="true" />
+            app:keyEdgeFlags="left"
+            app:keyLabel="Ctrl"
+            app:keyWidth="10.7142855%p" />
         <Key
             app:codes="@integer/key_fkey_f9"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="F9" />
+            app:keyLabel="F9"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f10"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="F10" />
+            app:keyLabel="F10"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f11"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="F11" />
+            app:keyLabel="F11"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_fkey_f12"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="F12" />
+            app:keyLabel="F12"
+            app:keyWidth="8.035714%p" />
 
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="1" />
+            app:keyLabel="1"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="2" />
+            app:keyLabel="2"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="3" />
+            app:keyLabel="3"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="-" />
+            app:keyLabel="-"
+            app:keyWidth="8.035714%p" />
 
         <Key
             app:codes="@integer/key_page_up"
-            app:keyWidth="10.7142855%p"
             app:isModifier="true"
-            app:isRepeatable="true"            
-            app:keyLabel="PgUp" />
+            app:isRepeatable="true"
+            app:keyLabel="PgUp"
+            app:keyWidth="10.7142855%p" />
 
         <Key
             app:codes="@integer/key_return"
-            app:keyIcon="@drawable/sym_keyboard_return"
             app:iconPreview="@drawable/sym_keyboard_feedback_return"
-            app:keyWidth="14.2857142%p"
             app:isModifier="true"
-            app:keyEdgeFlags="right" />
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:keyWidth="14.2857142%p" />
     </Row>
     <Row>
         <Key
             app:codes="@integer/key_shift"
-            app:keyIcon="@drawable/sym_keyboard_shift"
             app:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            app:keyWidth="10.7142855%p"
             app:isModifier="true"
             app:isSticky="true"
-            app:keyEdgeFlags="left" />
+            app:keyEdgeFlags="left"
+            app:keyIcon="@drawable/sym_keyboard_shift"
+            app:keyWidth="10.7142855%p" />
 
         <Key
             app:codes="@integer/key_sysrq"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="SyRq" />
+            app:keyLabel="SyRq"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_scroll_lock"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="ScrL" />
+            app:keyLabel="ScrL"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_break"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="Brk" />
+            app:keyLabel="Brk"
+            app:keyWidth="8.035714%p" />
         <Key
             app:codes="@integer/key_num_lock"
-            app:keyWidth="8.035714%p"
             app:isModifier="true"
-            app:keyLabel="NumL" />
+            app:keyLabel="NumL"
+            app:keyWidth="8.035714%p" />
 
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="0" />
+            app:keyLabel="0"
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="," />
+            app:keyLabel=","
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="." />
+            app:keyLabel="."
+            app:keyWidth="8.035714%p" />
         <Key
-            app:keyWidth="8.035714%p"
-            app:keyLabel="+" />
+            app:keyLabel="+"
+            app:keyWidth="8.035714%p" />
 
         <Key
             app:codes="@integer/key_page_down"
-            app:keyWidth="10.7142857143%p"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:keyLabel="PgDn" />
+            app:keyLabel="PgDn"
+            app:keyWidth="10.7142857143%p" />
 
         <Key
             app:codes="@integer/key_dpad_up"
-            app:isRepeatable="true"            
-            app:keyLabel="&#x25b3;" 
             app:isCursor="true"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyLabel="&#x25b3;" />
         <Key
             app:codes="@integer/key_shift"
-            app:keyIcon="@drawable/sym_keyboard_shift"
-            app:keyEdgeFlags="right" 
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyEdgeFlags="right"
+            app:keyIcon="@drawable/sym_keyboard_shift" />
     </Row>
-    <Row
-        app:rowEdgeFlags="bottom"
-    >
+    <Row app:rowEdgeFlags="bottom">
         <Key
-            app:keyLabel="Esc"
             app:codes="@integer/key_escape"
-            app:keyWidth="10.7142855%p"
-            app:keyEdgeFlags="left" 
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyEdgeFlags="left"
+            app:keyLabel="Esc"
+            app:keyWidth="10.7142855%p" />
         <Key
             app:codes="@integer/key_settings"
-            app:keyIcon="@drawable/sym_keyboard_settings"
             app:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyIcon="@drawable/sym_keyboard_settings" />
         <Key
             app:codes="@integer/key_alt_left"
-            app:keyLabel="Alt"
+            app:isModifier="true"
             app:isSticky="true"
-            app:isModifier="true" />
+            app:keyLabel="Alt" />
         <Key
             app:codes="@integer/key_meta_left"
-            app:keyLabel="&#x2756;"
+            app:isModifier="true"
             app:isSticky="true"
-            app:isModifier="true" />
+            app:keyLabel="&#x2756;" />
         <Key
             app:codes="@integer/key_space"
-            app:shiftLabel="@string/key_space_shift"
-            app:keyIcon="@drawable/sym_keyboard_space"
             app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:isModifier="true"
+            app:keyIcon="@drawable/sym_keyboard_space"
             app:keyWidth="32.1428571372%p"
-            app:isModifier="true" />
+            app:shiftLabel="@string/key_space_shift" />
         <Key
             app:codes="@integer/key_fn"
-            app:keyLabel="Fn"
-            app:isModifier="true" />
+            app:isModifier="true"
+            app:keyLabel="Fn" />
         <Key
             app:codes="@integer/key_dpad_center"
-            app:isModifier="true"
             app:isCursor="true"
+            app:isModifier="true"
             app:keyLabel="&#x25cb;" />
         <Key
             app:codes="@integer/key_dpad_left"
-            app:isModifier="true"
-            app:isRepeatable="true"            
             app:isCursor="true"
+            app:isModifier="true"
+            app:isRepeatable="true"
             app:keyLabel="&#x25c1;" />
         <Key
             app:codes="@integer/key_dpad_down"
+            app:isCursor="true"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:isCursor="true"
             app:keyLabel="&#x25bd;" />
         <Key
             app:codes="@integer/key_dpad_right"
-            app:isModifier="true"            
-            app:keyLabel="&#x25b7;"
-            app:isRepeatable="true"            
             app:isCursor="true"
-            app:keyEdgeFlags="right" />
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right"
+            app:keyLabel="&#x25b7;" />
     </Row>
 </Keyboard>

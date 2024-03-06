@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,21 +17,16 @@
 */
 -->
 
-<Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:keyWidth="15%p"
+<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
     app:horizontalGap="0px"
-    app:verticalGap="0px"
     app:keyHeight="@dimen/popup_key_height"
->
-    <Row
-        app:rowEdgeFlags="top"
-    >
+    app:keyWidth="15%p"
+    app:verticalGap="0px">
+    <Row app:rowEdgeFlags="top">
         <Key
+            app:keyEdgeFlags="left"
             app:keyLabel=":-)"
-            app:keyOutputText=":-) "
-            app:keyEdgeFlags="left" />
+            app:keyOutputText=":-) " />
         <Key
             app:keyLabel=":-("
             app:keyOutputText=":-( " />
@@ -43,15 +37,15 @@
             app:keyLabel=":-P"
             app:keyOutputText=":-P " />
         <Key
+            app:keyEdgeFlags="right"
             app:keyLabel="=-O"
-            app:keyOutputText="=-O "
-            app:keyEdgeFlags="right" />
+            app:keyOutputText="=-O " />
     </Row>
     <Row>
         <Key
+            app:keyEdgeFlags="left"
             app:keyLabel=":-*"
-            app:keyOutputText=":-* "
-            app:keyEdgeFlags="left" />
+            app:keyOutputText=":-* " />
         <Key
             app:keyLabel=":O"
             app:keyOutputText=":O " />
@@ -62,17 +56,15 @@
             app:keyLabel=":-$"
             app:keyOutputText=":-$ " />
         <Key
+            app:keyEdgeFlags="right"
             app:keyLabel=":-!"
-            app:keyOutputText=":-! "
-            app:keyEdgeFlags="right" />
+            app:keyOutputText=":-! " />
     </Row>
-    <Row
-        app:rowEdgeFlags="bottom"
-    >
+    <Row app:rowEdgeFlags="bottom">
         <Key
+            app:keyEdgeFlags="left"
             app:keyLabel=":-["
-            app:keyOutputText=":-[ "
-            app:keyEdgeFlags="left" />
+            app:keyOutputText=":-[ " />
         <Key
             app:keyLabel="O:-)"
             app:keyOutputText="O:-) " />
@@ -83,8 +75,8 @@
             app:keyLabel=":'("
             app:keyOutputText=":'( " />
         <Key
+            app:keyEdgeFlags="right"
             app:keyLabel=":-D"
-            app:keyOutputText=":-D "
-            app:keyEdgeFlags="right" />
+            app:keyOutputText=":-D " />
     </Row>
 </Keyboard>

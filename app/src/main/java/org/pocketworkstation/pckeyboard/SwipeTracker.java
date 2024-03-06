@@ -65,7 +65,7 @@ class SwipeTracker {
         float accumY = 0;
         final int count = buffer.size();
         for (int pos = 1; pos < count; pos++) {
-            final int dur = (int)(buffer.getTime(pos) - oldestTime);
+            final int dur = (int) (buffer.getTime(pos) - oldestTime);
             if (dur == 0) continue;
             float dist = buffer.getX(pos) - oldestX;
             float vel = (dist / dur) * units;   // pixels/frame.

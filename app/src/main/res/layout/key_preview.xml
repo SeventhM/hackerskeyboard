@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /*
 **
 ** Copyright 2010, The Android Open Source Project
@@ -21,9 +20,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="80sp"
-    android:textSize="40sp"
-    android:textColor="@color/latinkeyboard_key_color_white"
-    android:minWidth="32dip"
-    android:gravity="center"
     android:background="@drawable/keyboard_key_feedback_background"
-    />
+    android:gravity="center"
+    android:minWidth="32dip"
+    android:textColor="@color/latinkeyboard_key_color_white"
+    android:textSize="40sp" />

@@ -25,23 +25,18 @@ import java.util.List;
 
 abstract class KeyDetector {
     protected Keyboard mKeyboard;
-
-    private Key[] mKeys;
-
     protected int mCorrectionX;
-
     protected int mCorrectionY;
-
     protected boolean mProximityCorrectOn;
-
     protected int mProximityThresholdSquare;
+    private Key[] mKeys;
 
     public Key[] setKeyboard(Keyboard keyboard, float correctionX, float correctionY) {
         Log.i("KeyDetector", "KeyDetector correctionX=" + correctionX + " correctionY=" + correctionY);
         if (keyboard == null)
             throw new NullPointerException();
-        mCorrectionX = (int)correctionX;
-        mCorrectionY = (int)correctionY;
+        mCorrectionX = (int) correctionX;
+        mCorrectionY = (int) correctionY;
         mKeyboard = keyboard;
         List<Key> keys = mKeyboard.getKeys();
         Key[] array = keys.toArray(new Key[keys.size()]);
@@ -64,12 +59,12 @@ abstract class KeyDetector {
         return mKeys;
     }
 
-    public void setProximityCorrectionEnabled(boolean enabled) {
-        mProximityCorrectOn = enabled;
-    }
-
     public boolean isProximityCorrectionEnabled() {
         return mProximityCorrectOn;
+    }
+
+    public void setProximityCorrectionEnabled(boolean enabled) {
+        mProximityCorrectOn = enabled;
     }
 
     public void setProximityThreshold(int threshold) {
@@ -81,9 +76,9 @@ abstract class KeyDetector {
      * method. The maximum size of the array should be computed by {@link #getMaxNearbyKeys}.
      *
      * @return Allocates and returns an array that can hold all key indices returned by
-     *         {@link #getKeyIndexAndNearbyCodes} method. All elements in the returned array are
-     *         initialized by {@link org.pocketworkstation.pckeyboard.LatinKeyboardBaseView#NOT_A_KEY}
-     *         value.
+     * {@link #getKeyIndexAndNearbyCodes} method. All elements in the returned array are
+     * initialized by {@link org.pocketworkstation.pckeyboard.LatinKeyboardBaseView#NOT_A_KEY}
+     * value.
      */
     public int[] newCodeArray() {
         int[] codes = new int[getMaxNearbyKeys()];
@@ -96,7 +91,7 @@ abstract class KeyDetector {
      * {@link #getKeyIndexAndNearbyCodes}.
      *
      * @return Returns maximum size of the array that can contain all nearby key indices returned
-     *         by {@link #getKeyIndexAndNearbyCodes}.
+     * by {@link #getKeyIndexAndNearbyCodes}.
      */
     abstract protected int getMaxNearbyKeys();
 
@@ -106,8 +101,8 @@ abstract class KeyDetector {
      * {@link #setProximityThreshold(int)} and the mode set by
      * {@link #setProximityCorrectionEnabled(boolean)}.
      *
-     * @param x The x-coordinate of a touch point
-     * @param y The y-coordinate of a touch point
+     * @param x       The x-coordinate of a touch point
+     * @param y       The y-coordinate of a touch point
      * @param allKeys All nearby key indices are returned in this array
      * @return The nearest key index
      */

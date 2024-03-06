@@ -19,7 +19,7 @@
 
 namespace latinime {
 
-unsigned short latin_tolower(unsigned short c);
+    unsigned short latin_tolower(unsigned short c);
 
 }; // namespace latinime
 

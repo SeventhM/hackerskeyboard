@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /**
  * Copyright (c) 2008, The Android Open Source Project
  *
@@ -21,6 +20,5 @@
 <!-- for the Input Method Manager. -->
 
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
-        android:settingsActivity="org.pocketworkstation.pckeyboard.LatinIMESettings"
-        android:isDefault="@bool/im_is_default"
-/>
+    android:isDefault="@bool/im_is_default"
+    android:settingsActivity="org.pocketworkstation.pckeyboard.LatinIMESettings" />

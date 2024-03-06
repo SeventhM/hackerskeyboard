@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2010 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2010 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,6 +14,7 @@
 -->
 
 <resources>
+
     <style name="LatinKeyboardBaseView">
         <item name="android:background">@drawable/keyboard_background</item>
 
@@ -36,11 +36,13 @@
         <item name="symbolColorScheme">white</item>
         <item name="recolorSymbols">false</item>
         <item name="backgroundAlpha">255</item>
-        </style>
+    </style>
+
     <style name="KeyPreviewAnimation">
         <item name="android:windowEnterAnimation">@anim/key_preview_fadein</item>
         <item name="android:windowExitAnimation">@anim/key_preview_fadeout</item>
     </style>
+
     <style name="MiniKeyboardAnimation">
         <item name="android:windowEnterAnimation">@anim/mini_keyboard_fadein</item>
         <item name="android:windowExitAnimation">@anim/mini_keyboard_fadeout</item>

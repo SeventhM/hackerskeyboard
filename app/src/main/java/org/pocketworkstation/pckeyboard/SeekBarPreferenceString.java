@@ -1,11 +1,11 @@
 package org.pocketworkstation.pckeyboard;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Variant of SeekBarPreference that stores values as string preferences.
@@ -28,7 +28,7 @@ public class SeekBarPreferenceString extends SeekBarPreference {
         if (!num.matches()) return 0.0f;
         return Float.parseFloat(num.group(1));
     }
-    
+
     @Override
     protected Float onGetDefaultValue(TypedArray a, int index) {
         return floatFromString(a.getString(index));
@@ -43,7 +43,7 @@ public class SeekBarPreferenceString extends SeekBarPreference {
         }
         savePrevVal();
     }
-    
+
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         if (!positiveResult) {

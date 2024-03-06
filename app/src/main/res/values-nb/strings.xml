@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,9 +17,7 @@
 */
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- <string name="english_ime_name" msgid="7252517407088836577">"Skjermtastatur"</string> -->
     <!-- <string name="english_ime_settings" msgid="6661589557206947774">"Innstillinger for skjermtastatur"</string> -->
     <string name="english_ime_input_options" msgid="3909945612939668554">"Inndataalternativer"</string>
@@ -58,11 +55,11 @@
     <!-- no translation found for settings_key_modes:2 (7317310620171067848) -->
     <string name="bigram_suggestion" msgid="1323347224043514969">"Bigram-forslag"</string>
     <string name="bigram_suggestion_summary" msgid="4383845146070101531">"Bruk forrige ord til å forbedre forslaget"</string>
-  <string-array name="prediction_modes">
-    <item msgid="4870266572388153286">"Ingen"</item>
-    <item msgid="1669461741568287396">"Grunnleggende"</item>
-    <item msgid="4894328801530136615">"Avansert"</item>
-  </string-array>
+    <string-array name="prediction_modes">
+        <item msgid="4870266572388153286">"Ingen"</item>
+        <item msgid="1669461741568287396">"Grunnleggende"</item>
+        <item msgid="4894328801530136615">"Avansert"</item>
+    </string-array>
     <string name="added_word" msgid="8993883354622484372">"<xliff:g id="WORD">%s</xliff:g>: Lagret"</string>
     <string name="tip_long_press" msgid="6101270866284343344">"Hold en tast nede for å se aksenterte tegn (ø, ö, osv.)"</string>
     <string name="tip_dismiss" msgid="7585579046862204381">"Trykk tilbakeknappen, ↶, for å lukke tastaturet"</string>
@@ -105,16 +102,16 @@
     <string name="cancel" msgid="6830980399865683324">"Avbryt"</string>
     <string name="ok" msgid="7898366843681727667">"OK"</string>
     <string name="voice_input" msgid="2466640768843347841">"Talekommando"</string>
-  <string-array name="voice_input_modes">
-    <item msgid="1349082139076086774">"På hovedtastatur"</item>
-    <item msgid="8529385602829095903">"På talltastatur"</item>
-    <item msgid="7283103513488381103">"Av"</item>
-  </string-array>
-  <string-array name="voice_input_modes_summary">
-    <item msgid="554248625705084903">"Mikrofon på hovedtastatur"</item>
-    <item msgid="6907837061058876770">"Mikrofon på talltastatur"</item>
-    <item msgid="3664304608587798036">"Talekommando er deaktivert"</item>
-  </string-array>
+    <string-array name="voice_input_modes">
+        <item msgid="1349082139076086774">"På hovedtastatur"</item>
+        <item msgid="8529385602829095903">"På talltastatur"</item>
+        <item msgid="7283103513488381103">"Av"</item>
+    </string-array>
+    <string-array name="voice_input_modes_summary">
+        <item msgid="554248625705084903">"Mikrofon på hovedtastatur"</item>
+        <item msgid="6907837061058876770">"Mikrofon på talltastatur"</item>
+        <item msgid="3664304608587798036">"Talekommando er deaktivert"</item>
+    </string-array>
     <string name="auto_submit" msgid="9151008027068358518">"Send inn automatisk etter tale"</string>
     <string name="auto_submit_summary" msgid="4961875269610384226">"Trykk Enter automatisk ved søk eller flytting til neste felt."</string>
     <string name="open_the_keyboard" msgid="2215920976029260466"><font size="17"><b>"Åpne tastaturet"\n</b></font><font size="3">\n</font>"Trykk på et tekstfelt."</string>
