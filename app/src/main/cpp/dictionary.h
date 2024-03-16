@@ -36,67 +36,42 @@ namespace latinime {
     class Dictionary {
     public:
         Dictionary(void *dict, int typedLetterMultipler, int fullWordMultiplier, int dictSize);
-
         int getSuggestions(int *codes, int codesSize, unsigned short *outWords, int *frequencies,
-                           int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
-                           int *nextLetters, int nextLettersSize);
-
+            int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
+            int *nextLetters, int nextLettersSize);
         int getBigrams(unsigned short *word, int length, int *codes, int codesSize,
-                       unsigned short *outWords, int *frequencies, int maxWordLength,
-                       int maxBigrams,
-                       int maxAlternatives);
-
+            unsigned short *outWords, int *frequencies, int maxWordLength, int maxBigrams,
+            int maxAlternatives);
         bool isValidWord(unsigned short *word, int length);
-
         void setAsset(void *asset) { mAsset = asset; }
-
         void *getAsset() { return mAsset; }
-
         ~Dictionary();
 
     private:
 
         void getVersionNumber();
-
         bool checkIfDictVersionIsLatest();
-
         int getAddress(int *pos);
-
         int getBigramAddress(int *pos, bool advance);
-
         int getFreq(int *pos);
-
         int getBigramFreq(int *pos);
-
         void searchForTerminalNode(int address, int frequency);
 
         bool getFirstBitOfByte(int *pos) { return (mDict[*pos] & 0x80) > 0; }
-
         bool getSecondBitOfByte(int *pos) { return (mDict[*pos] & 0x40) > 0; }
-
         bool getTerminal(int *pos) { return (mDict[*pos] & FLAG_TERMINAL_MASK) > 0; }
-
         int getCount(int *pos) { return mDict[(*pos)++] & 0xFF; }
-
         unsigned short getChar(int *pos);
-
         int wideStrLen(unsigned short *str);
 
         bool sameAsTyped(unsigned short *word, int length);
-
         bool checkFirstCharacter(unsigned short *word);
-
         bool addWord(unsigned short *word, int length, int frequency);
-
         bool addWordBigram(unsigned short *word, int length, int frequency);
-
         unsigned short toLowerCase(unsigned short c);
-
         void getWordsRec(int pos, int depth, int maxDepth, bool completion, int frequency,
-                         int inputIndex, int diffs);
-
+            int inputIndex, int diffs);
         int isValidWordRec(int pos, unsigned short *word, int offset, int length);
-
         void registerNextLetter(unsigned short c);
 
         unsigned char *mDict;

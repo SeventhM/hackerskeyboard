@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
 **
 ** Copyright 2010, The Android Open Source Project
@@ -18,17 +19,19 @@
 -->
 
 <Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:horizontalGap="0px"
-    app:keyHeight="@dimen/popup_key_height"
     app:keyWidth="10%p"
-    app:verticalGap="0px">
-    <Row app:rowEdgeFlags="top|bottom">
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
+    app:keyHeight="@dimen/popup_key_height">
+    <Row
+        app:rowEdgeFlags="top|bottom"
+        >
         <Key
             app:codes="@integer/key_settings"
-            app:keyEdgeFlags="left"
-            app:keyIcon="@drawable/sym_keyboard_settings" />
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:keyEdgeFlags="left" />
         <Key
-            app:keyEdgeFlags="right"
-            app:keyLabel="\@" />
+            app:keyLabel="\@"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

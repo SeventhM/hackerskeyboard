@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2008 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,11 +16,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:hk="http://schemas.android.com/apk/res-auto"
     android:key="prefs_view"
-    android:title="@string/pref_screen_view_title">
+    android:title="@string/pref_screen_view_title" >
 
     <PreferenceCategory
         android:key="graphics_settings"
-        android:title="@string/pref_screen_view_title">
+        android:title="@string/pref_screen_view_title" >
 
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_hint_mode"
@@ -31,34 +32,34 @@
 
         <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
+            hk:minValue="0.5"
+            hk:maxValue="2.0"
+            hk:logScale="true"
+            hk:asPercent="true"
             android:key="pref_label_scale_v2"
             android:persistent="true"
-            android:title="@string/title_label_scale"
-            hk:asPercent="true"
-            hk:logScale="true"
-            hk:maxValue="2.0"
-            hk:minValue="0.5" />
+            android:title="@string/title_label_scale" />
 
         <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
+            hk:minValue="0.5"
+            hk:maxValue="8.0"
+            hk:logScale="true"
+            hk:asPercent="true"
             android:key="pref_candidate_scale"
             android:persistent="true"
-            android:title="@string/title_candidate_scale"
-            hk:asPercent="true"
-            hk:logScale="true"
-            hk:maxValue="8.0"
-            hk:minValue="0.5" />
+            android:title="@string/title_candidate_scale" />
 
         <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
+            hk:minValue="0.5"
+            hk:maxValue="1.0"
+            hk:step="0.05"
+            hk:asPercent="true"
             android:key="pref_top_row_scale"
             android:persistent="true"
-            android:title="@string/title_top_row_scale"
-            hk:asPercent="true"
-            hk:maxValue="1.0"
-            hk:minValue="0.5"
-            hk:step="0.05" />
-
+            android:title="@string/title_top_row_scale" />
+        
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="0"
             android:entries="@array/keyboard_layout_modes"
@@ -66,7 +67,7 @@
             android:key="pref_keyboard_layout"
             android:persistent="true"
             android:title="@string/keyboard_layout" />
-
+        
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_render_mode"
             android:entries="@array/render_mode_entries"

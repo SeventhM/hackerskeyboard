@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
 /*
 **
 ** Copyright 2008, The Android Open Source Project
@@ -40,7 +41,7 @@
     <string name="auto_cap" msgid="1719746674854628252">"Maiusclas automaticas"</string>
     <string name="auto_cap_summary" msgid="3260681697600786825">"Scriver grond l\'entschatta da mintga frasa"</string>
     <string name="auto_punctuate" msgid="7276672334264521751">"Interpuncziun automatica"</string>
-    <string name="auto_punctuate_summary" msgid="6589441565817502132"></string>
+    <string name="auto_punctuate_summary" msgid="6589441565817502132" />
     <string name="quick_fixes" msgid="5353213327680897927">"Correcturas sveltas"</string>
     <string name="quick_fixes_summary" msgid="3405028402510332373">"Curregia sbagls da tippar currents"</string>
     <string name="show_suggestions" msgid="507074425254289133">"Mussar las propostas"</string>
@@ -93,7 +94,7 @@
     <string name="voice_hint_dialog_message" msgid="6892342981545727994">"\"Per utilisar ils cumonds vocals, smatgai il buttun dal microfon u stritgai cun il det sur la tastatura dal visur.\""</string>
     <string name="voice_listening" msgid="467518160751321844">"Ussa discurrer"</string>
     <string name="voice_working" msgid="6666937792815731889">"Operaziun en progress"</string>
-    <string name="voice_initializing" msgid="661962047129906646"></string>
+    <string name="voice_initializing" msgid="661962047129906646" />
     <string name="voice_error" msgid="5140896300312186162">"Errur. Empruvai anc ina giada."</string>
     <string name="voice_network_error" msgid="6649556447401862563">"Impussibel da connectar."</string>
     <string name="voice_too_much_speech" msgid="5746973620134227376">"Errur - discurrì memia ditg."</string>
@@ -132,8 +133,7 @@
     <skip />
     <string name="language_selection_title" msgid="1651299598555326750">"Linguas da cumonds vocals"</string>
     <string name="language_selection_summary" msgid="187110938289512256">"Stritgar cun il det sur la tasta da vid per midar la lingua"</string>
-    <!-- outdated translation 8058519710062071085 -->
-    <string name="hint_add_to_dictionary" msgid="9006292060636342317">"← Tippar danovamain per memorisar"</string>
+    <!-- outdated translation 8058519710062071085 -->     <string name="hint_add_to_dictionary" msgid="9006292060636342317">"← Tippar danovamain per memorisar"</string>
     <string name="has_dictionary" msgid="6071847973466625007">"Dicziunari disponibel"</string>
     <string name="prefs_enable_log" msgid="6620424505072963557">"Activar il feedback da l\'utilisader"</string>
     <string name="prefs_description_log" msgid="5827825607258246003">"Gidai a meglierar quest editur da la metoda d\'endataziun cun trametter automaticamain datas statisticas davart l\'utilisaziun e rapports da collaps a Google."</string>

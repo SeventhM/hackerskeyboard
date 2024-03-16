@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
 **
 ** Copyright 2011, Klaus Weidner
@@ -20,5 +21,5 @@
 <resources>
     <string name="default_height_portrait">25%</string>
     <string name="default_height_landscape">45%</string>
-    <string name="default_keyboard_mode_portrait">2</string>
+    <string name="default_keyboard_mode_portrait">2</string>    
 </resources>

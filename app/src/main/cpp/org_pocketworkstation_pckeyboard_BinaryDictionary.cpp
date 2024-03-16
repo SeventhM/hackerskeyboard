@@ -30,7 +30,8 @@ using namespace latinime;
 //
 // helper function to throw an exception
 //
-static void throwException(JNIEnv *env, const char *ex, const char *fmt, int data) {
+static void throwException(JNIEnv *env, const char* ex, const char* fmt, int data)
+{
     if (jclass cls = env->FindClass(ex)) {
         char msg[1000];
         sprintf(msg, fmt, data);
@@ -41,7 +42,8 @@ static void throwException(JNIEnv *env, const char *ex, const char *fmt, int dat
 
 static jlong latinime_BinaryDictionary_open
         (JNIEnv *env, jobject object, jobject dictDirectBuffer,
-         jint typedLetterMultiplier, jint fullWordMultiplier, jint size) {
+                jint typedLetterMultiplier, jint fullWordMultiplier, jint size)
+{
     void *dict = env->GetDirectBufferAddress(dictDirectBuffer);
     if (dict == NULL) {
         fprintf(stderr, "DICT: Dictionary buffer is null\n");
@@ -54,20 +56,20 @@ static jlong latinime_BinaryDictionary_open
 static int latinime_BinaryDictionary_getSuggestions(
         JNIEnv *env, jobject object, jlong dict, jintArray inputArray, jint arraySize,
         jcharArray outputArray, jintArray frequencyArray, jint maxWordLength, jint maxWords,
-        jint maxAlternatives, jint skipPos, jintArray nextLettersArray, jint nextLettersSize) {
-    Dictionary *dictionary = (Dictionary *) dict;
+        jint maxAlternatives, jint skipPos, jintArray nextLettersArray, jint nextLettersSize)
+{
+    Dictionary *dictionary = (Dictionary*) dict;
     if (dictionary == NULL) return 0;
 
     int *frequencies = env->GetIntArrayElements(frequencyArray, NULL);
     int *inputCodes = env->GetIntArrayElements(inputArray, NULL);
     jchar *outputChars = env->GetCharArrayElements(outputArray, NULL);
     int *nextLetters = nextLettersArray != NULL ? env->GetIntArrayElements(nextLettersArray, NULL)
-                                                : NULL;
+            : NULL;
 
-    int count = dictionary->getSuggestions(inputCodes, arraySize, (unsigned short *) outputChars,
-                                           frequencies, maxWordLength, maxWords, maxAlternatives,
-                                           skipPos, nextLetters,
-                                           nextLettersSize);
+    int count = dictionary->getSuggestions(inputCodes, arraySize, (unsigned short*) outputChars,
+            frequencies, maxWordLength, maxWords, maxAlternatives, skipPos, nextLetters,
+            nextLettersSize);
 
     env->ReleaseIntArrayElements(frequencyArray, frequencies, 0);
     env->ReleaseIntArrayElements(inputArray, inputCodes, JNI_ABORT);
@@ -81,9 +83,10 @@ static int latinime_BinaryDictionary_getSuggestions(
 
 static int latinime_BinaryDictionary_getBigrams
         (JNIEnv *env, jobject object, jlong dict, jcharArray prevWordArray, jint prevWordLength,
-         jintArray inputArray, jint inputArraySize, jcharArray outputArray,
-         jintArray frequencyArray, jint maxWordLength, jint maxBigrams, jint maxAlternatives) {
-    Dictionary *dictionary = (Dictionary *) dict;
+                jintArray inputArray, jint inputArraySize, jcharArray outputArray,
+                jintArray frequencyArray, jint maxWordLength, jint maxBigrams, jint maxAlternatives)
+{
+    Dictionary *dictionary = (Dictionary*) dict;
     if (dictionary == NULL) return 0;
 
     jchar *prevWord = env->GetCharArrayElements(prevWordArray, NULL);
@@ -91,10 +94,9 @@ static int latinime_BinaryDictionary_getBigrams
     jchar *outputChars = env->GetCharArrayElements(outputArray, NULL);
     int *frequencies = env->GetIntArrayElements(frequencyArray, NULL);
 
-    int count = dictionary->getBigrams((unsigned short *) prevWord, prevWordLength, inputCodes,
-                                       inputArraySize, (unsigned short *) outputChars, frequencies,
-                                       maxWordLength, maxBigrams,
-                                       maxAlternatives);
+    int count = dictionary->getBigrams((unsigned short*) prevWord, prevWordLength, inputCodes,
+            inputArraySize, (unsigned short*) outputChars, frequencies, maxWordLength, maxBigrams,
+            maxAlternatives);
 
     env->ReleaseCharArrayElements(prevWordArray, prevWord, JNI_ABORT);
     env->ReleaseIntArrayElements(inputArray, inputCodes, JNI_ABORT);
@@ -106,36 +108,39 @@ static int latinime_BinaryDictionary_getBigrams
 
 
 static jboolean latinime_BinaryDictionary_isValidWord
-        (JNIEnv *env, jobject object, jlong dict, jcharArray wordArray, jint wordLength) {
-    Dictionary *dictionary = (Dictionary *) dict;
+        (JNIEnv *env, jobject object, jlong dict, jcharArray wordArray, jint wordLength)
+{
+    Dictionary *dictionary = (Dictionary*) dict;
     if (dictionary == NULL) return (jboolean) false;
 
     jchar *word = env->GetCharArrayElements(wordArray, NULL);
-    jboolean result = dictionary->isValidWord((unsigned short *) word, wordLength);
+    jboolean result = dictionary->isValidWord((unsigned short*) word, wordLength);
     env->ReleaseCharArrayElements(wordArray, word, JNI_ABORT);
 
     return result;
 }
 
 static void latinime_BinaryDictionary_close
-        (JNIEnv *env, jobject object, jlong dict) {
-    Dictionary *dictionary = (Dictionary *) dict;
-    delete (Dictionary *) dict;
+        (JNIEnv *env, jobject object, jlong dict)
+{
+    Dictionary *dictionary = (Dictionary*) dict;
+    delete (Dictionary*) dict;
 }
 
 // ----------------------------------------------------------------------------
 
 static JNINativeMethod gMethods[] = {
         {"openNative",           "(Ljava/nio/ByteBuffer;III)J",
-                                                       (void *) latinime_BinaryDictionary_open},
-        {"closeNative",          "(J)V",               (void *) latinime_BinaryDictionary_close},
-        {"getSuggestionsNative", "(J[II[C[IIIII[II)I", (void *) latinime_BinaryDictionary_getSuggestions},
-        {"isValidWordNative",    "(J[CI)Z",            (void *) latinime_BinaryDictionary_isValidWord},
-        {"getBigramsNative",     "(J[CI[II[C[IIII)I",  (void *) latinime_BinaryDictionary_getBigrams}
+                (void*)latinime_BinaryDictionary_open},
+        {"closeNative",          "(J)V",            (void*)latinime_BinaryDictionary_close},
+        {"getSuggestionsNative", "(J[II[C[IIIII[II)I",  (void*)latinime_BinaryDictionary_getSuggestions},
+        {"isValidWordNative",    "(J[CI)Z",         (void*)latinime_BinaryDictionary_isValidWord},
+        {"getBigramsNative",    "(J[CI[II[C[IIII)I",         (void*)latinime_BinaryDictionary_getBigrams}
 };
 
-static int registerNativeMethods(JNIEnv *env, const char *className,
-                                 JNINativeMethod *gMethods, int numMethods) {
+static int registerNativeMethods(JNIEnv* env, const char* className,
+        JNINativeMethod* gMethods, int numMethods)
+{
     jclass clazz;
 
     clazz = env->FindClass(className);
@@ -152,20 +157,22 @@ static int registerNativeMethods(JNIEnv *env, const char *className,
     return JNI_TRUE;
 }
 
-static int registerNatives(JNIEnv *env) {
-    const char *const kClassPathName = "org/pocketworkstation/pckeyboard/BinaryDictionary";
+static int registerNatives(JNIEnv *env)
+{
+    const char* const kClassPathName = "org/pocketworkstation/pckeyboard/BinaryDictionary";
     return registerNativeMethods(env,
-                                 kClassPathName, gMethods, sizeof(gMethods) / sizeof(gMethods[0]));
+            kClassPathName, gMethods, sizeof(gMethods) / sizeof(gMethods[0]));
 }
 
 /*
  * Returns the JNI version on success, -1 on failure.
  */
-jint JNI_OnLoad(JavaVM *vm, void *reserved) {
-    JNIEnv *env = NULL;
+jint JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+    JNIEnv* env = NULL;
     jint result = -1;
 
-    if (vm->GetEnv((void **) &env, JNI_VERSION_1_4) != JNI_OK) {
+    if (vm->GetEnv((void**) &env, JNI_VERSION_1_4) != JNI_OK) {
         fprintf(stderr, "ERROR: GetEnv failed\n");
         goto bail;
     }
@@ -181,4 +188,42 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
     bail:
     return result;
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_org_pocketworkstation_pckeyboard_BinaryDictionary_getBigramsNative(JNIEnv *env, jobject thiz,
+        jlong dict, jcharArray prev_word, jint prev_word_length, jintArray input_codes, jint input_codes_length,
+        jcharArray output_chars, jintArray frequencies, jint max_word_length, jint max_bigrams, jint max_alternatives) {
+    return latinime_BinaryDictionary_getBigrams (env, thiz, dict, prev_word, prev_word_length,
+            input_codes,input_codes_length, output_chars, frequencies,
+            max_word_length,max_bigrams, max_alternatives);
+}
+extern "C"
+JNIEXPORT jboolean JNICALL
+Java_org_pocketworkstation_pckeyboard_BinaryDictionary_isValidWordNative(JNIEnv *env, jobject thiz,
+        jlong native_data, jcharArray word, jint word_length) {
+    return latinime_BinaryDictionary_isValidWord(env, thiz,native_data, word, word_length);
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_org_pocketworkstation_pckeyboard_BinaryDictionary_getSuggestionsNative(JNIEnv *env,
+        jobject thiz, jlong dict, jintArray input_codes, jint codes_size, jcharArray output_chars,
+        jintArray frequencies, jint max_word_length, jint max_words, jint max_alternatives,
+        jint skip_pos, jintArray next_letters_frequencies, jint next_letters_size) {
+    return latinime_BinaryDictionary_getSuggestions(env, thiz, dict, input_codes, codes_size, output_chars,
+            frequencies, max_word_length, max_words, max_alternatives, skip_pos, next_letters_frequencies,
+            next_letters_size);
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_org_pocketworkstation_pckeyboard_BinaryDictionary_closeNative(JNIEnv *env, jobject thiz,
+        jlong dict) {
+    return latinime_BinaryDictionary_close(env, thiz, dict);
+}
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_org_pocketworkstation_pckeyboard_BinaryDictionary_openNative(JNIEnv *env, jobject thiz,
+        jobject bb, jint typed_letter_multiplier, jint full_word_multiplier, jint dict_size) {
+    return latinime_BinaryDictionary_open(env, thiz, bb, typed_letter_multiplier, full_word_multiplier, dict_size);
 }

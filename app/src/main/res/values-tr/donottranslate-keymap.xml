@@ -83,7 +83,7 @@
 
     <string name="key_ad02_main">w</string>
     <string name="key_ad02_shift">W</string>
-    <string name="key_ad02_alt"></string>
+    <string name="key_ad02_alt" />
 
     <string name="key_ad03_main">e</string>
     <string name="key_ad03_shift">E</string>
@@ -115,7 +115,7 @@
 
     <string name="key_ad10_main">p</string>
     <string name="key_ad10_shift">P</string>
-    <string name="key_ad10_alt"></string>
+    <string name="key_ad10_alt" />
 
     <string name="key_ad11_main">ğ</string>
     <string name="key_ad11_shift">Ğ</string>
@@ -140,31 +140,31 @@
 
     <string name="key_ac03_main">d</string>
     <string name="key_ac03_shift">D</string>
-    <string name="key_ac03_alt"></string>
+    <string name="key_ac03_alt" />
 
     <string name="key_ac04_main">f</string>
     <string name="key_ac04_shift">F</string>
-    <string name="key_ac04_alt"></string>
+    <string name="key_ac04_alt" />
 
     <string name="key_ac05_main">g</string>
     <string name="key_ac05_shift">G</string>
-    <string name="key_ac05_alt"></string>
+    <string name="key_ac05_alt" />
 
     <string name="key_ac06_main">h</string>
     <string name="key_ac06_shift">H</string>
-    <string name="key_ac06_alt"></string>
+    <string name="key_ac06_alt" />
 
     <string name="key_ac07_main">j</string>
     <string name="key_ac07_shift">J</string>
-    <string name="key_ac07_alt"></string>
+    <string name="key_ac07_alt" />
 
     <string name="key_ac08_main">k</string>
     <string name="key_ac08_shift">K</string>
-    <string name="key_ac08_alt"></string>
+    <string name="key_ac08_alt" />
 
     <string name="key_ac09_main">l</string>
     <string name="key_ac09_shift">L</string>
-    <string name="key_ac09_alt"></string>
+    <string name="key_ac09_alt" />
 
     <string name="key_ac10_main">ş</string>
     <string name="key_ac10_shift">Ş</string>
@@ -201,7 +201,7 @@
 
     <string name="key_ab06_main">n</string>
     <string name="key_ab06_shift">N</string>
-    <string name="key_ab06_alt"></string>
+    <string name="key_ab06_alt" />
 
     <string name="key_ab07_main">m</string>
     <string name="key_ab07_shift">M</string>

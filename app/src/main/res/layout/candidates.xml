@@ -18,11 +18,13 @@
 */
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="@dimen/candidate_strip_height"
     android:background="@drawable/keyboard_suggest_strip"
-    android:orientation="horizontal">
+    >
 
     <org.pocketworkstation.pckeyboard.CandidateView
         android:id="@+id/candidates"
@@ -30,6 +32,7 @@
         android:layout_height="@dimen/candidate_strip_height"
         android:layout_weight="1"
         android:fadingEdge="horizontal"
-        android:fadingEdgeLength="@dimen/candidate_strip_fading_edge_length" />
+        android:fadingEdgeLength="@dimen/candidate_strip_fading_edge_length"
+        />
 
 </LinearLayout>

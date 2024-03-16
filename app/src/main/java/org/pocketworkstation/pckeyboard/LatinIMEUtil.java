@@ -27,8 +27,8 @@ public class LatinIMEUtil {
      * Cancel an {@link AsyncTask}.
      *
      * @param mayInterruptIfRunning <tt>true</tt> if the thread executing this
-     *                              task should be interrupted; otherwise, in-progress tasks are allowed
-     *                              to complete.
+     *        task should be interrupted; otherwise, in-progress tasks are allowed
+     *        to complete.
      */
     public static void cancelTask(AsyncTask<?, ?, ?> task, boolean mayInterruptIfRunning) {
         if (task != null && task.getStatus() != AsyncTask.Status.FINISHED) {
@@ -37,13 +37,13 @@ public class LatinIMEUtil {
     }
 
     public static class GCUtils {
+        private static final String TAG = "GCUtils";
         public static final int GC_TRY_COUNT = 2;
         // GC_TRY_LOOP_MAX is used for the hard limit of GC wait,
         // GC_TRY_LOOP_MAX should be greater than GC_TRY_COUNT.
         public static final int GC_TRY_LOOP_MAX = 5;
-        private static final String TAG = "GCUtils";
         private static final long GC_INTERVAL = DateUtils.SECOND_IN_MILLIS;
-        private static GCUtils sInstance = new GCUtils();
+        private static final GCUtils sInstance = new GCUtils();
         private int mGCTryCount = 0;
 
         public static GCUtils getInstance() {
@@ -73,37 +73,32 @@ public class LatinIMEUtil {
     }
 
     /* package */ static class RingCharBuffer {
-        /* package */ static final int BUFSIZE = 20;
+        private static final RingCharBuffer sRingCharBuffer = new RingCharBuffer();
         private static final char PLACEHOLDER_DELIMITER_CHAR = '\uFFFC';
         private static final int INVALID_COORDINATE = -2;
-        // TODO make nonstatic
-        private static RingCharBuffer sRingCharBuffer = new RingCharBuffer();
-        /* package */ int mLength = 0;
+        /* package */ static final int BUFSIZE = 20;
         private Context mContext;
         private boolean mEnabled = false;
         private int mEnd = 0;
-        private char[] mCharBuf = new char[BUFSIZE];
-        private int[] mXBuf = new int[BUFSIZE];
-        private int[] mYBuf = new int[BUFSIZE];
+        /* package */ int mLength = 0;
+        private final char[] mCharBuf = new char[BUFSIZE];
+        private final int[] mXBuf = new int[BUFSIZE];
+        private final int[] mYBuf = new int[BUFSIZE];
 
         private RingCharBuffer() {
         }
-
         public static RingCharBuffer getInstance() {
             return sRingCharBuffer;
         }
-
         public static RingCharBuffer init(Context context, boolean enabled) {
             sRingCharBuffer.mContext = context;
             sRingCharBuffer.mEnabled = enabled;
             return sRingCharBuffer;
         }
-
         private int normalize(int in) {
             int ret = in % BUFSIZE;
             return ret < 0 ? ret + BUFSIZE : ret;
         }
-
         public void push(char c, int x, int y) {
             if (!mEnabled) return;
             mCharBuf[mEnd] = c;
@@ -114,7 +109,6 @@ public class LatinIMEUtil {
                 ++mLength;
             }
         }
-
         public char pop() {
             if (mLength < 1) {
                 return PLACEHOLDER_DELIMITER_CHAR;
@@ -124,7 +118,6 @@ public class LatinIMEUtil {
                 return mCharBuf[mEnd];
             }
         }
-
         public char getLastChar() {
             if (mLength < 1) {
                 return PLACEHOLDER_DELIMITER_CHAR;
@@ -132,32 +125,29 @@ public class LatinIMEUtil {
                 return mCharBuf[normalize(mEnd - 1)];
             }
         }
-
         public int getPreviousX(char c, int back) {
             int index = normalize(mEnd - 2 - back);
             if (mLength <= back
-                    || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
+                        || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
                 return INVALID_COORDINATE;
             } else {
                 return mXBuf[index];
             }
         }
-
         public int getPreviousY(char c, int back) {
             int index = normalize(mEnd - 2 - back);
             if (mLength <= back
-                    || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
+                        || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
                 return INVALID_COORDINATE;
             } else {
                 return mYBuf[index];
             }
         }
-
         public String getLastString() {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < mLength; ++i) {
                 char c = mCharBuf[normalize(mEnd - 1 - i)];
-                if (!((LatinIME) mContext).isWordSeparator(c)) {
+                if (!((LatinIME)mContext).isWordSeparator(c)) {
                     sb.append(c);
                 } else {
                     break;
@@ -165,7 +155,6 @@ public class LatinIMEUtil {
             }
             return sb.reverse().toString();
         }
-
         public void reset() {
             mLength = 0;
         }

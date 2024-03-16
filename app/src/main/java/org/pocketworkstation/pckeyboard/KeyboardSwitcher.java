@@ -19,9 +19,10 @@ package org.pocketworkstation.pckeyboard;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InflateException;
+
+import androidx.preference.PreferenceManager;
 
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
@@ -30,6 +31,8 @@ import java.util.Locale;
 
 public class KeyboardSwitcher implements
         SharedPreferences.OnSharedPreferenceChangeListener {
+    private static final String TAG = "PCKeyboardKbSw";
+
     public static final int MODE_NONE = 0;
     public static final int MODE_TEXT = 1;
     public static final int MODE_SYMBOLS = 2;
@@ -38,6 +41,7 @@ public class KeyboardSwitcher implements
     public static final int MODE_EMAIL = 5;
     public static final int MODE_IM = 6;
     public static final int MODE_WEB = 7;
+
     // Main keyboard layouts without the settings key
     public static final int KEYBOARDMODE_NORMAL = R.id.mode_normal;
     public static final int KEYBOARDMODE_URL = R.id.mode_url;
@@ -50,13 +54,15 @@ public class KeyboardSwitcher implements
     public static final int KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY = R.id.mode_email_with_settings_key;
     public static final int KEYBOARDMODE_IM_WITH_SETTINGS_KEY = R.id.mode_im_with_settings_key;
     public static final int KEYBOARDMODE_WEB_WITH_SETTINGS_KEY = R.id.mode_webentry_with_settings_key;
+
     // Symbols keyboard layout without the settings key
     public static final int KEYBOARDMODE_SYMBOLS = R.id.mode_symbols;
     // Symbols keyboard layout with the settings key
     public static final int KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY = R.id.mode_symbols_with_settings_key;
+
     public static final String DEFAULT_LAYOUT_ID = "0";
     public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout";
-    private static final int[] THEMES = new int[]{
+    private static final int[] THEMES = new int[] {
             R.layout.input_ics,
             R.layout.input_gingerbread,
             R.layout.input_stone_bold,
@@ -66,6 +72,7 @@ public class KeyboardSwitcher implements
             R.layout.input_ics_darker,
             R.layout.input_material_black,
     };
+
     // Tables which contains resource ids for each character theme color
     private static final int KBD_PHONE = R.xml.kbd_phone;
     private static final int KBD_PHONE_SYMBOLS = R.xml.kbd_phone_symbols;
@@ -76,39 +83,26 @@ public class KeyboardSwitcher implements
     private static final int KBD_FULL_FN = R.xml.kbd_full_fn;
     private static final int KBD_COMPACT = R.xml.kbd_compact;
     private static final int KBD_COMPACT_FN = R.xml.kbd_compact_fn;
-    private static final int[] ALPHABET_MODES = {KEYBOARDMODE_NORMAL,
+
+    private LatinKeyboardView mInputView;
+    private static final int[] ALPHABET_MODES = { KEYBOARDMODE_NORMAL,
             KEYBOARDMODE_URL, KEYBOARDMODE_EMAIL, KEYBOARDMODE_IM,
             KEYBOARDMODE_WEB, KEYBOARDMODE_NORMAL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_URL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_IM_WITH_SETTINGS_KEY,
-            KEYBOARDMODE_WEB_WITH_SETTINGS_KEY};
-    private static final int AUTO_MODE_SWITCH_STATE_ALPHA = 0;
-    private static final int AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN = 1;
-    private static final int AUTO_MODE_SWITCH_STATE_SYMBOL = 2;
-    // The following states are used only on the distinct multi-touch panel
-    // devices.
-    private static final int AUTO_MODE_SWITCH_STATE_MOMENTARY = 3;
-    private static final int AUTO_MODE_SWITCH_STATE_CHORDING = 4;
-    private static final int SETTINGS_KEY_MODE_AUTO = R.string.settings_key_mode_auto;
-    private static final int SETTINGS_KEY_MODE_ALWAYS_SHOW = R.string.settings_key_mode_always_show;
-    // NOTE: No need to have SETTINGS_KEY_MODE_ALWAYS_HIDE here because it's not
-    // being referred to
-    // in the source code now.
-    // Default is SETTINGS_KEY_MODE_AUTO.
-    private static final int DEFAULT_SETTINGS_KEY_MODE = SETTINGS_KEY_MODE_AUTO;
-    private static final KeyboardSwitcher sInstance = new KeyboardSwitcher();
-    private static String TAG = "PCKeyboardKbSw";
-    private final HashMap<KeyboardId, SoftReference<LatinKeyboard>> mKeyboards = new HashMap<>();
-    private LatinKeyboardView mInputView;
+            KEYBOARDMODE_WEB_WITH_SETTINGS_KEY };
+
     private LatinIME mInputMethodService;
+
     private KeyboardId mSymbolsId;
     private KeyboardId mSymbolsShiftedId;
+
     private KeyboardId mCurrentId;
+    private final HashMap<KeyboardId, SoftReference<LatinKeyboard>> mKeyboards = new HashMap<>();
+
     private int mMode = MODE_NONE;
-    /**
-     * One of the MODE_XXX values
-     */
+    /** One of the MODE_XXX values */
     private int mImeOptions;
     private boolean mIsSymbols;
     private int mFullMode;
@@ -120,26 +114,46 @@ public class KeyboardSwitcher implements
     private boolean mHasVoice;
     private boolean mVoiceOnPrimary;
     private boolean mPreferSymbols;
+
+    private static final int AUTO_MODE_SWITCH_STATE_ALPHA = 0;
+    private static final int AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN = 1;
+    private static final int AUTO_MODE_SWITCH_STATE_SYMBOL = 2;
+    // The following states are used only on the distinct multi-touch panel
+    // devices.
+    private static final int AUTO_MODE_SWITCH_STATE_MOMENTARY = 3;
+    private static final int AUTO_MODE_SWITCH_STATE_CHORDING = 4;
     private int mAutoModeSwitchState = AUTO_MODE_SWITCH_STATE_ALPHA;
+
     // Indicates whether or not we have the settings key
     private boolean mHasSettingsKey;
+    private static final int SETTINGS_KEY_MODE_AUTO = R.string.settings_key_mode_auto;
+    private static final int SETTINGS_KEY_MODE_ALWAYS_SHOW = R.string.settings_key_mode_always_show;
+    // NOTE: No need to have SETTINGS_KEY_MODE_ALWAYS_HIDE here because it's not
+    // being referred to
+    // in the source code now.
+    // Default is SETTINGS_KEY_MODE_AUTO.
+    private static final int DEFAULT_SETTINGS_KEY_MODE = SETTINGS_KEY_MODE_AUTO;
+
     private int mLastDisplayWidth;
     private LanguageSwitcher mLanguageSwitcher;
+
     private int mLayoutId;
 
-    private KeyboardSwitcher() {
-        // Intentional empty constructor for singleton.
-    }
+    private static final KeyboardSwitcher sInstance = new KeyboardSwitcher();
 
     public static KeyboardSwitcher getInstance() {
         return sInstance;
+    }
+
+    private KeyboardSwitcher() {
+        // Intentional empty constructor for singleton.
     }
 
     public static void init(LatinIME ims) {
         sInstance.mInputMethodService = ims;
 
         final SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(ims);
+                                                .getDefaultSharedPreferences(ims);
         sInstance.mLayoutId = Integer.parseInt(prefs.getString(
                 PREF_KEYBOARD_LAYOUT, DEFAULT_LAYOUT_ID));
 
@@ -154,8 +168,9 @@ public class KeyboardSwitcher implements
      * Sets the input locale, when there are multiple locales for input. If no
      * locale switching is required, then the locale should be set to null.
      *
-     * @param locale the current input locale, or null for default locale with no
-     *               locale button.
+     * @param locale
+     *            the current input locale, or null for default locale with no
+     *            locale button.
      */
     public void setLanguageSwitcher(LanguageSwitcher languageSwitcher) {
         mLanguageSwitcher = languageSwitcher;
@@ -201,6 +216,55 @@ public class KeyboardSwitcher implements
             mKeyboards.clear();
     }
 
+    /**
+     * Represents the parameters necessary to construct a new LatinKeyboard,
+     * which also serve as a unique identifier for each keyboard type.
+     */
+    private static class KeyboardId {
+        // TODO: should have locale and portrait/landscape orientation?
+        public final int mXml;
+        public final int mKeyboardMode;
+        /** A KEYBOARDMODE_XXX value */
+        public final boolean mEnableShiftLock;
+        public final boolean mHasVoice;
+        public final float mKeyboardHeightPercent;
+        public final boolean mUsingExtension;
+
+        private final int mHashCode;
+
+        public KeyboardId(int xml, int mode, boolean enableShiftLock,
+                boolean hasVoice) {
+            this.mXml = xml;
+            this.mKeyboardMode = mode;
+            this.mEnableShiftLock = enableShiftLock;
+            this.mHasVoice = hasVoice;
+            this.mKeyboardHeightPercent = LatinIME.sKeyboardSettings.keyboardHeightPercent;
+            this.mUsingExtension = LatinIME.sKeyboardSettings.useExtension;
+
+            this.mHashCode = Arrays.hashCode(new Object[] { xml, mode,
+                    enableShiftLock, hasVoice });
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof KeyboardId && equals((KeyboardId) other);
+        }
+
+        private boolean equals(KeyboardId other) {
+            return other != null
+                           && other.mXml == this.mXml
+                           && other.mKeyboardMode == this.mKeyboardMode
+                           && other.mUsingExtension == this.mUsingExtension
+                           && other.mEnableShiftLock == this.mEnableShiftLock
+                           && other.mHasVoice == this.mHasVoice;
+        }
+
+        @Override
+        public int hashCode() {
+            return mHashCode;
+        }
+    }
+
     public void setVoiceMode(boolean enableVoice, boolean voiceOnPrimary) {
         if (enableVoice != mHasVoice || voiceOnPrimary != mVoiceOnPrimary) {
             mKeyboards.clear();
@@ -224,12 +288,12 @@ public class KeyboardSwitcher implements
             setKeyboardMode(mode, imeOptions, enableVoice, mPreferSymbols);
         } catch (RuntimeException e) {
             Log.e(TAG, "Got exception: " + mode + "," + imeOptions + ","
-                    + mPreferSymbols + " msg=" + e.getMessage());
+                               + mPreferSymbols + " msg=" + e.getMessage());
         }
     }
 
     private void setKeyboardMode(int mode, int imeOptions, boolean enableVoice,
-                                 boolean isSymbols) {
+            boolean isSymbols) {
         if (mInputView == null)
             return;
         mMode = mode;
@@ -243,7 +307,7 @@ public class KeyboardSwitcher implements
         mInputView.setPreviewEnabled(mInputMethodService.getPopupOn());
 
         KeyboardId id = getKeyboardId(mode, imeOptions, isSymbols);
-        LatinKeyboard keyboard = null;
+        LatinKeyboard keyboard;
         keyboard = getKeyboard(id);
 
         if (mode == MODE_PHONE) {
@@ -418,7 +482,7 @@ public class KeyboardSwitcher implements
             return;
         }
         if (mCurrentId.equals(mSymbolsId)
-                || !mCurrentId.equals(mSymbolsShiftedId)) {
+                    || !mCurrentId.equals(mSymbolsShiftedId)) {
             LatinKeyboard symbolsShiftedKeyboard = getKeyboard(mSymbolsShiftedId);
             mCurrentId = mSymbolsShiftedId;
             mInputView.setKeyboard(symbolsShiftedKeyboard);
@@ -427,7 +491,7 @@ public class KeyboardSwitcher implements
             symbolsShiftedKeyboard.enableShiftLock();
             symbolsShiftedKeyboard.setShiftState(Keyboard.SHIFT_LOCKED);
             symbolsShiftedKeyboard.setImeOptions(mInputMethodService
-                    .getResources(), mMode, mImeOptions);
+                                                         .getResources(), mMode, mImeOptions);
         } else {
             LatinKeyboard symbolsKeyboard = getKeyboard(mSymbolsId);
             mCurrentId = mSymbolsId;
@@ -443,7 +507,7 @@ public class KeyboardSwitcher implements
         // Snap back to the previous keyboard mode if the user cancels sliding
         // input.
         if (mAutoModeSwitchState == AUTO_MODE_SWITCH_STATE_MOMENTARY
-                && getPointerCount() == 1)
+                    && getPointerCount() == 1)
             mInputMethodService.changeKeyboardMode();
     }
 
@@ -525,7 +589,7 @@ public class KeyboardSwitcher implements
                 break;
             case AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN:
                 if (key != LatinIME.ASCII_SPACE && key != LatinIME.ASCII_ENTER
-                        && key >= 0) {
+                            && key >= 0) {
                     mAutoModeSwitchState = AUTO_MODE_SWITCH_STATE_SYMBOL;
                 }
                 break;
@@ -562,7 +626,7 @@ public class KeyboardSwitcher implements
             for (int i = 0; i < LatinIMEUtil.GCUtils.GC_TRY_LOOP_MAX && tryGC; ++i) {
                 try {
                     mInputView = (LatinKeyboardView) mInputMethodService
-                            .getLayoutInflater().inflate(THEMES[newLayout],
+                                                             .getLayoutInflater().inflate(THEMES[newLayout],
                                     null);
                     tryGC = false;
                 } catch (OutOfMemoryError e) {
@@ -587,10 +651,10 @@ public class KeyboardSwitcher implements
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                          String key) {
+            String key) {
         if (PREF_KEYBOARD_LAYOUT.equals(key)) {
             changeLatinKeyboardView(Integer.parseInt(sharedPreferences
-                    .getString(key, DEFAULT_LAYOUT_ID)), true);
+                                                             .getString(key, DEFAULT_LAYOUT_ID)), true);
         } else if (LatinIMESettings.PREF_SETTINGS_KEY.equals(key)) {
             updateSettingsKeyState(sharedPreferences);
             recreateInputView();
@@ -602,8 +666,8 @@ public class KeyboardSwitcher implements
             LatinKeyboardView keyboardView = getInputView();
             mIsAutoCompletionActive = isAutoCompletion;
             keyboardView.invalidateKey(((LatinKeyboard) keyboardView
-                    .getKeyboard())
-                    .onAutoCompletionStateChanged(isAutoCompletion));
+                                                                .getKeyboard())
+                                               .onAutoCompletionStateChanged(isAutoCompletion));
         }
     }
 
@@ -611,64 +675,13 @@ public class KeyboardSwitcher implements
         Resources resources = mInputMethodService.getResources();
         final String settingsKeyMode = prefs.getString(
                 LatinIMESettings.PREF_SETTINGS_KEY, resources
-                        .getString(DEFAULT_SETTINGS_KEY_MODE));
+                                                            .getString(DEFAULT_SETTINGS_KEY_MODE));
         // We show the settings key when 1) SETTINGS_KEY_MODE_ALWAYS_SHOW or
         // 2) SETTINGS_KEY_MODE_AUTO and there are two or more enabled IMEs on
         // the system
         mHasSettingsKey = settingsKeyMode.equals(resources
-                .getString(SETTINGS_KEY_MODE_ALWAYS_SHOW))
-                || (settingsKeyMode.equals(resources
-                .getString(SETTINGS_KEY_MODE_AUTO)));
-    }
-
-    /**
-     * Represents the parameters necessary to construct a new LatinKeyboard,
-     * which also serve as a unique identifier for each keyboard type.
-     */
-    private static class KeyboardId {
-        // TODO: should have locale and portrait/landscape orientation?
-        public final int mXml;
-        public final int mKeyboardMode;
-        /**
-         * A KEYBOARDMODE_XXX value
-         */
-        public final boolean mEnableShiftLock;
-        public final boolean mHasVoice;
-        public final float mKeyboardHeightPercent;
-        public final boolean mUsingExtension;
-
-        private final int mHashCode;
-
-        public KeyboardId(int xml, int mode, boolean enableShiftLock,
-                          boolean hasVoice) {
-            this.mXml = xml;
-            this.mKeyboardMode = mode;
-            this.mEnableShiftLock = enableShiftLock;
-            this.mHasVoice = hasVoice;
-            this.mKeyboardHeightPercent = LatinIME.sKeyboardSettings.keyboardHeightPercent;
-            this.mUsingExtension = LatinIME.sKeyboardSettings.useExtension;
-
-            this.mHashCode = Arrays.hashCode(new Object[]{xml, mode,
-                    enableShiftLock, hasVoice});
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            return other instanceof KeyboardId && equals((KeyboardId) other);
-        }
-
-        private boolean equals(KeyboardId other) {
-            return other != null
-                    && other.mXml == this.mXml
-                    && other.mKeyboardMode == this.mKeyboardMode
-                    && other.mUsingExtension == this.mUsingExtension
-                    && other.mEnableShiftLock == this.mEnableShiftLock
-                    && other.mHasVoice == this.mHasVoice;
-        }
-
-        @Override
-        public int hashCode() {
-            return mHashCode;
-        }
+                                                         .getString(SETTINGS_KEY_MODE_ALWAYS_SHOW))
+                                  || (settingsKeyMode.equals(resources
+                                                                     .getString(SETTINGS_KEY_MODE_AUTO)));
     }
 }

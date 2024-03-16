@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2008 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,51 +15,57 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:hk="http://schemas.android.com/apk/res-auto"
-    android:key="feedback_settings"
-    android:title="@string/pref_screen_feedback_title">
+    	xmlns:hk="http://schemas.android.com/apk/res-auto"
+        android:title="@string/pref_screen_feedback_title"
+        android:key="feedback_settings">
 
     <CheckBoxPreference
-        android:key="vibrate_on"
-        android:persistent="true"
-        android:title="@string/vibrate_on_keypress" />
+            android:key="vibrate_on"
+            android:title="@string/vibrate_on_keypress"
+            android:persistent="true"
+            />
 
-    <org.pocketworkstation.pckeyboard.VibratePreference
-        android:defaultValue="40"
-        android:key="vibrate_len"
-        android:persistent="true"
-        android:title="@string/title_vibrate_len"
-        hk:displayFormat="%.0f ms"
-        hk:logScale="true"
-        hk:maxValue="200"
-        hk:minValue="5" />
+    <org.pocketworkstation.pckeyboard.VibratePreference		
+            android:defaultValue="40"
+            hk:minValue="5"
+            hk:maxValue="200"
+            hk:logScale="true"
+            hk:displayFormat="%.0f ms"
+            android:key="vibrate_len"
+            android:title="@string/title_vibrate_len"
+            android:persistent="true"
+            />
 
     <CheckBoxPreference
-        android:key="sound_on"
-        android:persistent="true"
-        android:title="@string/sound_on_keypress" />
+            android:key="sound_on"
+            android:title="@string/sound_on_keypress"
+            android:persistent="true" 
+            />
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-        android:defaultValue="@string/default_click_method"
-        android:entries="@array/click_method_entries"
-        android:entryValues="@array/click_method_values"
-        android:key="pref_click_method"
-        android:persistent="true"
-        android:title="@string/title_click_method" />
-
+            android:key="pref_click_method"
+            android:title="@string/title_click_method"
+            android:entryValues="@array/click_method_values"
+            android:entries="@array/click_method_entries"
+            android:defaultValue="@string/default_click_method"
+            android:persistent="true"
+            />
+    
     <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
-        android:defaultValue="@string/default_click_volume"
-        android:key="pref_click_volume"
-        android:persistent="true"
-        android:title="@string/title_click_volume"
-        hk:asPercent="true"
-        hk:maxValue="1"
-        hk:minValue="0" />
+            android:defaultValue="@string/default_click_volume"
+            hk:minValue="0"
+            hk:maxValue="1"
+            hk:asPercent="true"
+            android:key="pref_click_volume"
+            android:title="@string/title_click_volume"
+            android:persistent="true"
+            />
 
     <CheckBoxPreference
-        android:defaultValue="@bool/default_popup_preview"
-        android:key="popup_on"
-        android:persistent="true"
-        android:title="@string/popup_on_keypress" />
+            android:key="popup_on"
+            android:title="@string/popup_on_keypress"
+            android:persistent="true"
+            android:defaultValue="@bool/default_popup_preview"
+            />
 
 </PreferenceScreen>

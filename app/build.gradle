@@ -4,7 +4,7 @@ android {
     defaultConfig {
         namespace 'org.pocketworkstation.pckeyboard'
         applicationId 'org.pocketworkstation.pckeyboard'
-        minSdkVersion 14
+        minSdkVersion 19
         compileSdk 34
         targetSdkVersion 34
         versionCode 1041001
@@ -29,7 +29,8 @@ android {
     }
     productFlavors {
     }
-    lintOptions {
+    namespace 'org.pocketworkstation.pckeyboard'
+    lint {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:

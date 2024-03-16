@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2008 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,11 +15,11 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="prefs_actions"
-    android:title="@string/pref_screen_actions_title">
+    android:title="@string/pref_screen_actions_title" >
 
     <PreferenceCategory
         android:key="swipe_actions"
-        android:title="@string/title_swipe_gestures">
+        android:title="@string/title_swipe_gestures" >
 
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_swipe_up"
@@ -55,7 +56,7 @@
 
     <PreferenceCategory
         android:key="key_actions"
-        android:title="@string/title_hardware_key_actions">
+        android:title="@string/title_hardware_key_actions" >
 
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_vol_up"

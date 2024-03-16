@@ -25,9 +25,9 @@
     <string name="alternates_for_e">3éèêëē€</string>
     <string name="alternates_for_f">[₣</string>
     <string name="alternates_for_g">]</string>
-    <string name="alternates_for_h"></string>
+    <string name="alternates_for_h" />
     <string name="alternates_for_i">8íìîïī</string>
-    <string name="alternates_for_j"></string>
+    <string name="alternates_for_j" />
     <string name="alternates_for_k">Ł</string>
     <string name="alternates_for_l">£₤λ</string>
     <string name="alternates_for_m">μ</string>
@@ -45,10 +45,10 @@
     <string name="alternates_for_y">&gt;ýÿ¥</string>
     <string name="alternates_for_z">6ž</string>
 
-    <string name="alternates_for_a_umlaut"></string>
-    <string name="alternates_for_ae"></string>
-    <string name="alternates_for_cyrillic_e"></string>
-    <string name="alternates_for_cyrillic_soft_sign"></string>
-    <string name="alternates_for_o_umlaut"></string>
-    <string name="alternates_for_oe"></string>
+    <string name="alternates_for_a_umlaut" />
+    <string name="alternates_for_ae" />
+    <string name="alternates_for_cyrillic_e" />
+    <string name="alternates_for_cyrillic_soft_sign" />
+    <string name="alternates_for_o_umlaut" />
+    <string name="alternates_for_oe" />
 </resources>

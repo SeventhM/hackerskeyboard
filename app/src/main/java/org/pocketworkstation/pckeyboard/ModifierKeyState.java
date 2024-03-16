@@ -16,6 +16,8 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import androidx.annotation.NonNull;
+
 class ModifierKeyState {
     private static final int RELEASING = 0;
     private static final int PRESSING = 1;
@@ -39,8 +41,9 @@ class ModifierKeyState {
     public boolean isChording() {
         return mState == CHORDING;
     }
-
+    
+    @NonNull
     public String toString() {
-        return "ModifierKeyState:" + mState;
+    	return "ModifierKeyState:" + mState;
     }
 }

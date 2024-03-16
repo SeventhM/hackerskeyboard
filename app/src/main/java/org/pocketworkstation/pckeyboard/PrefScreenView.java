@@ -19,37 +19,71 @@ package org.pocketworkstation.pckeyboard;
 import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
 
-public class PrefScreenView extends PreferenceActivity
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
+public class PrefScreenView extends FragmentActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    public static class PrefScreenViewFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onDisplayPreferenceDialog(@NonNull Preference preference) {
+            if (preference instanceof SeekBarPreference) {
+                DialogFragment dialogFragment = SeekBarDialog.newInstance(preference.getKey(), (SeekBarPreference) preference);
+                dialogFragment.setTargetFragment(this, 0);
+                dialogFragment.show(getParentFragmentManager(), getTag());
+            } else super.onDisplayPreferenceDialog(preference);
+        }
+
+        @Override
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+            setPreferencesFromResource(R.xml.prefs_view, rootKey);
+        }
+    }
+    PrefScreenViewFragment fragment = new PrefScreenViewFragment();
 
     private ListPreference mRenderModePreference;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.prefs_view);
-        SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
+        fragment = new PrefScreenViewFragment();
+        isInit = false;
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+
+    }
+    boolean isInit = false;
+    protected void init() {
+        if (isInit) return;
+        isInit = true;
+        SharedPreferences prefs = fragment.getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        mRenderModePreference = (ListPreference) findPreference(LatinIME.PREF_RENDER_MODE);
+        mRenderModePreference = fragment.findPreference(LatinIME.PREF_RENDER_MODE);
     }
 
     @Override
     protected void onDestroy() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
+        fragment.getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
                 this);
         super.onDestroy();
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        init();
         (new BackupManager(this)).dataChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        init();
         if (LatinKeyboardBaseView.sSetRenderMode == null) {
             mRenderModePreference.setEnabled(false);
             mRenderModePreference.setSummary(R.string.render_mode_unavailable);

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -17,43 +18,50 @@
 */
 -->
 
-<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:horizontalGap="0px"
+<Keyboard
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:keyWidth="26.67%p"
-    app:verticalGap="@dimen/key_bottom_gap">
-    <Row app:rowEdgeFlags="top">
+    app:horizontalGap="0px"
+    app:verticalGap="@dimen/key_bottom_gap"
+    >
+    <Row
+        app:rowEdgeFlags="top"
+        >
         <Key
-            app:keyEdgeFlags="left"
-            app:keyLabel="(" />
-        <Key app:keyLabel="/" />
-        <Key app:keyLabel=")" />
+            app:keyLabel="("
+            app:keyEdgeFlags="left" />
         <Key
-            app:isModifier="true"
-            app:keyEdgeFlags="right"
+            app:keyLabel="/" />
+        <Key
+            app:keyLabel=")" />
+        <Key
             app:keyLabel="-"
-            app:keyWidth="20%p" />
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            app:keyEdgeFlags="left"
-            app:keyLabel="N" />
-        <!-- Pause is a comma. Check PhoneNumberUtils.java to see if this
+            app:keyLabel="N"
+            app:keyEdgeFlags="left" />
+        <!-- Pause is a comma. Check PhoneNumberUtils.java to see if this 
             has changed. -->
         <Key
             app:codes="44"
             app:keyLabel="Pause" />
-        <Key app:keyLabel="," />
         <Key
-            app:isModifier="true"
-            app:keyEdgeFlags="right"
+            app:keyLabel="," />
+        <Key
             app:keyLabel="."
-            app:keyWidth="20%p" />
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
             app:codes="42"
-            app:keyEdgeFlags="left"
-            app:keyIcon="@drawable/sym_keyboard_numstar" />
+            app:keyIcon="@drawable/sym_keyboard_numstar"
+            app:keyEdgeFlags="left" />
         <!-- Wait is a semicolon. -->
         <Key
             app:codes="59"
@@ -63,28 +71,31 @@
             app:keyIcon="@drawable/sym_keyboard_numpound" />
         <Key
             app:codes="@integer/key_delete"
+            app:keyIcon="@drawable/sym_keyboard_delete"
             app:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            app:keyWidth="20%p"
             app:isModifier="true"
             app:isRepeatable="true"
-            app:keyEdgeFlags="right"
-            app:keyIcon="@drawable/sym_keyboard_delete"
-            app:keyWidth="20%p" />
+            app:keyEdgeFlags="right" />
     </Row>
-    <Row app:rowEdgeFlags="bottom">
+    <Row
+        app:rowEdgeFlags="bottom"
+        >
         <Key
             app:codes="@integer/key_symbol"
-            app:keyEdgeFlags="left"
-            app:keyLabel="@string/label_phone_key" />
-        <Key app:keyLabel="+" />
+            app:keyLabel="@string/label_phone_key"
+            app:keyEdgeFlags="left" />
+        <Key
+            app:keyLabel="+" />
         <Key
             app:codes="@integer/key_space"
-            app:iconPreview="@drawable/sym_keyboard_feedback_space"
-            app:keyIcon="@drawable/sym_keyboard_space" />
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space" />
         <Key
             app:codes="@integer/key_return"
-            app:isModifier="true"
-            app:keyEdgeFlags="right"
             app:keyIcon="@drawable/sym_keyboard_return"
-            app:keyWidth="20%p" />
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

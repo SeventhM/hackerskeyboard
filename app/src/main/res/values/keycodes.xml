@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /* 
 **
 ** Copyright 2009, The Android Open Source Project
@@ -29,7 +30,7 @@
     <integer name="key_voice">-102</integer>
     <integer name="key_f1">-103</integer>
     <!--  Keycodes for special keys, using negative KeyEvent keycode numbers -->
-    <integer name="key_dpad_up">-19</integer>
+    <integer name="key_dpad_up">-19</integer>    
     <integer name="key_dpad_down">-20</integer>
     <integer name="key_dpad_left">-21</integer>
     <integer name="key_dpad_right">-22</integer>

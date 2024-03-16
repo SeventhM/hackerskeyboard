@@ -19,27 +19,56 @@ package org.pocketworkstation.pckeyboard;
 import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
-public class PrefScreenActions extends PreferenceActivity
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceFragmentCompat;
+
+public class PrefScreenActions extends FragmentActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    public static class PrefScreenActionsFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+            setPreferencesFromResource(R.xml.prefs_actions, rootKey);
+        }
+    }
+
+    PrefScreenActionsFragment fragment = new PrefScreenActionsFragment();
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.prefs_actions);
-        SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
+        fragment = new PrefScreenActionsFragment();
+        isInit = false;
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+    }
+
+    boolean isInit = false;
+
+    protected void init() {
+        if (isInit) return;
+        isInit = true;
+        SharedPreferences prefs = fragment.getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        init();
+    }
+
+    @Override
     protected void onDestroy() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
+        fragment.getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
                 this);
         super.onDestroy();
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        init();
         (new BackupManager(this)).dataChanged();
     }
 }

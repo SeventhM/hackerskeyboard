@@ -79,49 +79,50 @@ implied.
     <string name="key_ae12_alt">=+≈≠±×÷</string>
 
 
+
     <string name="key_ad01_main">,</string>
     <string name="key_ad01_shift">ы</string>
-    <string name="key_ad01_alt"></string>
+    <string name="key_ad01_alt" />
 
     <string name="key_ad02_main">у</string>
     <string name="key_ad02_shift">У</string>
-    <string name="key_ad02_alt"></string>
+    <string name="key_ad02_alt" />
 
     <string name="key_ad03_main">е</string>
     <string name="key_ad03_shift">Е</string>
-    <string name="key_ad03_alt"></string>
+    <string name="key_ad03_alt" />
 
     <string name="key_ad04_main">и</string>
     <string name="key_ad04_shift">И</string>
-    <string name="key_ad04_alt"></string>
+    <string name="key_ad04_alt" />
 
     <string name="key_ad05_main">ш</string>
     <string name="key_ad05_shift">Ш</string>
-    <string name="key_ad05_alt"></string>
+    <string name="key_ad05_alt" />
 
     <string name="key_ad06_main">щ</string>
     <string name="key_ad06_shift">Щ</string>
-    <string name="key_ad06_alt"></string>
+    <string name="key_ad06_alt" />
 
     <string name="key_ad07_main">к</string>
     <string name="key_ad07_shift">К</string>
-    <string name="key_ad07_alt"></string>
+    <string name="key_ad07_alt" />
 
     <string name="key_ad08_main">с</string>
     <string name="key_ad08_shift">С</string>
-    <string name="key_ad08_alt"></string>
+    <string name="key_ad08_alt" />
 
     <string name="key_ad09_main">д</string>
     <string name="key_ad09_shift">Д</string>
-    <string name="key_ad09_alt"></string>
+    <string name="key_ad09_alt" />
 
     <string name="key_ad10_main">з</string>
     <string name="key_ad10_shift">З</string>
-    <string name="key_ad10_alt"></string>
+    <string name="key_ad10_alt" />
 
     <string name="key_ad11_main">ц</string>
     <string name="key_ad11_shift">Ц</string>
-    <string name="key_ad11_alt"></string>
+    <string name="key_ad11_alt" />
 
     <string name="key_ad12_main">;</string>
     <string name="key_ad12_shift">§</string>
@@ -132,78 +133,80 @@ implied.
     <string name="key_bksl_alt">;:</string>
 
 
+
     <string name="key_ac01_main">ь</string>
     <string name="key_ac01_shift">ѝ</string>
-    <string name="key_ac01_alt"></string>
+    <string name="key_ac01_alt" />
 
     <string name="key_ac02_main">я</string>
     <string name="key_ac02_shift">Я</string>
-    <string name="key_ac02_alt"></string>
+    <string name="key_ac02_alt" />
 
     <string name="key_ac03_main">а</string>
     <string name="key_ac03_shift">А</string>
-    <string name="key_ac03_alt"></string>
+    <string name="key_ac03_alt" />
 
     <string name="key_ac04_main">о</string>
     <string name="key_ac04_shift">О</string>
-    <string name="key_ac04_alt"></string>
+    <string name="key_ac04_alt" />
 
     <string name="key_ac05_main">ж</string>
     <string name="key_ac05_shift">Ж</string>
-    <string name="key_ac05_alt"></string>
+    <string name="key_ac05_alt" />
 
     <string name="key_ac06_main">г</string>
     <string name="key_ac06_shift">Г</string>
-    <string name="key_ac06_alt"></string>
+    <string name="key_ac06_alt" />
 
     <string name="key_ac07_main">т</string>
     <string name="key_ac07_shift">Т</string>
-    <string name="key_ac07_alt"></string>
+    <string name="key_ac07_alt" />
 
     <string name="key_ac08_main">н</string>
     <string name="key_ac08_shift">Н</string>
-    <string name="key_ac08_alt"></string>
+    <string name="key_ac08_alt" />
 
     <string name="key_ac09_main">в</string>
     <string name="key_ac09_shift">В</string>
-    <string name="key_ac09_alt"></string>
+    <string name="key_ac09_alt" />
 
     <string name="key_ac10_main">м</string>
     <string name="key_ac10_shift">М</string>
-    <string name="key_ac10_alt"></string>
+    <string name="key_ac10_alt" />
 
     <string name="key_ac11_main">ч</string>
     <string name="key_ac11_shift">Ч</string>
-    <string name="key_ac11_alt"></string>
+    <string name="key_ac11_alt" />
+
 
 
     <string name="key_ab01_main">ю</string>
     <string name="key_ab01_shift">Ю</string>
-    <string name="key_ab01_alt"></string>
+    <string name="key_ab01_alt" />
 
     <string name="key_ab02_main">й</string>
     <string name="key_ab02_shift">Й</string>
-    <string name="key_ab02_alt"></string>
+    <string name="key_ab02_alt" />
 
     <string name="key_ab03_main">ъ</string>
     <string name="key_ab03_shift">Ъ</string>
-    <string name="key_ab03_alt"></string>
+    <string name="key_ab03_alt" />
 
     <string name="key_ab04_main">э</string>
     <string name="key_ab04_shift">Э</string>
-    <string name="key_ab04_alt"></string>
+    <string name="key_ab04_alt" />
 
     <string name="key_ab05_main">ф</string>
     <string name="key_ab05_shift">Ф</string>
-    <string name="key_ab05_alt"></string>
+    <string name="key_ab05_alt" />
 
     <string name="key_ab06_main">х</string>
     <string name="key_ab06_shift">Х</string>
-    <string name="key_ab06_alt"></string>
+    <string name="key_ab06_alt" />
 
     <string name="key_ab07_main">п</string>
     <string name="key_ab07_shift">П</string>
-    <string name="key_ab07_alt"></string>
+    <string name="key_ab07_alt" />
 
     <string name="key_ab08_main">р</string>
     <string name="key_ab08_shift">Р</string>

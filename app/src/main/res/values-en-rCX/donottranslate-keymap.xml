@@ -27,7 +27,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="key_tlde_main">`</string>
     <string name="key_tlde_shift">~</string>
-    <string name="key_tlde_alt"></string>
+    <string name="key_tlde_alt" />
 
     <string name="key_ae01_main">1</string>
     <string name="key_ae01_shift">!</string>
@@ -116,19 +116,19 @@
 
     <string name="key_ad10_main">;</string>
     <string name="key_ad10_shift">:</string>
-    <string name="key_ad10_alt"></string>
+    <string name="key_ad10_alt" />
 
     <string name="key_ad11_main">[</string>
     <string name="key_ad11_shift">{</string>
-    <string name="key_ad11_alt"></string>
+    <string name="key_ad11_alt" />
 
     <string name="key_ad12_main">]</string>
     <string name="key_ad12_shift">}</string>
-    <string name="key_ad12_alt"></string>
+    <string name="key_ad12_alt" />
 
     <string name="key_bksl_main">\\</string>
     <string name="key_bksl_shift">|</string>
-    <string name="key_bksl_alt"></string>
+    <string name="key_bksl_alt" />
 
 
     <string name="key_ac01_main">d</string>
@@ -176,9 +176,9 @@
     <string name="key_ac11_alt">‘’“”</string>
 
 
-    <string name="key_lsgt_main"></string>
-    <string name="key_lsgt_shift"></string>
-    <string name="key_lsgt_alt"></string>
+    <string name="key_lsgt_main" />
+    <string name="key_lsgt_shift" />
+    <string name="key_lsgt_alt" />
 
     <string name="key_ab01_main">z</string>
     <string name="key_ab01_shift">Z</string>

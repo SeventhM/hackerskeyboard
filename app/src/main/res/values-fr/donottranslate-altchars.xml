@@ -27,7 +27,7 @@
     <string name="alternates_for_n">ñ</string>
     <string name="alternates_for_c">ç</string>
     <string name="alternates_for_y">6ÿý</string>
-    <string name="alternates_for_q"></string>
-    <string name="alternates_for_w"></string>
+    <string name="alternates_for_q" />
+    <string name="alternates_for_w" />
     <string name="alternates_for_z">2</string>
 </resources>

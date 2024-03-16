@@ -2,11 +2,11 @@ package org.pocketworkstation.pckeyboard;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.preference.DialogPreference;
 
 import java.util.Locale;
 
@@ -15,17 +15,17 @@ import java.util.Locale;
  */
 public class SeekBarPreference extends DialogPreference {
 
-    private TextView mMinText;
-    private TextView mMaxText;
-    private TextView mValText;
-    private SeekBar mSeek;
-    private float mMin;
-    private float mMax;
-    private float mVal;
+    TextView mMinText;
+    TextView mMaxText;
+    TextView mValText;
+    SeekBar mSeek;
+    float mMin;
+    float mMax;
+    float mVal;
     private float mPrevVal;
-    private float mStep;
+    float mStep;
     private boolean mAsPercent;
-    private boolean mLogScale;
+    boolean mLogScale;
     private String mDisplayFormat;
 
     public SeekBarPreference(Context context, AttributeSet attrs) {
@@ -61,7 +61,7 @@ public class SeekBarPreference extends DialogPreference {
         savePrevVal();
     }
 
-    private String formatFloatDisplay(Float val) {
+    String formatFloatDisplay(Float val) {
         // Use current locale for format, this is for display only.
         if (mAsPercent) {
             return String.format("%d%%", (int) (val * 100));
@@ -74,7 +74,7 @@ public class SeekBarPreference extends DialogPreference {
         }
     }
 
-    private void showVal() {
+    void showVal() {
         mValText.setText(formatFloatDisplay(mVal));
     }
 
@@ -94,7 +94,7 @@ public class SeekBarPreference extends DialogPreference {
         return Float.toString(mVal);
     }
 
-    private float percentToSteppedVal(int percent, float min, float max, float step, boolean logScale) {
+    float percentToSteppedVal(int percent, float min, float max, float step, boolean logScale) {
         float val;
         if (logScale) {
             val = (float) Math.exp(percentToSteppedVal(percent, (float) Math.log(min), (float) Math.log(max), step, false));
@@ -114,47 +114,12 @@ public class SeekBarPreference extends DialogPreference {
         return (int) (100 * (val - min) / (max - min));
     }
 
-    private int getProgressVal() {
+    int getProgressVal() {
         if (mLogScale) {
             return getPercent((float) Math.log(mVal), (float) Math.log(mMin), (float) Math.log(mMax));
         } else {
             return getPercent(mVal, mMin, mMax);
         }
-    }
-
-    @Override
-    protected void onBindDialogView(View view) {
-        mSeek = view.findViewById(R.id.seekBarPref);
-        mMinText = view.findViewById(R.id.seekMin);
-        mMaxText = view.findViewById(R.id.seekMax);
-        mValText = view.findViewById(R.id.seekVal);
-
-        showVal();
-        mMinText.setText(formatFloatDisplay(mMin));
-        mMaxText.setText(formatFloatDisplay(mMax));
-        mSeek.setProgress(getProgressVal());
-
-        mSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    float newVal = percentToSteppedVal(progress, mMin, mMax, mStep, mLogScale);
-                    if (newVal != mVal) {
-                        onChange(newVal);
-                    }
-                    setVal(newVal);
-                    mSeek.setProgress(getProgressVal());
-                }
-                showVal();
-            }
-        });
-
-        super.onBindDialogView(view);
     }
 
     public void onChange(float val) {
@@ -166,12 +131,7 @@ public class SeekBarPreference extends DialogPreference {
         return formatFloatDisplay(mVal);
     }
 
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        if (!positiveResult) {
-            restoreVal();
-            return;
-        }
+    protected void saveVal() {
         if (shouldPersist()) {
             persistFloat(mVal);
             savePrevVal();

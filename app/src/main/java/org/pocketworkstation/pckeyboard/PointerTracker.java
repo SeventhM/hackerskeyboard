@@ -31,42 +31,147 @@ public class PointerTracker {
     private static final String TAG = "PointerTracker";
     private static final boolean DEBUG = false;
     private static final boolean DEBUG_MOVE = false;
-    // Miscellaneous constants
-    private static final int NOT_A_KEY = LatinKeyboardBaseView.NOT_A_KEY;
-    private static final int[] KEY_DELETE = {Keyboard.KEYCODE_DELETE};
-    private static boolean sSlideKeyHack;
-    private static List<Key> sSlideKeys = new ArrayList<>(10);
+
+    public interface UIProxy {
+        void invalidateKey(Key key);
+        void showPreview(int keyIndex, PointerTracker tracker);
+        boolean hasDistinctMultitouch();
+    }
+
     public final int mPointerId;
+
     // Timing constants
     private final int mDelayBeforeKeyRepeatStart;
     private final int mMultiTapKeyTimeout;
+
+    // Miscellaneous constants
+    private static final int NOT_A_KEY = LatinKeyboardBaseView.NOT_A_KEY;
+    private static final int[] KEY_DELETE = { Keyboard.KEYCODE_DELETE };
+
     private final UIProxy mProxy;
     private final UIHandler mHandler;
     private final KeyDetector mKeyDetector;
+    private OnKeyboardActionListener mListener;
     private final KeyboardSwitcher mKeyboardSwitcher;
     private final boolean mHasDistinctMultitouch;
-    private final KeyState mKeyState;
-    private final StringBuilder mPreviewLabel = new StringBuilder(1);
-    private OnKeyboardActionListener mListener;
+
     private Key[] mKeys;
     private int mKeyHysteresisDistanceSquared = -1;
+
+    private final KeyState mKeyState;
+
     // true if keyboard layout has been changed.
     private boolean mKeyboardLayoutHasBeenChanged;
+
     // true if event is already translated to a key action (long press or mini-keyboard)
     private boolean mKeyAlreadyProcessed;
+
     // true if this pointer is repeatable key
     private boolean mIsRepeatableKey;
+
     // true if this pointer is in sliding key input
     private boolean mIsInSlidingKeyInput;
+
     // For multi-tap
     private int mLastSentIndex;
     private int mTapCount;
     private long mLastTapTime;
     private boolean mInMultiTap;
+    private final StringBuilder mPreviewLabel = new StringBuilder(1);
+
     // pressed key
     private int mPreviousKey = NOT_A_KEY;
+
+    private static boolean sSlideKeyHack;
+    private static final List<Key> sSlideKeys = new ArrayList<>(10);
+
+    // This class keeps track of a key index and a position where this pointer is.
+    private static class KeyState {
+        private final KeyDetector mKeyDetector;
+
+        // The position and time at which first down event occurred.
+        private int mStartX;
+        private int mStartY;
+        private long mDownTime;
+
+        // The current key index where this pointer is.
+        private int mKeyIndex = NOT_A_KEY;
+        // The position where mKeyIndex was recognized for the first time.
+        private int mKeyX;
+        private int mKeyY;
+
+        // Last pointer position.
+        private int mLastX;
+        private int mLastY;
+
+        public KeyState(KeyDetector keyDetecor) {
+            mKeyDetector = keyDetecor;
+        }
+
+        public int getKeyIndex() {
+            return mKeyIndex;
+        }
+
+        public int getKeyX() {
+            return mKeyX;
+        }
+
+        public int getKeyY() {
+            return mKeyY;
+        }
+
+        public int getStartX() {
+            return mStartX;
+        }
+
+        public int getStartY() {
+            return mStartY;
+        }
+
+        public long getDownTime() {
+            return mDownTime;
+        }
+
+        public int getLastX() {
+            return mLastX;
+        }
+
+        public int getLastY() {
+            return mLastY;
+        }
+
+        public int onDownKey(int x, int y, long eventTime) {
+            mStartX = x;
+            mStartY = y;
+            mDownTime = eventTime;
+
+            return onMoveToNewKey(onMoveKeyInternal(x, y), x, y);
+        }
+
+        private int onMoveKeyInternal(int x, int y) {
+            mLastX = x;
+            mLastY = y;
+            return mKeyDetector.getKeyIndexAndNearbyCodes(x, y, null);
+        }
+
+        public int onMoveKey(int x, int y) {
+            return onMoveKeyInternal(x, y);
+        }
+
+        public int onMoveToNewKey(int keyIndex, int x, int y) {
+            mKeyIndex = keyIndex;
+            mKeyX = x;
+            mKeyY = y;
+            return keyIndex;
+        }
+
+        public int onUpKey(int x, int y) {
+            return onMoveKeyInternal(x, y);
+        }
+    }
+
     public PointerTracker(int id, UIHandler handler, KeyDetector keyDetector, UIProxy proxy,
-                          Resources res, boolean slideKeyHack) {
+            Resources res, boolean slideKeyHack) {
         if (proxy == null || handler == null || keyDetector == null)
             throw new NullPointerException();
         mPointerId = id;
@@ -82,33 +187,6 @@ public class PointerTracker {
         resetMultiTap();
     }
 
-    private static void addSlideKey(Key key) {
-        if (!sSlideKeyHack || LatinIME.sKeyboardSettings.sendSlideKeys == 0) return;
-        if (key == null) return;
-        if (key.modifier) {
-            clearSlideKeys();
-        } else {
-            sSlideKeys.add(key);
-        }
-    }
-
-    /*package*/
-    static void clearSlideKeys() {
-        sSlideKeys.clear();
-    }
-
-    private static int getSquareDistanceToKeyEdge(int x, int y, Key key) {
-        final int left = key.x;
-        final int right = key.x + key.width;
-        final int top = key.y;
-        final int bottom = key.y + key.height;
-        final int edgeX = x < left ? left : (Math.min(x, right));
-        final int edgeY = y < top ? top : (Math.min(y, bottom));
-        final int dx = x - edgeX;
-        final int dy = y - edgeY;
-        return dx * dx + dy * dy;
-    }
-
     public void setOnKeyboardActionListener(OnKeyboardActionListener listener) {
         mListener = listener;
     }
@@ -117,7 +195,7 @@ public class PointerTracker {
         if (keys == null || keyHysteresisDistance < 0)
             throw new IllegalArgumentException();
         mKeys = keys;
-        mKeyHysteresisDistanceSquared = (int) (keyHysteresisDistance * keyHysteresisDistance);
+        mKeyHysteresisDistanceSquared = (int)(keyHysteresisDistance * keyHysteresisDistance);
         // Mark that keyboard layout has been changed.
         mKeyboardLayoutHasBeenChanged = true;
     }
@@ -144,11 +222,11 @@ public class PointerTracker {
             return false;
         int primaryCode = key.codes[0];
         return primaryCode == Keyboard.KEYCODE_SHIFT
-                || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
-                || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
-                || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
-                || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
-                || primaryCode == LatinKeyboardView.KEYCODE_FN;
+                       || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
+                       || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
+                       || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
+                       || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
+                       || primaryCode == LatinKeyboardView.KEYCODE_FN;
     }
 
     public boolean isModifier() {
@@ -239,6 +317,20 @@ public class PointerTracker {
         showKeyPreviewAndUpdateKey(keyIndex);
     }
 
+    private static void addSlideKey(Key key) {
+        if (!sSlideKeyHack || LatinIME.sKeyboardSettings.sendSlideKeys == 0) return;
+        if (key == null) return;
+        if (key.modifier) {
+            clearSlideKeys();
+        } else {
+            sSlideKeys.add(key);
+        }
+    }
+
+    /*package*/ static void clearSlideKeys() {
+        sSlideKeys.clear();
+    }
+
     void sendSlideKeys() {
         if (!sSlideKeyHack) return;
         int slideMode = LatinIME.sKeyboardSettings.sendSlideKeys;
@@ -272,8 +364,7 @@ public class PointerTracker {
         final Key oldKey = getKey(keyState.getKeyIndex());
         if (isValidKeyIndex(keyIndex)) {
             boolean isMinorMoveBounce = isMinorMoveBounce(x, y, keyIndex);
-            if (DEBUG_MOVE)
-                Log.i(TAG, "isMinorMoveBounce=" + isMinorMoveBounce + " oldKey=" + (oldKey == null ? "null" : oldKey));
+            if (DEBUG_MOVE) Log.i(TAG, "isMinorMoveBounce=" +isMinorMoveBounce + " oldKey=" + (oldKey== null ? "null" : oldKey));
             if (oldKey == null) {
                 // The pointer has been slid in to the new key, but the finger was not on any keys.
                 // In this case, we must call onPress() to notify that the new key is being pressed.
@@ -321,7 +412,7 @@ public class PointerTracker {
                 if (mListener != null && oldKey.codes != null)
                     mListener.onRelease(oldKey.getPrimaryCode());
                 resetMultiTap();
-                keyState.onMoveToNewKey(keyIndex, x, y);
+                keyState.onMoveToNewKey(keyIndex, x ,y);
                 mHandler.cancelLongPressTimer();
             }
         }
@@ -407,6 +498,18 @@ public class PointerTracker {
         } else {
             return false;
         }
+    }
+
+    private static int getSquareDistanceToKeyEdge(int x, int y, Key key) {
+        final int left = key.x;
+        final int right = key.x + key.width;
+        final int top = key.y;
+        final int bottom = key.y + key.height;
+        final int edgeX = x < left ? left : (Math.min(x, right));
+        final int edgeY = y < top ? top : (Math.min(y, bottom));
+        final int dx = x - edgeX;
+        final int dy = y - edgeY;
+        return dx * dx + dy * dy;
     }
 
     private void showKeyPreviewAndUpdateKey(int keyIndex) {
@@ -538,98 +641,5 @@ public class PointerTracker {
         Log.d(TAG, String.format("%s%s[%d] %3d,%3d %3d(%s) %s", title,
                 (mKeyAlreadyProcessed ? "-" : " "), mPointerId, x, y, keyIndex, code,
                 (isModifier() ? "modifier" : "")));
-    }
-
-    public interface UIProxy {
-        public void invalidateKey(Key key);
-
-        public void showPreview(int keyIndex, PointerTracker tracker);
-
-        public boolean hasDistinctMultitouch();
-    }
-
-    // This class keeps track of a key index and a position where this pointer is.
-    private static class KeyState {
-        private final KeyDetector mKeyDetector;
-
-        // The position and time at which first down event occurred.
-        private int mStartX;
-        private int mStartY;
-        private long mDownTime;
-
-        // The current key index where this pointer is.
-        private int mKeyIndex = NOT_A_KEY;
-        // The position where mKeyIndex was recognized for the first time.
-        private int mKeyX;
-        private int mKeyY;
-
-        // Last pointer position.
-        private int mLastX;
-        private int mLastY;
-
-        public KeyState(KeyDetector keyDetecor) {
-            mKeyDetector = keyDetecor;
-        }
-
-        public int getKeyIndex() {
-            return mKeyIndex;
-        }
-
-        public int getKeyX() {
-            return mKeyX;
-        }
-
-        public int getKeyY() {
-            return mKeyY;
-        }
-
-        public int getStartX() {
-            return mStartX;
-        }
-
-        public int getStartY() {
-            return mStartY;
-        }
-
-        public long getDownTime() {
-            return mDownTime;
-        }
-
-        public int getLastX() {
-            return mLastX;
-        }
-
-        public int getLastY() {
-            return mLastY;
-        }
-
-        public int onDownKey(int x, int y, long eventTime) {
-            mStartX = x;
-            mStartY = y;
-            mDownTime = eventTime;
-
-            return onMoveToNewKey(onMoveKeyInternal(x, y), x, y);
-        }
-
-        private int onMoveKeyInternal(int x, int y) {
-            mLastX = x;
-            mLastY = y;
-            return mKeyDetector.getKeyIndexAndNearbyCodes(x, y, null);
-        }
-
-        public int onMoveKey(int x, int y) {
-            return onMoveKeyInternal(x, y);
-        }
-
-        public int onMoveToNewKey(int keyIndex, int x, int y) {
-            mKeyIndex = keyIndex;
-            mKeyX = x;
-            mKeyY = y;
-            return keyIndex;
-        }
-
-        public int onUpKey(int x, int y) {
-            return onMoveKeyInternal(x, y);
-        }
     }
 }

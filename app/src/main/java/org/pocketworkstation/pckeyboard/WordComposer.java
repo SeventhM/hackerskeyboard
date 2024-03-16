@@ -26,11 +26,14 @@ public class WordComposer {
      * The list of unicode values for each keystroke (including surrounding keys)
      */
     private final ArrayList<int[]> mCodes;
-    private final StringBuilder mTypedWord;
+
     /**
      * The word chosen from the candidate list, until it is committed.
      */
     private String mPreferredWord;
+
+    private final StringBuilder mTypedWord;
+
     private int mCapsCount;
 
     private boolean mAutoCapitalized;
@@ -67,7 +70,6 @@ public class WordComposer {
 
     /**
      * Number of keystrokes in the composing word.
-     *
      * @return the number of keystrokes
      */
     public int size() {
@@ -76,7 +78,6 @@ public class WordComposer {
 
     /**
      * Returns the codes at a particular position in the word.
-     *
      * @param index the position in the word
      * @return the unicode for the pressed and surrounding keys
      */
@@ -87,7 +88,6 @@ public class WordComposer {
     /**
      * Add a new keystroke, with codes[0] containing the pressed key's unicode and the rest of
      * the array containing unicode for adjacent keys, sorted by reducing probability/proximity.
-     *
      * @param codes the array of unicode values
      */
     public void add(int primaryCode, int[] codes) {
@@ -102,9 +102,8 @@ public class WordComposer {
      * Swaps the first and second values in the codes array if the primary code is not the first
      * value in the array but the second. This happens when the preferred key is not the key that
      * the user released the finger on.
-     *
      * @param primaryCode the preferred character
-     * @param codes       array of codes based on distance from touch point
+     * @param codes array of codes based on distance from touch point
      */
     private void correctPrimaryJuxtapos(int primaryCode, int[] codes) {
         if (codes.length < 2) return;
@@ -138,7 +137,6 @@ public class WordComposer {
 
     /**
      * Returns the word as it was typed, without any correction applied.
-     *
      * @return the word that was typed so far
      */
     public CharSequence getTypedWord() {
@@ -149,22 +147,20 @@ public class WordComposer {
         return mTypedWord;
     }
 
+    public void setFirstCharCapitalized(boolean capitalized) {
+        mIsFirstCharCapitalized = capitalized;
+    }
+
     /**
      * Whether or not the user typed a capital letter as the first letter in the word
-     *
      * @return capitalization preference
      */
     public boolean isFirstCharCapitalized() {
         return mIsFirstCharCapitalized;
     }
 
-    public void setFirstCharCapitalized(boolean capitalized) {
-        mIsFirstCharCapitalized = capitalized;
-    }
-
     /**
      * Whether or not all of the user typed chars are upper case
-     *
      * @return true if all user typed chars are upper case, false otherwise
      */
     public boolean isAllUpperCase() {
@@ -172,21 +168,19 @@ public class WordComposer {
     }
 
     /**
-     * Return the word chosen by the user, or the typed word if no other word was chosen.
-     *
-     * @return the preferred word
-     */
-    public CharSequence getPreferredWord() {
-        return mPreferredWord != null ? mPreferredWord : getTypedWord();
-    }
-
-    /**
      * Stores the user's selected word, before it is actually committed to the text field.
-     *
      * @param preferred
      */
     public void setPreferredWord(String preferred) {
         mPreferredWord = preferred;
+    }
+
+    /**
+     * Return the word chosen by the user, or the typed word if no other word was chosen.
+     * @return the preferred word
+     */
+    public CharSequence getPreferredWord() {
+        return mPreferredWord != null ? mPreferredWord : getTypedWord();
     }
 
     /**
@@ -197,21 +191,19 @@ public class WordComposer {
     }
 
     /**
-     * Returns whether the word was automatically capitalized.
-     *
-     * @return whether the word was automatically capitalized
-     */
-    public boolean isAutoCapitalized() {
-        return mAutoCapitalized;
-    }
-
-    /**
      * Saves the reason why the word is capitalized - whether it was automatic or
      * due to the user hitting shift in the middle of a sentence.
-     *
      * @param auto whether it was an automatic capitalization due to start of sentence
      */
     public void setAutoCapitalized(boolean auto) {
         mAutoCapitalized = auto;
+    }
+
+    /**
+     * Returns whether the word was automatically capitalized.
+     * @return whether the word was automatically capitalized
+     */
+    public boolean isAutoCapitalized() {
+        return mAutoCapitalized;
     }
 }

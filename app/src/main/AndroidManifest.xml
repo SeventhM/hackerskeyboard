@@ -1,109 +1,90 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.pocketworkstation.pckeyboard">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+    <uses-feature android:name="android.hardware.faketouch" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
-    <uses-feature
-        android:name="android.hardware.microphone"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.faketouch"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.touchscreen"
-        android:required="false" />
-
-    <application
+    <application android:label="@string/english_ime_name"
         android:allowBackup="true"
         android:backupAgent="LatinIMEBackupAgent"
+        android:restoreAnyVersion="true"
         android:hardwareAccelerated="false"
-        android:icon="@drawable/icon"
         android:killAfterRestore="false"
-        android:label="@string/english_ime_name"
-        android:restoreAnyVersion="true">
+        android:icon="@drawable/icon">
 
-        <service
-            android:name="LatinIME"
-            android:exported="true"
+        <service android:name="LatinIME"
             android:label="@string/english_ime_name"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
-            <meta-data
-                android:name="android.view.im"
-                android:resource="@xml/method" />
+            <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
 
-        <activity
-            android:name="Main"
+        <activity android:name="Main" android:label="Hacker's Keyboard"
             android:exported="true"
-            android:label="Hacker's Keyboard">
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="LatinIMESettings"
-            android:exported="false"
-            android:label="@string/english_ime_settings">
+        <activity android:name="LatinIMESettings" android:label="@string/english_ime_settings"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="org.pocketworkstation.pckeyboard.SETTINGS" />
-
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.SETTINGS"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="InputLanguageSelection"
-            android:exported="false"
-            android:label="@string/language_selection_title">
+        <activity android:name="InputLanguageSelection"
+            android:label="@string/language_selection_title"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION" />
-
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="PrefScreenActions"
-            android:exported="false"
-            android:label="@string/pref_screen_actions_title">
+        <activity android:name="PrefScreenActions"
+            android:label="@string/pref_screen_actions_title"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="org.pocketworkstation.pckeyboard.PREFS_ACTIONS" />
-
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="PrefScreenView"
-            android:exported="false"
-            android:label="@string/pref_screen_actions_title">
+        <activity android:name="PrefScreenView"
+            android:label="@string/pref_screen_actions_title"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="org.pocketworkstation.pckeyboard.PREFS_VIEW" />
-
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="PrefScreenFeedback"
-            android:exported="false"
-            android:label="@string/pref_screen_feedback_title">
+        <activity android:name="PrefScreenFeedback"
+            android:label="@string/pref_screen_feedback_title"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK" />
-
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

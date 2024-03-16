@@ -24,7 +24,7 @@ class ProximityKeyDetector extends KeyDetector {
     private static final int MAX_NEARBY_KEYS = 12;
 
     // working area
-    private int[] mDistances = new int[MAX_NEARBY_KEYS];
+    private final int[] mDistances = new int[MAX_NEARBY_KEYS];
 
     @Override
     protected int getMaxNearbyKeys() {
@@ -41,25 +41,24 @@ class ProximityKeyDetector extends KeyDetector {
         int closestKeyDist = mProximityThresholdSquare + 1;
         int[] distances = mDistances;
         Arrays.fill(distances, Integer.MAX_VALUE);
-        int[] nearestKeyIndices = mKeyboard.getNearestKeys(touchX, touchY);
-        final int keyCount = nearestKeyIndices.length;
-        for (int index : nearestKeyIndices) {
-            final Key key = keys[index];
+        int [] nearestKeyIndices = mKeyboard.getNearestKeys(touchX, touchY);
+        for (int nearestKeyIndex : nearestKeyIndices) {
+            final Key key = keys[nearestKeyIndex];
             int dist = 0;
             boolean isInside = key.isInside(touchX, touchY);
             if (isInside) {
-                primaryIndex = index;
+                primaryIndex = nearestKeyIndex;
             }
 
             if (((mProximityCorrectOn
-                    && (dist = key.squaredDistanceFrom(touchX, touchY)) < mProximityThresholdSquare)
-                    || isInside)
-                    && key.codes[0] > 32) {
+                          && (dist = key.squaredDistanceFrom(touchX, touchY)) < mProximityThresholdSquare)
+                         || isInside)
+                        && key.codes[0] > 32) {
                 // Find insertion point
                 final int nCodes = key.codes.length;
                 if (dist < closestKeyDist) {
                     closestKeyDist = dist;
-                    closestKey = index;
+                    closestKey = nearestKeyIndex;
                 }
 
                 if (allKeys == null) continue;

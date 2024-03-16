@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /* 
 **
 ** Copyright 2009, The Android Open Source Project
@@ -17,38 +18,40 @@
 */
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/keyboard_suggest_strip"
     android:gravity="center_horizontal"
-    android:orientation="horizontal"
     android:paddingTop="2dip">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingLeft="6dip"
-        android:paddingTop="10dip"
-        android:paddingEnd="6dip"
-        android:paddingRight="6dip"
+    <TextView android:id="@+id/text"
         android:text="@string/voice_swipe_hint"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingTop="10dip"
+        android:paddingRight="6dip"
+        android:paddingLeft="6dip"
+        android:textSize="13sp"
         android:textColor="#888888"
-        android:textSize="13sp" />
+        android:layout_gravity="center_horizontal"
+        />
 
     <ImageView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_suggest_strip_microphone" />
+        android:src="@drawable/ic_suggest_strip_microphone"
+        />
 
     <ImageView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_suggest_strip_microphone_swipe" />
+        android:src="@drawable/ic_suggest_strip_microphone_swipe"
+        />
 
 
 </LinearLayout>

@@ -7,7 +7,7 @@ public class VibratePreference extends SeekBarPreferenceString {
     public VibratePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    
     @Override
     public void onChange(float val) {
         LatinIME ime = LatinIME.sInstance;

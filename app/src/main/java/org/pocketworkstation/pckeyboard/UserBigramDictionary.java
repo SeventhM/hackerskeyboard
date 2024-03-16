@@ -37,27 +37,36 @@ import java.util.HashSet;
 public class UserBigramDictionary extends ExpandableDictionary {
     private static final String TAG = "UserBigramDictionary";
 
-    /**
-     * Any pair being typed or picked
-     */
+    /** Any pair being typed or picked */
     private static final int FREQUENCY_FOR_TYPED = 2;
+
+    /** Maximum frequency for all pairs */
+    private static final int FREQUENCY_MAX = 127;
+
     /**
      * If this pair is typed 6 times, it would be suggested.
      * Should be smaller than ContactsDictionary.FREQUENCY_FOR_CONTACTS_BIGRAM
      */
     protected static final int SUGGEST_THRESHOLD = 6 * FREQUENCY_FOR_TYPED;
+
+    /** Maximum number of pairs. Pruning will start when databases goes above this number. */
+    private static int sMaxUserBigrams = 10000;
+
     /**
-     * Maximum frequency for all pairs
+     * When it hits maximum bigram pair, it will delete until you are left with
+     * only (sMaxUserBigrams - sDeleteUserBigrams) pairs.
+     * Do not keep this number small to avoid deleting too often.
      */
-    private static final int FREQUENCY_MAX = 127;
+    private static int sDeleteUserBigrams = 1000;
+
     /**
      * Database version should increase if the database structure changes
      */
     private static final int DATABASE_VERSION = 1;
+
     private static final String DATABASE_NAME = "userbigram_dict.db";
-    /**
-     * Name of the words table in the database
-     */
+
+    /** Name of the words table in the database */
     private static final String MAIN_TABLE_NAME = "main";
     // TODO: Consume less space by using a unique id for locale instead of the whole
     // 2-5 character string. (Same TODO from AutoDictionary)
@@ -65,26 +74,23 @@ public class UserBigramDictionary extends ExpandableDictionary {
     private static final String MAIN_COLUMN_WORD1 = "word1";
     private static final String MAIN_COLUMN_WORD2 = "word2";
     private static final String MAIN_COLUMN_LOCALE = "locale";
-    /**
-     * Name of the frequency table in the database
-     */
+
+    /** Name of the frequency table in the database */
     private static final String FREQ_TABLE_NAME = "frequency";
     private static final String FREQ_COLUMN_ID = BaseColumns._ID;
     private static final String FREQ_COLUMN_PAIR_ID = "pair_id";
     private static final String FREQ_COLUMN_FREQUENCY = "freq";
-    private final static HashMap<String, String> sDictProjectionMap;
-    /**
-     * Maximum number of pairs. Pruning will start when databases goes above this number.
-     */
-    private static int sMaxUserBigrams = 10000;
-    /**
-     * When it hits maximum bigram pair, it will delete until you are left with
-     * only (sMaxUserBigrams - sDeleteUserBigrams) pairs.
-     * Do not keep this number small to avoid deleting too often.
-     */
-    private static int sDeleteUserBigrams = 1000;
+
+    private final LatinIME mIme;
+
+    /** Locale for which this auto dictionary is storing words */
+    private final String mLocale;
+
+    private HashSet<Bigram> mPendingWrites = new HashSet<>();
+    private final Object mPendingWritesLock = new Object();
     private static volatile boolean sUpdatingDB = false;
-    private static DatabaseHelper sOpenHelper = null;
+
+    private final static HashMap<String, String> sDictProjectionMap;
 
     static {
         sDictProjectionMap = new HashMap<>();
@@ -98,13 +104,39 @@ public class UserBigramDictionary extends ExpandableDictionary {
         sDictProjectionMap.put(FREQ_COLUMN_FREQUENCY, FREQ_COLUMN_FREQUENCY);
     }
 
-    private final LatinIME mIme;
-    private final Object mPendingWritesLock = new Object();
-    /**
-     * Locale for which this auto dictionary is storing words
-     */
-    private String mLocale;
-    private HashSet<Bigram> mPendingWrites = new HashSet<>();
+    private static DatabaseHelper sOpenHelper = null;
+
+    private static class Bigram {
+        String word1;
+        String word2;
+        int frequency;
+
+        Bigram(String word1, String word2, int frequency) {
+            this.word1 = word1;
+            this.word2 = word2;
+            this.frequency = frequency;
+        }
+
+        @Override
+        public boolean equals(Object bigram) {
+            if (bigram.getClass() != Bigram.class) return false;
+            Bigram bigram2 = (Bigram) bigram;
+            return (word1.equals(bigram2.word1) && word2.equals(bigram2.word2));
+        }
+
+        @Override
+        public int hashCode() {
+            return (word1 + " " + word2).hashCode();
+        }
+    }
+
+    public void setDatabaseMax(int maxUserBigram) {
+        sMaxUserBigrams = maxUserBigram;
+    }
+
+    public void setDatabaseDelete(int deleteUserBigram) {
+        sDeleteUserBigrams = deleteUserBigram;
+    }
 
     public UserBigramDictionary(Context context, LatinIME ime, String locale, int dicTypeId) {
         super(context, dicTypeId);
@@ -116,14 +148,6 @@ public class UserBigramDictionary extends ExpandableDictionary {
         if (mLocale != null && mLocale.length() > 1) {
             loadDictionary();
         }
-    }
-
-    public void setDatabaseMax(int maxUserBigram) {
-        sMaxUserBigrams = maxUserBigram;
-    }
-
-    public void setDatabaseDelete(int deleteUserBigram) {
-        sDeleteUserBigrams = deleteUserBigram;
     }
 
     @Override
@@ -174,9 +198,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
         }
     }
 
-    /**
-     * Used for testing purpose
-     **/
+    /** Used for testing purpose **/
     void waitUntilUpdateDBDone() {
         synchronized (mPendingWritesLock) {
             while (sUpdatingDB) {
@@ -219,40 +241,16 @@ public class UserBigramDictionary extends ExpandableDictionary {
 
         // main INNER JOIN frequency ON (main._id=freq.pair_id)
         qb.setTables(MAIN_TABLE_NAME + " INNER JOIN " + FREQ_TABLE_NAME + " ON ("
-                + MAIN_TABLE_NAME + "." + MAIN_COLUMN_ID + "=" + FREQ_TABLE_NAME + "."
-                + FREQ_COLUMN_PAIR_ID + ")");
+                             + MAIN_TABLE_NAME + "." + MAIN_COLUMN_ID + "=" + FREQ_TABLE_NAME + "."
+                             + FREQ_COLUMN_PAIR_ID +")");
 
         qb.setProjectionMap(sDictProjectionMap);
 
         // Get the database and run the query
         SQLiteDatabase db = sOpenHelper.getReadableDatabase();
-        Cursor c = qb.query(db,
-                new String[]{MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD2, FREQ_COLUMN_FREQUENCY},
+        return qb.query(db,
+                new String[] { MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD2, FREQ_COLUMN_FREQUENCY },
                 selection, selectionArgs, null, null, null);
-        return c;
-    }
-
-    private static class Bigram {
-        String word1;
-        String word2;
-        int frequency;
-
-        Bigram(String word1, String word2, int frequency) {
-            this.word1 = word1;
-            this.word2 = word2;
-            this.frequency = frequency;
-        }
-
-        @Override
-        public boolean equals(Object bigram) {
-            Bigram bigram2 = (Bigram) bigram;
-            return (word1.equals(bigram2.word1) && word2.equals(bigram2.word2));
-        }
-
-        @Override
-        public int hashCode() {
-            return (word1 + " " + word2).hashCode();
-        }
     }
 
     /**
@@ -268,24 +266,24 @@ public class UserBigramDictionary extends ExpandableDictionary {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("PRAGMA foreign_keys = ON;");
             db.execSQL("CREATE TABLE " + MAIN_TABLE_NAME + " ("
-                    + MAIN_COLUMN_ID + " INTEGER PRIMARY KEY,"
-                    + MAIN_COLUMN_WORD1 + " TEXT,"
-                    + MAIN_COLUMN_WORD2 + " TEXT,"
-                    + MAIN_COLUMN_LOCALE + " TEXT"
-                    + ");");
+                               + MAIN_COLUMN_ID + " INTEGER PRIMARY KEY,"
+                               + MAIN_COLUMN_WORD1 + " TEXT,"
+                               + MAIN_COLUMN_WORD2 + " TEXT,"
+                               + MAIN_COLUMN_LOCALE + " TEXT"
+                               + ");");
             db.execSQL("CREATE TABLE " + FREQ_TABLE_NAME + " ("
-                    + FREQ_COLUMN_ID + " INTEGER PRIMARY KEY,"
-                    + FREQ_COLUMN_PAIR_ID + " INTEGER,"
-                    + FREQ_COLUMN_FREQUENCY + " INTEGER,"
-                    + "FOREIGN KEY(" + FREQ_COLUMN_PAIR_ID + ") REFERENCES " + MAIN_TABLE_NAME
-                    + "(" + MAIN_COLUMN_ID + ")" + " ON DELETE CASCADE"
-                    + ");");
+                               + FREQ_COLUMN_ID + " INTEGER PRIMARY KEY,"
+                               + FREQ_COLUMN_PAIR_ID + " INTEGER,"
+                               + FREQ_COLUMN_FREQUENCY + " INTEGER,"
+                               + "FOREIGN KEY(" + FREQ_COLUMN_PAIR_ID + ") REFERENCES " + MAIN_TABLE_NAME
+                               + "(" + MAIN_COLUMN_ID + ")" + " ON DELETE CASCADE"
+                               + ");");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
+                               + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + MAIN_TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + FREQ_TABLE_NAME);
             onCreate(db);
@@ -302,15 +300,13 @@ public class UserBigramDictionary extends ExpandableDictionary {
         private final String mLocale;
 
         public UpdateDbTask(Context context, DatabaseHelper openHelper,
-                            HashSet<Bigram> pendingWrites, String locale) {
+                HashSet<Bigram> pendingWrites, String locale) {
             mMap = pendingWrites;
             mLocale = locale;
             mDbHelper = openHelper;
         }
 
-        /**
-         * Prune any old data if the database is getting too big.
-         */
+        /** Prune any old data if the database is getting too big. */
         private void checkPruneData(SQLiteDatabase db) {
             db.execSQL("PRAGMA foreign_keys = ON;");
             try (Cursor c = db.query(FREQ_TABLE_NAME, new String[]{FREQ_COLUMN_PAIR_ID},
@@ -355,10 +351,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
                 int pairId;
                 if (c.moveToFirst()) {
                     // existing pair
-                    int columnIndex = c.getColumnIndex(MAIN_COLUMN_ID);
-                    if (columnIndex != -1)
-                        pairId = c.getInt(columnIndex);
-                    else pairId = 0;
+                    pairId = c.getInt(c.getColumnIndex(MAIN_COLUMN_ID));
                     db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
                             new String[]{Integer.toString(pairId)});
                 } else {

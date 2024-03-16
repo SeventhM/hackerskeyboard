@@ -18,16 +18,18 @@
 */
 -->
 
-<org.pocketworkstation.pckeyboard.LatinKeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:latin="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LatinkeyboardBaseView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:background="@drawable/keyboard_background_material_black"
-    android:paddingBottom="@dimen/keyboard_bottom_padding"
-    latin:keyBackground="@drawable/btn_keyboard_key_material_black"
-    latin:keyHintColor="@color/key_hint_letter_color_material_black"
+<org.pocketworkstation.pckeyboard.LatinKeyboardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:latin="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/LatinkeyboardBaseView"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/keyboard_bottom_padding"
+        android:background="@drawable/keyboard_background_material_black"
+        latin:keyTextColor="@color/key_text_color_material_black"
+        latin:keyHintColor="@color/key_hint_letter_color_material_black"
 
-    latin:keyTextColor="@color/key_text_color_material_black"
-    latin:popupLayout="@layout/input_popup_material_black" />
+        latin:keyBackground="@drawable/btn_keyboard_key_material_black"
+        latin:popupLayout="@layout/input_popup_material_black"
+        />

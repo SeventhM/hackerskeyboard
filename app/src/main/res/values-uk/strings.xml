@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
 /*
 **
 ** Copyright 2008, The Android Open Source Project
@@ -39,7 +40,7 @@
     <string name="auto_cap" msgid="1719746674854628252">"Авто викор. вел. літер"</string>
     <string name="auto_cap_summary" msgid="3260681697600786825">"Поч. писати речення з великої літери"</string>
     <string name="auto_punctuate" msgid="7276672334264521751">"Авто пунктуація"</string>
-    <string name="auto_punctuate_summary" msgid="6589441565817502132"></string>
+    <string name="auto_punctuate_summary" msgid="6589441565817502132" />
     <string name="quick_fixes" msgid="5353213327680897927">"Шв. виправлення"</string>
     <string name="quick_fixes_summary" msgid="3405028402510332373">"Виправляє поширені помилки"</string>
     <string name="show_suggestions" msgid="507074425254289133">"Показати пропозиції"</string>
@@ -88,7 +89,7 @@
     <string name="voice_hint_dialog_message" msgid="6892342981545727994">"Щоб викор. голос. ввід, натисніть кнопку мікрофона або пересуньте палець на екранній клавіатурі."</string>
     <string name="voice_listening" msgid="467518160751321844">"Диктуйте"</string>
     <string name="voice_working" msgid="6666937792815731889">"Працює"</string>
-    <string name="voice_initializing" msgid="661962047129906646"></string>
+    <string name="voice_initializing" msgid="661962047129906646" />
     <string name="voice_error" msgid="5140896300312186162">"Помилка. Спробуйте ще раз."</string>
     <string name="voice_network_error" msgid="6649556447401862563">"Неможл. під\'єднатися"</string>
     <string name="voice_too_much_speech" msgid="5746973620134227376">"Помилка. Забагато продикт."</string>

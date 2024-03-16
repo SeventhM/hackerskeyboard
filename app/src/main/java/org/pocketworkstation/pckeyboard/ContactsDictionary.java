@@ -28,8 +28,8 @@ import android.util.Log;
 public class ContactsDictionary extends ExpandableDictionary {
 
     private static final String[] PROJECTION = {
-            Contacts._ID,
-            Contacts.DISPLAY_NAME,
+        Contacts._ID,
+        Contacts.DISPLAY_NAME,
     };
 
     private static final String TAG = "ContactsDictionary";
@@ -53,12 +53,12 @@ public class ContactsDictionary extends ExpandableDictionary {
         ContentResolver cres = context.getContentResolver();
 
         cres.registerContentObserver(
-                Contacts.CONTENT_URI, true, mObserver = new ContentObserver(null) {
-                    @Override
-                    public void onChange(boolean self) {
-                        setRequiresReload(true);
-                    }
-                });
+            Contacts.CONTENT_URI, true,mObserver = new ContentObserver(null) {
+                @Override
+                public void onChange(boolean self) {
+                    setRequiresReload(true);
+                }
+            });
         loadDictionary();
     }
 
@@ -75,7 +75,7 @@ public class ContactsDictionary extends ExpandableDictionary {
     public void startDictionaryLoadingTaskLocked() {
         long now = SystemClock.uptimeMillis();
         if (mLastLoadedContacts == 0
-                || now - mLastLoadedContacts > 30 * 60 * 1000 /* 30 minutes */) {
+            || now - mLastLoadedContacts > 30 * 60 * 1000 /* 30 minutes */) {
             super.startDictionaryLoadingTaskLocked();
         }
     }
@@ -84,11 +84,11 @@ public class ContactsDictionary extends ExpandableDictionary {
     public void loadDictionaryAsync() {
         try {
             Cursor cursor = getContext().getContentResolver()
-                    .query(Contacts.CONTENT_URI, PROJECTION, null, null, null);
+                .query(Contacts.CONTENT_URI, PROJECTION, null, null, null);
             if (cursor != null) {
                 addWords(cursor);
             }
-        } catch (IllegalStateException e) {
+        } catch(IllegalStateException e) {
             Log.e(TAG, "Contacts DB is having problems");
         }
         mLastLoadedContacts = SystemClock.uptimeMillis();
@@ -115,7 +115,7 @@ public class ContactsDictionary extends ExpandableDictionary {
                                     char c = name.charAt(j);
 
                                     if (!(c == '-' || c == '\'' ||
-                                            Character.isLetter(c))) {
+                                        Character.isLetter(c))) {
                                         break;
                                     }
                                 }
@@ -134,7 +134,7 @@ public class ContactsDictionary extends ExpandableDictionary {
                                         // TODO Do not add email address
                                         // Not so critical
                                         super.setBigram(prevWord, word,
-                                                FREQUENCY_FOR_CONTACTS_BIGRAM);
+                                            FREQUENCY_FOR_CONTACTS_BIGRAM);
                                     }
                                     prevWord = word;
                                 }
@@ -145,7 +145,7 @@ public class ContactsDictionary extends ExpandableDictionary {
                 }
             }
             cursor.close();
-        } catch (IllegalStateException e) {
+        } catch(IllegalStateException e) {
             Log.e(TAG, "Contacts DB is having problems");
         }
     }

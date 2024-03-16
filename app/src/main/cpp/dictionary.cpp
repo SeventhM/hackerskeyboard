@@ -34,9 +34,8 @@
 
 namespace latinime {
 
-    Dictionary::Dictionary(void *dict, int typedLetterMultiplier, int fullWordMultiplier,
-                           int size) {
-        mDict = (unsigned char *) dict;
+    Dictionary::Dictionary(void *dict, int typedLetterMultiplier, int fullWordMultiplier, int size) {
+        mDict = (unsigned char*) dict;
         mTypedLetterMultiplier = typedLetterMultiplier;
         mFullWordMultiplier = fullWordMultiplier;
         mDictSize = size;
@@ -46,11 +45,9 @@ namespace latinime {
     Dictionary::~Dictionary() {
     }
 
-    int Dictionary::getSuggestions(int *codes, int codesSize, unsigned short *outWords,
-                                   int *frequencies,
-                                   int maxWordLength, int maxWords, int maxAlternatives,
-                                   int skipPos,
-                                   int *nextLetters, int nextLettersSize) {
+    int Dictionary::getSuggestions(int *codes, int codesSize, unsigned short *outWords, int *frequencies,
+        int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
+        int *nextLetters, int nextLettersSize) {
         int suggWords;
         mFrequencies = frequencies;
         mOutputChars = outWords;
@@ -180,19 +177,19 @@ namespace latinime {
         while (insertAt < mMaxWords) {
             if (frequency > mFrequencies[insertAt]
                 || (mFrequencies[insertAt] == frequency
-                    && length < wideStrLen(mOutputChars + insertAt * mMaxWordLength))) {
+                && length < wideStrLen(mOutputChars + insertAt * mMaxWordLength))) {
                 break;
             }
             insertAt++;
         }
         if (insertAt < mMaxWords) {
-            memmove((char *) mFrequencies + (insertAt + 1) * sizeof(mFrequencies[0]),
-                    (char *) mFrequencies + insertAt * sizeof(mFrequencies[0]),
-                    (mMaxWords - insertAt - 1) * sizeof(mFrequencies[0]));
+            memmove((char*) mFrequencies + (insertAt + 1) * sizeof(mFrequencies[0]),
+                (char*) mFrequencies + insertAt * sizeof(mFrequencies[0]),
+                (mMaxWords - insertAt - 1) * sizeof(mFrequencies[0]));
             mFrequencies[insertAt] = frequency;
-            memmove((char *) mOutputChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
-                    (char *) mOutputChars + (insertAt) * mMaxWordLength * sizeof(short),
-                    (mMaxWords - insertAt - 1) * sizeof(short) * mMaxWordLength);
+            memmove((char*) mOutputChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
+                (char*) mOutputChars + (insertAt) * mMaxWordLength * sizeof(short),
+                (mMaxWords - insertAt - 1) * sizeof(short) * mMaxWordLength);
             unsigned short *dest = mOutputChars + (insertAt) * mMaxWordLength;
             while (length--) {
                 *dest++ = *word++;
@@ -218,20 +215,20 @@ namespace latinime {
         while (insertAt < mMaxBigrams) {
             if (frequency > mBigramFreq[insertAt]
                 || (mBigramFreq[insertAt] == frequency
-                    && length < wideStrLen(mBigramChars + insertAt * mMaxWordLength))) {
+                && length < wideStrLen(mBigramChars + insertAt * mMaxWordLength))) {
                 break;
             }
             insertAt++;
         }
         LOGI("Bigram: InsertAt -> %d maxBigrams: %d\n", insertAt, mMaxBigrams);
         if (insertAt < mMaxBigrams) {
-            memmove((char *) mBigramFreq + (insertAt + 1) * sizeof(mBigramFreq[0]),
-                    (char *) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
-                    (mMaxBigrams - insertAt - 1) * sizeof(mBigramFreq[0]));
+            memmove((char*) mBigramFreq + (insertAt + 1) * sizeof(mBigramFreq[0]),
+                (char*) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
+                (mMaxBigrams - insertAt - 1) * sizeof(mBigramFreq[0]));
             mBigramFreq[insertAt] = frequency;
-            memmove((char *) mBigramChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
-                    (char *) mBigramChars + (insertAt) * mMaxWordLength * sizeof(short),
-                    (mMaxBigrams - insertAt - 1) * sizeof(short) * mMaxWordLength);
+            memmove((char*) mBigramChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
+                (char*) mBigramChars + (insertAt) * mMaxWordLength * sizeof(short),
+                (mMaxBigrams - insertAt - 1) * sizeof(short) * mMaxWordLength);
             unsigned short *dest = mBigramChars + (insertAt) * mMaxWordLength;
             while (length--) {
                 *dest++ = *word++;
@@ -275,9 +272,8 @@ namespace latinime {
     static char QUOTE = '\'';
 
     void
-    Dictionary::getWordsRec(int pos, int depth, int maxDepth, bool completion, int snr,
-                            int inputIndex,
-                            int diffs) {
+    Dictionary::getWordsRec(int pos, int depth, int maxDepth, bool completion, int snr, int inputIndex,
+        int diffs) {
         // Optimization: Prune out words that are too long compared to how much was typed.
         if (depth > maxDepth) {
             return;
@@ -316,14 +312,13 @@ namespace latinime {
                 }
                 if (childrenAddress != 0) {
                     getWordsRec(childrenAddress, depth + 1, maxDepth,
-                                completion, snr, inputIndex, diffs);
+                        completion, snr, inputIndex, diffs);
                 }
             } else if ((c == QUOTE && currentChars[0] != QUOTE) || mSkipPos == depth) {
                 // Skip the ' or other letter and continue deeper
                 mWord[depth] = c;
                 if (childrenAddress != 0) {
-                    getWordsRec(childrenAddress, depth + 1, maxDepth, false, snr, inputIndex,
-                                diffs);
+                    getWordsRec(childrenAddress, depth + 1, maxDepth, false, snr, inputIndex, diffs);
                 }
             } else {
                 int j = 0;
@@ -334,7 +329,7 @@ namespace latinime {
                         if (mInputLength == inputIndex + 1) {
                             if (terminal) {
                                 if (//INCLUDE_TYPED_WORD_IF_VALID ||
-                                        !sameAsTyped(mWord, depth + 1)) {
+                                    !sameAsTyped(mWord, depth + 1)) {
                                     int finalFreq = freq * snr * addedWeight;
                                     if (mSkipPos < 0) finalFreq *= mFullWordMultiplier;
                                     addWord(mWord, depth + 1, finalFreq);
@@ -342,12 +337,12 @@ namespace latinime {
                             }
                             if (childrenAddress != 0) {
                                 getWordsRec(childrenAddress, depth + 1,
-                                            maxDepth, true, snr * addedWeight, inputIndex + 1,
-                                            diffs + (j > 0));
+                                    maxDepth, true, snr * addedWeight, inputIndex + 1,
+                                    diffs + (j > 0));
                             }
                         } else if (childrenAddress != 0) {
                             getWordsRec(childrenAddress, depth + 1, maxDepth,
-                                        false, snr * addedWeight, inputIndex + 1, diffs + (j > 0));
+                                false, snr * addedWeight, inputIndex + 1, diffs + (j > 0));
                         }
                     }
                     j++;
@@ -385,9 +380,8 @@ namespace latinime {
 
     int
     Dictionary::getBigrams(unsigned short *prevWord, int prevWordLength, int *codes, int codesSize,
-                           unsigned short *bigramChars, int *bigramFreq, int maxWordLength,
-                           int maxBigrams,
-                           int maxAlternatives) {
+        unsigned short *bigramChars, int *bigramFreq, int maxWordLength, int maxBigrams,
+        int maxAlternatives) {
         mBigramFreq = bigramFreq;
         mBigramChars = bigramChars;
         mInputCodes = codes;

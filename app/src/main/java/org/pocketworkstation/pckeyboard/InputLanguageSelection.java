@@ -16,18 +16,6 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.util.Log;
-
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,17 +24,60 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class InputLanguageSelection extends PreferenceActivity {
-    // Languages for which auto-caps should be disabled
-    public static final Set<String> NOCAPS_LANGUAGES = new HashSet<>();
-    // Languages which should not use dead key logic. The modifier is entered after the base character.
-    public static final Set<String> NODEADKEY_LANGUAGES = new HashSet<>();
-    // Languages which should not auto-add space after completions
-    public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<>();
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceManager;
+
+public class InputLanguageSelection extends FragmentActivity {
+
+    public static class InputLanguageSelectionFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+            setPreferencesFromResource(R.xml.language_prefs, rootKey);
+        }
+    }
+    InputLanguageSelectionFragment fragment = new InputLanguageSelectionFragment();
     private static final String TAG = "PCKeyboardILS";
+    private ArrayList<Loc> mAvailableLanguages = new ArrayList<>();
     private static final String[] BLACKLIST_LANGUAGES = {
             "ko", "ja", "zh"
     };
+
+    // Languages for which auto-caps should be disabled
+    public static final Set<String> NOCAPS_LANGUAGES = new HashSet<>();
+    static {
+        NOCAPS_LANGUAGES.add("ar");
+        NOCAPS_LANGUAGES.add("iw");
+        NOCAPS_LANGUAGES.add("th");
+    }
+
+    // Languages which should not use dead key logic. The modifier is entered after the base character.
+    public static final Set<String> NODEADKEY_LANGUAGES = new HashSet<>();
+    static {
+        NODEADKEY_LANGUAGES.add("ar");
+        NODEADKEY_LANGUAGES.add("iw"); // TODO: currently no niqqud in the keymap?
+        NODEADKEY_LANGUAGES.add("th");
+    }
+
+    // Languages which should not auto-add space after completions
+    public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<>();
+    static {
+        NOAUTOSPACE_LANGUAGES.add("th");
+    }
+
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
@@ -57,6 +88,7 @@ public class InputLanguageSelection extends PreferenceActivity {
             "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
             "sr", "sv", "ta", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
     };
+
     private static final String[] KBD_5_ROW = {
             "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
             "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "fa", "fi", "fr",
@@ -64,30 +96,13 @@ public class InputLanguageSelection extends PreferenceActivity {
             "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
             "sr", "sv", "ta", "th", "tr", "uk"
     };
+
     private static final String[] KBD_4_ROW = {
             "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
             "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
             "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
             "sl", "sr", "sv", "tr", "uk"
     };
-
-    static {
-        NOCAPS_LANGUAGES.add("ar");
-        NOCAPS_LANGUAGES.add("iw");
-        NOCAPS_LANGUAGES.add("th");
-    }
-
-    static {
-        NODEADKEY_LANGUAGES.add("ar");
-        NODEADKEY_LANGUAGES.add("iw"); // TODO: currently no niqqud in the keymap?
-        NODEADKEY_LANGUAGES.add("th");
-    }
-
-    static {
-        NOAUTOSPACE_LANGUAGES.add("th");
-    }
-
-    private ArrayList<Loc> mAvailableLanguages = new ArrayList<>();
 
     private static String getLocaleName(Locale l) {
         String lang = l.getLanguage();
@@ -121,24 +136,41 @@ public class InputLanguageSelection extends PreferenceActivity {
         }
     }
 
-    private static String asString(Set<String> set) {
-        StringBuilder out = new StringBuilder();
-        out.append("set(");
-        String[] parts = new String[set.size()];
-        parts = set.toArray(parts);
-        Arrays.sort(parts);
-        for (int i = 0; i < parts.length; ++i) {
-            if (i > 0) out.append(", ");
-            out.append(parts[i]);
+    private static class Loc implements Comparable<Object> {
+        static Collator sCollator = Collator.getInstance();
+
+        String label;
+        Locale locale;
+
+        public Loc(String label, Locale locale) {
+            this.label = label;
+            this.locale = locale;
         }
-        out.append(")");
-        return out.toString();
+
+        @NonNull
+        @Override
+        public String toString() {
+            return this.label;
+        }
+
+        public int compareTo(Object o) {
+            return sCollator.compare(this.label, ((Loc) o).label);
+        }
     }
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.language_prefs);
+        isInit = false;
+        fragment = new InputLanguageSelectionFragment();
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+    }
+
+    private boolean isInit = false;
+
+    void init() {
+        if (isInit) return;
+        isInit = true;
         // Get the settings preferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         String selectedLanguagePref = sp.getString(LatinIME.PREF_SELECTED_LANGUAGES, "");
@@ -165,7 +197,7 @@ public class InputLanguageSelection extends PreferenceActivity {
             }
         }
 
-        PreferenceGroup parent = getPreferenceScreen();
+        PreferenceGroup parent = fragment.getPreferenceScreen();
         for (int i = 0; i < mAvailableLanguages.size(); i++) {
             CheckBoxPreference pref = new CheckBoxPreference(this);
             Locale locale = mAvailableLanguages.get(i).locale;
@@ -228,20 +260,22 @@ public class InputLanguageSelection extends PreferenceActivity {
     private String get5Code(Locale locale) {
         String country = locale.getCountry();
         return locale.getLanguage()
-                + (TextUtils.isEmpty(country) ? "" : "_" + country);
+                       + (TextUtils.isEmpty(country) ? "" : "_" + country);
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+        init();
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
+        init();
         // Save the selected languages
         StringBuilder checkedLanguages = new StringBuilder();
-        PreferenceGroup parent = getPreferenceScreen();
+        PreferenceGroup parent = fragment.getPreferenceScreen();
         int count = parent.getPreferenceCount();
         for (int i = 0; i < count; i++) {
             CheckBoxPreference pref = (CheckBoxPreference) parent.getPreference(i);
@@ -257,12 +291,26 @@ public class InputLanguageSelection extends PreferenceActivity {
         SharedPreferencesCompat.apply(editor);
     }
 
+    private static String asString(Set<String> set) {
+        StringBuilder out = new StringBuilder();
+        out.append("set(");
+        String[] parts = new String[set.size()];
+        parts = set.toArray(parts);
+        Arrays.sort(parts);
+        for (int i = 0; i < parts.length; ++i) {
+            if (i > 0) out.append(", ");
+            out.append(parts[i]);
+        }
+        out.append(")");
+        return out.toString();
+    }
+
     ArrayList<Loc> getUniqueLocales() {
         Set<String> localeSet = new HashSet<>();
         Set<String> langSet = new HashSet<>();
         // Ignore the system (asset) locale list, it's inconsistent and incomplete
 //        String[] sysLocales = getAssets().getLocales();
-//
+//        
 //        // First, add zz_ZZ style full language+country locales
 //        for (int i = 0; i < sysLocales.length; ++i) {
 //        	String sl = sysLocales[i];
@@ -270,7 +318,7 @@ public class InputLanguageSelection extends PreferenceActivity {
 //        	localeSet.add(sl);
 //        	langSet.add(sl.substring(0, 2));
 //        }
-//
+//        
 //        // Add entries for system languages without country, but only if there's
 //        // no full locale for that language yet.
 //        for (int i = 0; i < sysLocales.length; ++i) {
@@ -280,8 +328,7 @@ public class InputLanguageSelection extends PreferenceActivity {
 //        }
 
         // Add entries for additional languages supported by the keyboard.
-        for (String kbdLocalization : KBD_LOCALIZATIONS) {
-            String kl = kbdLocalization;
+        for (String kl : KBD_LOCALIZATIONS) {
             if (kl.length() == 2 && langSet.contains(kl)) continue;
             // replace zz_rYY with zz_YY
             if (kl.length() == 6) kl = kl.substring(0, 2) + "_" + kl.substring(4, 6);
@@ -298,18 +345,18 @@ public class InputLanguageSelection extends PreferenceActivity {
         final int origSize = locales.length;
         Loc[] preprocess = new Loc[origSize];
         int finalSize = 0;
-        for (String locale : locales) {
-            int len = locale.length();
+        for (String s : locales) {
+            int len = s.length();
             if (len == 2 || len == 5 || len == 6) {
-                String language = locale.substring(0, 2);
+                String language = s.substring(0, 2);
                 Locale l;
                 if (len == 5) {
                     // zz_YY
-                    String country = locale.substring(3, 5);
+                    String country = s.substring(3, 5);
                     l = new Locale(language, country);
                 } else if (len == 6) {
                     // zz_rYY
-                    l = new Locale(language, locale.substring(4, 6));
+                    l = new Locale(language, s.substring(4, 6));
                 } else {
                     l = new Locale(language);
                 }
@@ -332,7 +379,7 @@ public class InputLanguageSelection extends PreferenceActivity {
                                 new Loc(getLocaleName(l), l);
                     } else {
                         String displayName;
-                        if (!locale.equals("zz_ZZ")) {
+                        if (!s.equals("zz_ZZ")) {
                             displayName = getLocaleName(l);
                             preprocess[finalSize++] = new Loc(displayName, l);
                         }
@@ -348,26 +395,5 @@ public class InputLanguageSelection extends PreferenceActivity {
             if (s.equalsIgnoreCase(value)) return true;
         }
         return false;
-    }
-
-    private static class Loc implements Comparable<Object> {
-        static Collator sCollator = Collator.getInstance();
-
-        String label;
-        Locale locale;
-
-        public Loc(String label, Locale locale) {
-            this.label = label;
-            this.locale = locale;
-        }
-
-        @Override
-        public String toString() {
-            return this.label;
-        }
-
-        public int compareTo(Object o) {
-            return sCollator.compare(this.label, ((Loc) o).label);
-        }
     }
 }

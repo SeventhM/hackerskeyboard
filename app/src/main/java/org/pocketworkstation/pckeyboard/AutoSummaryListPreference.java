@@ -4,12 +4,13 @@
 package org.pocketworkstation.pckeyboard;
 
 import android.content.Context;
-import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import androidx.preference.ListPreference;
+
 public class AutoSummaryListPreference extends ListPreference {
-    private static final String TAG = "HK/AutoSummaryListPreference"; // TODO make 23 characters
+    private static final String TAG = "HK/AutoSummaryListPref";
 
     public AutoSummaryListPreference(Context context) {
         super(context);

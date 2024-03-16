@@ -22,25 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 public class PluginManager extends BroadcastReceiver {
-    private static String TAG = "PCKeyboard";
-    private static String HK_INTENT_DICT = "org.pocketworkstation.DICT";
-    private static String SOFTKEYBOARD_INTENT_DICT = "com.menny.android.anysoftkeyboard.DICTIONARY";
-    private static String SOFTKEYBOARD_DICT_RESOURCE_METADATA_NAME = "com.menny.android.anysoftkeyboard.dictionaries";
+    private static final String TAG = "PCKeyboard";
+    private static final String HK_INTENT_DICT = "org.pocketworkstation.DICT";
+    private static final String SOFTKEYBOARD_INTENT_DICT = "com.menny.android.anysoftkeyboard.DICTIONARY";
+    private static final String SOFTKEYBOARD_DICT_RESOURCE_METADATA_NAME = "com.menny.android.anysoftkeyboard.dictionaries";
+    private final LatinIME mIME;
+
     // Apparently anysoftkeyboard doesn't use ISO 639-1 language codes for its locales?
     // Add exceptions as needed.
-    private static Map<String, String> SOFTKEYBOARD_LANG_MAP = new HashMap<>();
-    private static Map<String, DictPluginSpec> mPluginDicts =
-            new HashMap<>();
+    private static final Map<String, String> SOFTKEYBOARD_LANG_MAP = new HashMap<>();
 
     static {
         SOFTKEYBOARD_LANG_MAP.put("dk", "da");
     }
 
-    private LatinIME mIME;
+    private static final Map<String, DictPluginSpec> mPluginDicts =
+            new HashMap<>();
 
     PluginManager(LatinIME ime) {
         super();
         mIME = ime;
+    }
+
+    interface DictPluginSpec {
+        BinaryDictionary getDict(Context context);
     }
 
     static void getSoftKeyboardDictionaries(PackageManager packageManager) {
@@ -126,7 +131,7 @@ public class PluginManager extends BroadcastReceiver {
                 int langId = res.getIdentifier("dict_language", "string", pkgName);
                 if (langId == 0) continue;
                 String lang = res.getString(langId);
-                int[] rawIds = null;
+                int[] rawIds;
 
                 // Try single-file version first
                 int rawId = res.getIdentifier("main", "raw", pkgName);
@@ -160,38 +165,6 @@ public class PluginManager extends BroadcastReceiver {
         }
     }
 
-    static void getPluginDictionaries(Context context) {
-        mPluginDicts.clear();
-        PackageManager packageManager = context.getPackageManager();
-        getSoftKeyboardDictionaries(packageManager);
-        getHKDictionaries(packageManager);
-    }
-
-    static BinaryDictionary getDictionary(Context context, String lang) {
-        //Log.i(TAG, "Looking for plugin dictionary for lang=" + lang);
-        DictPluginSpec spec = mPluginDicts.get(lang);
-        if (spec == null) spec = mPluginDicts.get(lang.substring(0, 2));
-        if (spec == null) {
-            //Log.i(TAG, "No plugin found.");
-            return null;
-        }
-        BinaryDictionary dict = spec.getDict(context);
-        Log.i(TAG, "Found plugin dictionary for " + lang + (dict == null ? " is null" : ", size=" + dict.getSize()));
-        return dict;
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.i(TAG, "Package information changed, updating dictionaries.");
-        getPluginDictionaries(context);
-        Log.i(TAG, "Finished updating dictionaries.");
-        mIME.toggleLanguage(true, true);
-    }
-
-    interface DictPluginSpec {
-        BinaryDictionary getDict(Context context);
-    }
-
     static private abstract class DictPluginSpecBase
             implements DictPluginSpec {
         String mPackageName;
@@ -222,6 +195,14 @@ public class PluginManager extends BroadcastReceiver {
             //Log.i(TAG, "dict size=" + dict.getSize());
             return dict;
         }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.i(TAG, "Package information changed, updating dictionaries.");
+        getPluginDictionaries(context);
+        Log.i(TAG, "Finished updating dictionaries.");
+        mIME.toggleLanguage(true, true);
     }
 
     static private class DictPluginSpecHK
@@ -286,5 +267,25 @@ public class PluginManager extends BroadcastReceiver {
                 }
             }
         }
+    }
+
+    static void getPluginDictionaries(Context context) {
+        mPluginDicts.clear();
+        PackageManager packageManager = context.getPackageManager();
+        getSoftKeyboardDictionaries(packageManager);
+        getHKDictionaries(packageManager);
+    }
+
+    static BinaryDictionary getDictionary(Context context, String lang) {
+        //Log.i(TAG, "Looking for plugin dictionary for lang=" + lang);
+        DictPluginSpec spec = mPluginDicts.get(lang);
+        if (spec == null) spec = mPluginDicts.get(lang.substring(0, 2));
+        if (spec == null) {
+            //Log.i(TAG, "No plugin found.");
+            return null;
+        }
+        BinaryDictionary dict = spec.getDict(context);
+        Log.i(TAG, "Found plugin dictionary for " + lang + (dict == null ? " is null" : ", size=" + dict.getSize()));
+        return dict;
     }
 }

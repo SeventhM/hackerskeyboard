@@ -22,13 +22,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Stores new words temporarily until they are promoted to the user dictionary
@@ -48,25 +49,32 @@ public class AutoDictionary extends ExpandableDictionary {
     private static final int VALIDITY_THRESHOLD = 2 * FREQUENCY_FOR_PICKED;
     // If the user touches a typed word 4 times or more, it will be added to the user dict.
     private static final int PROMOTION_THRESHOLD = 4 * FREQUENCY_FOR_PICKED;
+
+    private final LatinIME mIme;
+    // Locale for which this auto dictionary is storing words
+    private final String mLocale;
+
+    private HashMap<String,Integer> mPendingWrites = new HashMap<>();
+    private final Object mPendingWritesLock = new Object();
+
     private static final String DATABASE_NAME = "auto_dict.db";
     private static final int DATABASE_VERSION = 1;
+
     // These are the columns in the dictionary
     // TODO: Consume less space by using a unique id for locale instead of the whole
     // 2-5 character string.
     private static final String COLUMN_ID = BaseColumns._ID;
     private static final String COLUMN_WORD = "word";
     private static final String COLUMN_FREQUENCY = "freq";
-    /**
-     * Sort by descending order of frequency.
-     */
-    public static final String DEFAULT_SORT_ORDER = COLUMN_FREQUENCY + " DESC";
     private static final String COLUMN_LOCALE = "locale";
-    /**
-     * Name of the words table in the auto_dict.db
-     */
+
+    /** Sort by descending order of frequency. */
+    public static final String DEFAULT_SORT_ORDER = COLUMN_FREQUENCY + " DESC";
+
+    /** Name of the words table in the auto_dict.db */
     private static final String AUTODICT_TABLE_NAME = "words";
-    private static HashMap<String, String> sDictProjectionMap;
-    private static DatabaseHelper sOpenHelper = null;
+
+    private static final HashMap<String, String> sDictProjectionMap;
 
     static {
         sDictProjectionMap = new HashMap<>();
@@ -76,11 +84,7 @@ public class AutoDictionary extends ExpandableDictionary {
         sDictProjectionMap.put(COLUMN_LOCALE, COLUMN_LOCALE);
     }
 
-    private final Object mPendingWritesLock = new Object();
-    private LatinIME mIme;
-    // Locale for which this auto dictionary is storing words
-    private String mLocale;
-    private HashMap<String, Integer> mPendingWrites = new HashMap<>();
+    private static DatabaseHelper sOpenHelper = null;
 
     public AutoDictionary(Context context, LatinIME ime, String locale, int dicTypeId) {
         super(context, dicTypeId);
@@ -163,22 +167,10 @@ public class AutoDictionary extends ExpandableDictionary {
             // Nothing pending? Return
             if (mPendingWrites.isEmpty()) return;
             // Create a background thread to write the pending entries
-            new UpdateDbTask(getContext(), sOpenHelper, mPendingWrites, mLocale).execute();
+            updateDb(getContext(), sOpenHelper, mPendingWrites, mLocale);
             // Create a new map for writing new entries into while the old one is written to db
             mPendingWrites = new HashMap<>();
         }
-    }
-
-    private Cursor query(String selection, String[] selectionArgs) {
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(AUTODICT_TABLE_NAME);
-        qb.setProjectionMap(sDictProjectionMap);
-
-        // Get the database and run the query
-        SQLiteDatabase db = sOpenHelper.getReadableDatabase();
-        Cursor c = qb.query(db, null, selection, selectionArgs, null, null,
-                DEFAULT_SORT_ORDER);
-        return c;
     }
 
     /**
@@ -193,61 +185,64 @@ public class AutoDictionary extends ExpandableDictionary {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + AUTODICT_TABLE_NAME + " ("
-                    + COLUMN_ID + " INTEGER PRIMARY KEY,"
-                    + COLUMN_WORD + " TEXT,"
-                    + COLUMN_FREQUENCY + " INTEGER,"
-                    + COLUMN_LOCALE + " TEXT"
-                    + ");");
+                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_WORD + " TEXT,"
+                + COLUMN_FREQUENCY + " INTEGER,"
+                + COLUMN_LOCALE + " TEXT"
+                + ");");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w("AutoDictionary", "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
+                + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + AUTODICT_TABLE_NAME);
             onCreate(db);
         }
+    }
+
+    private Cursor query(String selection, String[] selectionArgs) {
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables(AUTODICT_TABLE_NAME);
+        qb.setProjectionMap(sDictProjectionMap);
+
+        // Get the database and run the query
+        SQLiteDatabase db = sOpenHelper.getReadableDatabase();
+        return qb.query(db, null, selection, selectionArgs, null, null,
+            DEFAULT_SORT_ORDER);
     }
 
     /**
      * Async task to write pending words to the database so that it stays in sync with
      * the in-memory trie.
      */
-    private static class UpdateDbTask extends AsyncTask<Void, Void, Void> {
-        private final HashMap<String, Integer> mMap;
-        private final DatabaseHelper mDbHelper;
-        private final String mLocale;
-
-        public UpdateDbTask(Context context, DatabaseHelper openHelper,
-                            HashMap<String, Integer> pendingWrites, String locale) {
-            mMap = pendingWrites;
-            mLocale = locale;
-            mDbHelper = openHelper;
-        }
-
-        @Override
-        protected Void doInBackground(Void... v) {
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Write all the entries to the db
-            Set<Entry<String, Integer>> mEntries = mMap.entrySet();
-            for (Entry<String, Integer> entry : mEntries) {
-                Integer freq = entry.getValue();
-                db.delete(AUTODICT_TABLE_NAME, COLUMN_WORD + "=? AND " + COLUMN_LOCALE + "=?",
-                        new String[]{entry.getKey(), mLocale});
-                if (freq != null) {
-                    db.insert(AUTODICT_TABLE_NAME, null,
-                            getContentValues(entry.getKey(), freq, mLocale));
+    private void updateDb(Context context, DatabaseHelper openHelper,
+        HashMap<String, Integer> pendingWrites, String locale) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = openHelper.getWritableDatabase();
+                // Write all the entries to the db
+                Set<Entry<String,Integer>> mEntries = pendingWrites.entrySet();
+                for (Entry<String,Integer> entry : mEntries) {
+                    Integer freq = entry.getValue();
+                    db.delete(AUTODICT_TABLE_NAME, COLUMN_WORD + "=? AND " + COLUMN_LOCALE + "=?",
+                        new String[] { entry.getKey(), locale });
+                    if (freq != null) {
+                        db.insert(AUTODICT_TABLE_NAME, null,
+                            getContentValues(entry.getKey(), freq, locale));
+                    }
                 }
             }
-            return null;
-        }
 
-        private ContentValues getContentValues(String word, int frequency, String locale) {
-            ContentValues values = new ContentValues(4);
-            values.put(COLUMN_WORD, word);
-            values.put(COLUMN_FREQUENCY, frequency);
-            values.put(COLUMN_LOCALE, locale);
-            return values;
-        }
+            private ContentValues getContentValues(String word, int frequency, String locale) {
+                ContentValues values = new ContentValues(4);
+                values.put(COLUMN_WORD, word);
+                values.put(COLUMN_FREQUENCY, frequency);
+                values.put(COLUMN_LOCALE, locale);
+                return values;
+            }
+        });
     }
 }

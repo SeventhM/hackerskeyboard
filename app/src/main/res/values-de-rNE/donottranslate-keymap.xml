@@ -101,8 +101,8 @@
     <string name="key_ad12_shift">&#x303;</string>
     <string name="key_ad12_alt">&#x30B;&#x313;&#x306;</string>
     <string name="key_bksl_main">Mod3</string>
-    <string name="key_bksl_shift"></string>
-    <string name="key_bksl_alt"></string>
+    <string name="key_bksl_shift" />
+    <string name="key_bksl_alt" />
     <string name="key_ac01_main">u</string>
     <string name="key_ac01_shift">U</string>
     <string name="key_ac01_alt">@string/alternates_for_u</string>
@@ -137,8 +137,8 @@
     <string name="key_ac11_shift">Y</string>
     <string name="key_ac11_alt">@string/alternates_for_y</string>
     <string name="key_lsgt_main">Mod4</string>
-    <string name="key_lsgt_shift"></string>
-    <string name="key_lsgt_alt"></string>
+    <string name="key_lsgt_shift" />
+    <string name="key_lsgt_alt" />
     <string name="key_ab01_main">ü</string>
     <string name="key_ab01_shift">Ü</string>
     <string name="key_ab01_alt">#∪</string>
@@ -169,6 +169,6 @@
     <string name="key_ab10_main">j</string>
     <string name="key_ab10_shift">J</string>
     <string name="key_ab10_alt">@string/alternates_for_j</string>
-    <string name="key_space_shift"></string>
+    <string name="key_space_shift" />
 
 </resources>

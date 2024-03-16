@@ -18,22 +18,24 @@
 */
 -->
 
-<org.pocketworkstation.pckeyboard.LatinKeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:latin="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LatinkeyboardBaseView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:background="@drawable/keyboard_background"
-    android:textStyle="bold"
+<org.pocketworkstation.pckeyboard.LatinKeyboardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:latin="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/LatinkeyboardBaseView"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/keyboard_background"
+        android:textStyle="bold"
 
-    latin:invertSymbols="true"
-    latin:keyBackground="@drawable/btn_keyboard_key_stone"
-    latin:keyCursorColor="@color/latinkeyboard_dim_color_black"
-    latin:keyHintColor="#FF777777"
-    latin:keyTextColor="@color/latinkeyboard_key_color_black"
-    latin:keyTextStyle="bold"
-    latin:popupLayout="@layout/input_stone_popup"
-    latin:shadowColor="@color/latinkeyboard_key_color_white"
-    latin:shadowRadius="0"
-    latin:symbolColorScheme="black" />
+        latin:keyBackground="@drawable/btn_keyboard_key_stone"
+        latin:keyTextColor="@color/latinkeyboard_key_color_black"
+        latin:keyHintColor="#FF777777"
+        latin:keyCursorColor="@color/latinkeyboard_dim_color_black"
+        latin:shadowColor="@color/latinkeyboard_key_color_white"
+        latin:shadowRadius="0"
+        latin:keyTextStyle="bold"
+        latin:symbolColorScheme="black"
+        latin:invertSymbols="true"
+        latin:popupLayout="@layout/input_stone_popup"
+        />

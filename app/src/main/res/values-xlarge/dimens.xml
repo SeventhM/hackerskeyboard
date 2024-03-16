@@ -20,12 +20,12 @@
 
 <resources>
     <!-- key_height + key_bottom_gap = popup_key_height -->
-    <dimen name="key_height">80dp</dimen>
-    <dimen name="key_horizontal_pad">6.4dp</dimen>
-    <dimen name="key_vertical_pad">6.4dp</dimen>
-    <dimen name="key_vertical_pad_compact">6.4dp</dimen>
-    <dimen name="popup_key_height">80dp</dimen>
-    <dimen name="keyboard_bottom_padding">9.6dp</dimen>
-    <dimen name="key_text_size">32dp</dimen>
-    <dimen name="key_label_text_size">27.2dp</dimen>
+    <dimen name="key_height">0.5in</dimen>
+    <dimen name="key_horizontal_pad">0.04in</dimen>
+    <dimen name="key_vertical_pad">0.04in</dimen>
+    <dimen name="key_vertical_pad_compact">0.04in</dimen>
+    <dimen name="popup_key_height">0.5in</dimen>
+    <dimen name="keyboard_bottom_padding">0.06in</dimen>
+    <dimen name="key_text_size">0.20in</dimen>
+    <dimen name="key_label_text_size">0.17in</dimen>
 </resources>

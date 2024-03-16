@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,60 +19,44 @@
     app:keyHeight="@dimen/key_height"
 -->
 
-<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:horizontalGap="0px"
+<Keyboard
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:keyWidth="10%p"
-    app:verticalGap="0px">
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
+    >
 
     <Row app:rowEdgeFlags="top">
-        <Key
-            app:keyEdgeFlags="left"
-            app:keyLabel="!" />
-        <Key app:keyLabel="\@" />
-        <Key app:keyLabel="\#" />
-        <Key app:keyLabel="&amp;" />
-        <Key app:keyLabel="-" />
-        <Key app:keyLabel="\'" />
-        <Key app:keyLabel=":" />
-        <Key app:keyLabel="&quot;" />
-        <Key app:keyLabel="/" />
-        <Key
-            app:keyEdgeFlags="right"
-            app:keyLabel="\?" />
+        <Key app:keyLabel="!" app:keyEdgeFlags="left"/>
+        <Key app:keyLabel="\@"/>
+        <Key app:keyLabel="\#"/>
+        <Key app:keyLabel="&amp;"/>
+        <Key app:keyLabel="-"/>
+        <Key app:keyLabel="\'"/>
+        <Key app:keyLabel=":"/>
+        <Key app:keyLabel="&quot;"/>
+        <Key app:keyLabel="/"/>
+        <Key app:keyLabel="\?" app:keyEdgeFlags="right"
+            />
     </Row>
 
     <Row app:rowEdgeFlags="bottom">
-        <Key
-            app:codes="49"
-            app:keyEdgeFlags="left"
-            app:keyLabel="1" />
-        <Key
-            app:codes="50"
-            app:keyLabel="2" />
-        <Key
-            app:codes="51"
-            app:keyLabel="3" />
-        <Key
-            app:codes="52"
-            app:keyLabel="4" />
-        <Key
-            app:codes="53"
-            app:keyLabel="5" />
-        <Key
-            app:codes="54"
-            app:keyLabel="6" />
-        <Key
-            app:codes="55"
-            app:keyLabel="7" />
-        <Key
-            app:codes="56"
-            app:keyLabel="8" />
-        <Key
-            app:codes="57"
-            app:keyLabel="9" />
-        <Key
-            app:codes="48"
-            app:keyEdgeFlags="right"
-            app:keyLabel="0" />
+        <Key app:codes="49" app:keyLabel="1" app:keyEdgeFlags="left"
+            />
+        <Key app:codes="50" app:keyLabel="2"
+            />
+        <Key app:codes="51" app:keyLabel="3"
+            />
+        <Key app:codes="52" app:keyLabel="4"
+            />
+        <Key app:codes="53" app:keyLabel="5"
+            />
+        <Key app:codes="54" app:keyLabel="6"/>
+        <Key app:codes="55" app:keyLabel="7"
+            />
+        <Key app:codes="56" app:keyLabel="8"/>
+        <Key app:codes="57" app:keyLabel="9"/>
+        <Key app:codes="48" app:keyLabel="0"
+            app:keyEdgeFlags="right"/>
     </Row>
 </Keyboard>

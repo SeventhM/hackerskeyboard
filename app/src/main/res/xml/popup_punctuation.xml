@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,34 +19,48 @@
 -->
 
 <Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:horizontalGap="0px"
-    app:keyHeight="@dimen/popup_key_height"
     app:keyWidth="10%p"
-    app:verticalGap="0px">
-    <Row app:rowEdgeFlags="top">
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
+    app:keyHeight="@dimen/popup_key_height">
+    <Row
+        app:rowEdgeFlags="top"
+        >
         <Key
-            app:keyEdgeFlags="left"
-            app:keyLabel=":" />
-        <Key app:keyLabel="/" />
-        <Key app:keyLabel="&amp;" />
-        <Key app:keyLabel="(" />
-        <Key app:keyLabel=")" />
-        <Key app:keyLabel="-" />
+            app:keyLabel=":"
+            app:keyEdgeFlags="left" />
         <Key
-            app:keyEdgeFlags="right"
-            app:keyLabel="+" />
+            app:keyLabel="/" />
+        <Key
+            app:keyLabel="&amp;" />
+        <Key
+            app:keyLabel="(" />
+        <Key
+            app:keyLabel=")" />
+        <Key
+            app:keyLabel="-" />
+        <Key
+            app:keyLabel="+"
+            app:keyEdgeFlags="right" />
     </Row>
-    <Row app:rowEdgeFlags="bottom">
+    <Row
+        app:rowEdgeFlags="bottom"
+        >
         <Key
-            app:keyEdgeFlags="left"
-            app:keyLabel=";" />
-        <Key app:keyLabel="\@" />
-        <Key app:keyLabel="\'" />
-        <Key app:keyLabel="&quot;" />
-        <Key app:keyLabel="\?" />
-        <Key app:keyLabel="!" />
+            app:keyLabel=";"
+            app:keyEdgeFlags="left" />
         <Key
-            app:keyEdgeFlags="right"
-            app:keyLabel="," />
+            app:keyLabel="\@" />
+        <Key
+            app:keyLabel="\'" />
+        <Key
+            app:keyLabel="&quot;" />
+        <Key
+            app:keyLabel="\?" />
+        <Key
+            app:keyLabel="!" />
+        <Key
+            app:keyLabel=","
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

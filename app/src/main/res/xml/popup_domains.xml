@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /* 
 **
 ** Copyright 2008, The Android Open Source Project
@@ -18,15 +19,17 @@
 -->
 
 <Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:horizontalGap="0px"
-    app:keyHeight="@dimen/popup_key_height"
     app:keyWidth="15%p"
-    app:verticalGap="0px">
-    <Row app:rowEdgeFlags="top|bottom">
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
+    app:keyHeight="@dimen/popup_key_height">
+    <Row
+        app:rowEdgeFlags="top|bottom"
+        >
         <Key
-            app:keyEdgeFlags="left"
             app:keyLabel="@string/popular_domain_1"
-            app:keyOutputText="@string/popular_domain_1" />
+            app:keyOutputText="@string/popular_domain_1"
+            app:keyEdgeFlags="left" />
         <Key
             app:keyLabel="@string/popular_domain_2"
             app:keyOutputText="@string/popular_domain_2" />
@@ -34,8 +37,8 @@
             app:keyLabel="@string/popular_domain_3"
             app:keyOutputText="@string/popular_domain_3" />
         <Key
-            app:keyEdgeFlags="right"
             app:keyLabel="@string/popular_domain_4"
-            app:keyOutputText="@string/popular_domain_4" />
+            app:keyOutputText="@string/popular_domain_4"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>
