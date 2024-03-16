@@ -37,7 +37,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     private static final Map<String, DictPluginSpec> mPluginDicts =
-            new HashMap<>();
+        new HashMap<>();
 
     PluginManager(LatinIME ime) {
         super();
@@ -51,7 +51,7 @@ public class PluginManager extends BroadcastReceiver {
     static void getSoftKeyboardDictionaries(PackageManager packageManager) {
         Intent dictIntent = new Intent(SOFTKEYBOARD_INTENT_DICT);
         List<ResolveInfo> dictPacks = packageManager.queryBroadcastReceivers(
-                dictIntent, PackageManager.GET_META_DATA);
+            dictIntent, PackageManager.GET_META_DATA);
         for (ResolveInfo ri : dictPacks) {
             ApplicationInfo appInfo = ri.activityInfo.applicationInfo;
             String pkgName = appInfo.packageName;
@@ -166,7 +166,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     static private abstract class DictPluginSpecBase
-            implements DictPluginSpec {
+        implements DictPluginSpec {
         String mPackageName;
 
         Resources getResources(Context context) {
@@ -190,7 +190,7 @@ public class PluginManager extends BroadcastReceiver {
             InputStream[] dicts = getStreams(res);
             if (dicts == null) return null;
             BinaryDictionary dict = new BinaryDictionary(
-                    context, dicts, Suggest.DIC_MAIN);
+                context, dicts, Suggest.DIC_MAIN);
             if (dict.getSize() == 0) return null;
             //Log.i(TAG, "dict size=" + dict.getSize());
             return dict;
@@ -206,7 +206,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     static private class DictPluginSpecHK
-            extends DictPluginSpecBase {
+        extends DictPluginSpecBase {
 
         int[] mRawIds;
 
@@ -227,7 +227,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     static private class DictPluginSpecSoftKeyboard
-            extends DictPluginSpecBase {
+        extends DictPluginSpecBase {
 
         String mAssetName;
         int mResId;

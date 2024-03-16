@@ -128,9 +128,9 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
 
         // TODO(klausw): migrate attribute styles to LatinKeyboardView?
         TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
+            attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
         LayoutInflater inflate =
-                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         int previewLayout = 0;
         int n = a.getIndexCount();
@@ -247,8 +247,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
 
     private boolean invokeOnKey(int primaryCode) {
         getOnKeyboardActionListener().onKey(primaryCode, null,
-                LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE,
-                LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE);
+            LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE,
+            LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE);
         return true;
     }
 
@@ -291,14 +291,14 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 // If it's only in the bottom row, it might be an intentional slide gesture
                 // for language switching
                 if (distanceSquare > mJumpThresholdSquare
-                            && (mLastY < mLastRowY || y < mLastRowY)) {
+                    && (mLastY < mLastRowY || y < mLastRowY)) {
                     // If we're not yet dropping events, start dropping and send an UP event
                     if (!mDroppingEvents) {
                         mDroppingEvents = true;
                         // Send an up event
                         MotionEvent translated = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
-                                MotionEvent.ACTION_UP,
-                                mLastX, mLastY, me.getMetaState());
+                            MotionEvent.ACTION_UP,
+                            mLastX, mLastY, me.getMetaState());
                         super.onTouchEvent(translated);
                         translated.recycle();
                     }
@@ -313,8 +313,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                     // Send a down event first, as we dropped a bunch of sudden jumps and assume that
                     // the user is releasing the touch on the second key.
                     MotionEvent translated = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
-                            MotionEvent.ACTION_DOWN,
-                            x, y, me.getMetaState());
+                        MotionEvent.ACTION_DOWN,
+                        x, y, me.getMetaState());
                     super.onTouchEvent(translated);
                     translated.recycle();
                     mDroppingEvents = false;
@@ -341,7 +341,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         // for sudden jumps. Otherwise, if there was a sudden jump, return without processing the
         // actual motion event.
         if (!mExtensionVisible && !mIsExtensionType
-                    && handleSuddenJump(me)) return true;
+            && handleSuddenJump(me)) return true;
         // Reset any bounding box controls in the keyboard
         if (me.getAction() == MotionEvent.ACTION_DOWN) {
             keyboard.keyReleased();
@@ -351,8 +351,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             int languageDirection = keyboard.getLanguageChangeDirection();
             if (languageDirection != 0) {
                 getOnKeyboardActionListener().onKey(
-                        languageDirection == 1 ? KEYCODE_NEXT_LANGUAGE : KEYCODE_PREV_LANGUAGE,
-                        null, mLastX, mLastY);
+                    languageDirection == 1 ? KEYCODE_NEXT_LANGUAGE : KEYCODE_PREV_LANGUAGE,
+                    null, mLastX, mLastY);
                 me.setAction(MotionEvent.ACTION_CANCEL);
                 keyboard.keyReleased();
                 return super.onTouchEvent(me);
@@ -371,14 +371,14 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 if (mFirstEvent) action = MotionEvent.ACTION_DOWN;
                 mFirstEvent = false;
                 MotionEvent translated = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
-                        action,
-                        me.getX(), me.getY() + mExtension.getHeight(), me.getMetaState());
+                    action,
+                    me.getX(), me.getY() + mExtension.getHeight(), me.getMetaState());
                 if (me.getActionIndex() > 0)
                     return true;  // ignore second touches to avoid "pointerIndex out of range"
                 boolean result = mExtension.onTouchEvent(translated);
                 translated.recycle();
                 if (me.getAction() == MotionEvent.ACTION_UP
-                            || me.getAction() == MotionEvent.ACTION_CANCEL) {
+                    || me.getAction() == MotionEvent.ACTION_CANCEL) {
                     closeExtension();
                 }
                 return result;
@@ -387,15 +387,15 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                     return true;
                 } else if (openExtension()) {
                     MotionEvent cancel = MotionEvent.obtain(me.getDownTime(), me.getEventTime(),
-                            MotionEvent.ACTION_CANCEL, me.getX() - 100, me.getY() - 100, 0);
+                        MotionEvent.ACTION_CANCEL, me.getX() - 100, me.getY() - 100, 0);
                     super.onTouchEvent(cancel);
                     cancel.recycle();
                     if (mExtension.getHeight() > 0) {
                         MotionEvent translated = MotionEvent.obtain(me.getEventTime(),
-                                me.getEventTime(),
-                                MotionEvent.ACTION_DOWN,
-                                me.getX(), me.getY() + mExtension.getHeight(),
-                                me.getMetaState());
+                            me.getEventTime(),
+                            MotionEvent.ACTION_DOWN,
+                            me.getX(), me.getY() + mExtension.getHeight(),
+                            me.getMetaState());
                         mExtension.onTouchEvent(translated);
                         translated.recycle();
                     } else {
@@ -410,8 +410,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             closeExtension();
             // Send a down event into the main keyboard first
             MotionEvent down = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
-                    MotionEvent.ACTION_DOWN,
-                    me.getX(), me.getY(), me.getMetaState());
+                MotionEvent.ACTION_DOWN,
+                me.getX(), me.getY(), me.getMetaState());
             super.onTouchEvent(down, true);
             down.recycle();
             // Send the actual event
@@ -444,15 +444,15 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mExtensionPopup = new PopupWindow(getContext());
             mExtensionPopup.setBackgroundDrawable(null);
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(
-                    Context.LAYOUT_INFLATER_SERVICE);
+                Context.LAYOUT_INFLATER_SERVICE);
             mExtension = (LatinKeyboardView) li.inflate(mExtensionLayoutResId == 0 ?
-                                                                R.layout.input_trans : mExtensionLayoutResId, null);
+                R.layout.input_trans : mExtensionLayoutResId, null);
             Keyboard keyboard = mExtensionKeyboard;
             mExtension.setKeyboard(keyboard);
             mExtension.setExtensionType(true);
             mExtension.setPadding(0, 0, 0, 0);
             mExtension.setOnKeyboardActionListener(
-                    new ExtensionKeyboardListener(getOnKeyboardActionListener()));
+                new ExtensionKeyboardListener(getOnKeyboardActionListener()));
             mExtension.setPopupParent(this);
             mExtension.setPopupOffset(0, -windowLocation[1]);
             mExtensionPopup.setContentView(mExtension);
@@ -463,7 +463,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             // TODO: Fix the "- 30". 
             mExtension.setPopupOffset(0, -windowLocation[1] - 30);
             mExtensionPopup.showAtLocation(this, 0, 0, -keyboard.getHeight()
-                                                               + windowLocation[1] + this.getPaddingTop());
+                + windowLocation[1] + this.getPaddingTop());
         } else {
             mExtension.setVisibility(VISIBLE);
         }
@@ -570,8 +570,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                                 int x = mAsciiKeys[c].x + 10;
                                 int y = mAsciiKeys[c].y + 26;
                                 MotionEvent me = MotionEvent.obtain(SystemClock.uptimeMillis(),
-                                        SystemClock.uptimeMillis(),
-                                        MotionEvent.ACTION_DOWN, x, y, 0);
+                                    SystemClock.uptimeMillis(),
+                                    MotionEvent.ACTION_DOWN, x, y, 0);
                                 LatinKeyboardView.this.dispatchTouchEvent(me);
                                 me.recycle();
                                 sendEmptyMessageDelayed(MSG_TOUCH_UP, 500); // Deliver up in 500ms if nothing else
@@ -585,8 +585,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                                 mStringIndex++;
 
                                 MotionEvent me2 = MotionEvent.obtain(SystemClock.uptimeMillis(),
-                                        SystemClock.uptimeMillis(),
-                                        MotionEvent.ACTION_UP, x2, y2, 0);
+                                    SystemClock.uptimeMillis(),
+                                    MotionEvent.ACTION_UP, x2, y2, 0);
                                 LatinKeyboardView.this.dispatchTouchEvent(me2);
                                 me2.recycle();
                                 sendEmptyMessageDelayed(MSG_TOUCH_DOWN, 500); // Deliver up in 500ms if nothing else

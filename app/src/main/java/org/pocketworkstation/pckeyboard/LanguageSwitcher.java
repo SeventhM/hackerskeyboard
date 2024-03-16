@@ -93,7 +93,7 @@ public class LanguageSwitcher {
         mDefaultInputLocale = mIme.getResources().getConfiguration().locale;
         String country = mDefaultInputLocale.getCountry();
         mDefaultInputLanguage = mDefaultInputLocale.getLanguage() +
-                                        (TextUtils.isEmpty(country) ? "" : "_" + country);
+            (TextUtils.isEmpty(country) ? "" : "_" + country);
     }
 
     private void constructLocales() {
@@ -101,7 +101,7 @@ public class LanguageSwitcher {
         for (int i = 0; i < mLocales.length; i++) {
             final String lang = mSelectedLanguageArray[i];
             mLocales[i] = new Locale(lang.substring(0, 2),
-                    lang.length() > 4 ? lang.substring(3, 5) : "");
+                lang.length() > 4 ? lang.substring(3, 5) : "");
         }
     }
 

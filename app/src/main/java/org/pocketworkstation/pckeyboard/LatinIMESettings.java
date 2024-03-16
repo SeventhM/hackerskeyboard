@@ -43,8 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LatinIMESettings extends FragmentActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener,
-        DialogInterface.OnDismissListener {
+    implements SharedPreferences.OnSharedPreferenceChangeListener,
+    DialogInterface.OnDismissListener {
 
     public static class LatinIMESettingsFragment extends PreferenceFragmentCompat {
 
@@ -176,7 +176,7 @@ public class LatinIMESettings extends FragmentActivity
     @Override
     protected void onDestroy() {
         fragment.getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
-                this);
+            this);
         super.onDestroy();
     }
 
@@ -186,7 +186,7 @@ public class LatinIMESettings extends FragmentActivity
         // If turning on voice input, show dialog
         if (key.equals(VOICE_SETTINGS_KEY) && !mVoiceOn) {
             if (!prefs.getString(VOICE_SETTINGS_KEY, mVoiceModeOff)
-                    .equals(mVoiceModeOff)) {
+                .equals(mVoiceModeOff)) {
                 showVoiceConfirmation();
             }
         }
@@ -279,12 +279,12 @@ public class LatinIMESettings extends FragmentActivity
     private void updateSummaries() {
         Resources res = getResources();
         mSettingsKeyPreference.setSummary(
-                res.getStringArray(R.array.settings_key_modes)
-                        [mSettingsKeyPreference.findIndexOfValue(mSettingsKeyPreference.getValue())]);
+            res.getStringArray(R.array.settings_key_modes)
+                [mSettingsKeyPreference.findIndexOfValue(mSettingsKeyPreference.getValue())]);
 
         mInputConnectionInfo.setSummary(String.format("%s type=%s",
-                LatinIME.sKeyboardSettings.editorPackageName,
-                inputTypeDesc(LatinIME.sKeyboardSettings.editorInputType)
+            LatinIME.sKeyboardSettings.editorPackageName,
+            inputTypeDesc(LatinIME.sKeyboardSettings.editorInputType)
         ));
     }
 
@@ -295,8 +295,8 @@ public class LatinIMESettings extends FragmentActivity
 
     private void updateVoiceModeSummary() {
         mVoicePreference.setSummary(
-                getResources().getStringArray(R.array.voice_input_modes_summary)
-                        [mVoicePreference.findIndexOfValue(mVoicePreference.getValue())]);
+            getResources().getStringArray(R.array.voice_input_modes_summary)
+                [mVoicePreference.findIndexOfValue(mVoicePreference.getValue())]);
     }
 
     @Override

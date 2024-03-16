@@ -29,7 +29,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class PrefScreenView extends FragmentActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static class PrefScreenViewFragment extends PreferenceFragmentCompat {
 
@@ -71,7 +71,7 @@ public class PrefScreenView extends FragmentActivity
     @Override
     protected void onDestroy() {
         fragment.getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
-                this);
+            this);
         super.onDestroy();
     }
 

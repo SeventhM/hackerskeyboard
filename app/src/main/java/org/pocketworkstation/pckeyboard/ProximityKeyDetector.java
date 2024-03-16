@@ -51,9 +51,9 @@ class ProximityKeyDetector extends KeyDetector {
             }
 
             if (((mProximityCorrectOn
-                          && (dist = key.squaredDistanceFrom(touchX, touchY)) < mProximityThresholdSquare)
-                         || isInside)
-                        && key.codes[0] > 32) {
+                && (dist = key.squaredDistanceFrom(touchX, touchY)) < mProximityThresholdSquare)
+                || isInside)
+                && key.codes[0] > 32) {
                 // Find insertion point
                 final int nCodes = key.codes.length;
                 if (dist < closestKeyDist) {
@@ -67,9 +67,9 @@ class ProximityKeyDetector extends KeyDetector {
                     if (distances[j] > dist) {
                         // Make space for nCodes codes
                         System.arraycopy(distances, j, distances, j + nCodes,
-                                distances.length - j - nCodes);
+                            distances.length - j - nCodes);
                         System.arraycopy(allKeys, j, allKeys, j + nCodes,
-                                allKeys.length - j - nCodes);
+                            allKeys.length - j - nCodes);
                         System.arraycopy(key.codes, 0, allKeys, j, nCodes);
                         Arrays.fill(distances, j, j + nCodes, dist);
                         break;

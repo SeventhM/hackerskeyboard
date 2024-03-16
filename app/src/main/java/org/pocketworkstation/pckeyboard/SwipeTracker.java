@@ -78,9 +78,9 @@ class SwipeTracker {
             else accumY = (accumY + vel) * .5f;
         }
         mXVelocity = accumX < 0.0f ? Math.max(accumX, -maxVelocity)
-                : Math.min(accumX, maxVelocity);
+            : Math.min(accumX, maxVelocity);
         mYVelocity = accumY < 0.0f ? Math.max(accumY, -maxVelocity)
-                : Math.min(accumY, maxVelocity);
+            : Math.min(accumY, maxVelocity);
     }
 
     public float getXVelocity() {

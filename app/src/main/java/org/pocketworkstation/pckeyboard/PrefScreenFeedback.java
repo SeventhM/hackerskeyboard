@@ -28,7 +28,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class PrefScreenFeedback extends FragmentActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static class PrefScreenFeedbackFragment extends PreferenceFragmentCompat {
 
@@ -67,7 +67,7 @@ public class PrefScreenFeedback extends FragmentActivity
     @Override
     protected void onDestroy() {
         fragment.getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
-                this);
+            this);
         super.onDestroy();
     }
 

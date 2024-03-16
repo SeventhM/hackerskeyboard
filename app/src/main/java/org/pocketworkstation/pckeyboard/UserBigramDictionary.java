@@ -241,16 +241,16 @@ public class UserBigramDictionary extends ExpandableDictionary {
 
         // main INNER JOIN frequency ON (main._id=freq.pair_id)
         qb.setTables(MAIN_TABLE_NAME + " INNER JOIN " + FREQ_TABLE_NAME + " ON ("
-                             + MAIN_TABLE_NAME + "." + MAIN_COLUMN_ID + "=" + FREQ_TABLE_NAME + "."
-                             + FREQ_COLUMN_PAIR_ID +")");
+            + MAIN_TABLE_NAME + "." + MAIN_COLUMN_ID + "=" + FREQ_TABLE_NAME + "."
+            + FREQ_COLUMN_PAIR_ID +")");
 
         qb.setProjectionMap(sDictProjectionMap);
 
         // Get the database and run the query
         SQLiteDatabase db = sOpenHelper.getReadableDatabase();
         return qb.query(db,
-                new String[] { MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD2, FREQ_COLUMN_FREQUENCY },
-                selection, selectionArgs, null, null, null);
+            new String[] { MAIN_COLUMN_WORD1, MAIN_COLUMN_WORD2, FREQ_COLUMN_FREQUENCY },
+            selection, selectionArgs, null, null, null);
     }
 
     /**
@@ -266,24 +266,24 @@ public class UserBigramDictionary extends ExpandableDictionary {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("PRAGMA foreign_keys = ON;");
             db.execSQL("CREATE TABLE " + MAIN_TABLE_NAME + " ("
-                               + MAIN_COLUMN_ID + " INTEGER PRIMARY KEY,"
-                               + MAIN_COLUMN_WORD1 + " TEXT,"
-                               + MAIN_COLUMN_WORD2 + " TEXT,"
-                               + MAIN_COLUMN_LOCALE + " TEXT"
-                               + ");");
+                + MAIN_COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + MAIN_COLUMN_WORD1 + " TEXT,"
+                + MAIN_COLUMN_WORD2 + " TEXT,"
+                + MAIN_COLUMN_LOCALE + " TEXT"
+                + ");");
             db.execSQL("CREATE TABLE " + FREQ_TABLE_NAME + " ("
-                               + FREQ_COLUMN_ID + " INTEGER PRIMARY KEY,"
-                               + FREQ_COLUMN_PAIR_ID + " INTEGER,"
-                               + FREQ_COLUMN_FREQUENCY + " INTEGER,"
-                               + "FOREIGN KEY(" + FREQ_COLUMN_PAIR_ID + ") REFERENCES " + MAIN_TABLE_NAME
-                               + "(" + MAIN_COLUMN_ID + ")" + " ON DELETE CASCADE"
-                               + ");");
+                + FREQ_COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + FREQ_COLUMN_PAIR_ID + " INTEGER,"
+                + FREQ_COLUMN_FREQUENCY + " INTEGER,"
+                + "FOREIGN KEY(" + FREQ_COLUMN_PAIR_ID + ") REFERENCES " + MAIN_TABLE_NAME
+                + "(" + MAIN_COLUMN_ID + ")" + " ON DELETE CASCADE"
+                + ");");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                               + newVersion + ", which will destroy all old data");
+                + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + MAIN_TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + FREQ_TABLE_NAME);
             onCreate(db);
@@ -300,7 +300,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
         private final String mLocale;
 
         public UpdateDbTask(Context context, DatabaseHelper openHelper,
-                HashSet<Bigram> pendingWrites, String locale) {
+            HashSet<Bigram> pendingWrites, String locale) {
             mMap = pendingWrites;
             mLocale = locale;
             mDbHelper = openHelper;
@@ -310,7 +310,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
         private void checkPruneData(SQLiteDatabase db) {
             db.execSQL("PRAGMA foreign_keys = ON;");
             try (Cursor c = db.query(FREQ_TABLE_NAME, new String[]{FREQ_COLUMN_PAIR_ID},
-                    null, null, null, null, null)) {
+                null, null, null, null, null)) {
                 int totalRowCount = c.getCount();
                 // prune out old data if we have too much data
                 if (totalRowCount > sMaxUserBigrams) {
@@ -323,7 +323,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
                         // Deleting from MAIN table will delete the frequencies
                         // due to FOREIGN KEY .. ON DELETE CASCADE
                         db.delete(MAIN_TABLE_NAME, MAIN_COLUMN_ID + "=?",
-                                new String[]{pairId});
+                            new String[]{pairId});
                         c.moveToNext();
                         count++;
                     }
@@ -344,20 +344,20 @@ public class UserBigramDictionary extends ExpandableDictionary {
             for (Bigram bi : mMap) {
                 // find pair id
                 Cursor c = db.query(MAIN_TABLE_NAME, new String[]{MAIN_COLUMN_ID},
-                        MAIN_COLUMN_WORD1 + "=? AND " + MAIN_COLUMN_WORD2 + "=? AND "
-                                + MAIN_COLUMN_LOCALE + "=?",
-                        new String[]{bi.word1, bi.word2, mLocale}, null, null, null);
+                    MAIN_COLUMN_WORD1 + "=? AND " + MAIN_COLUMN_WORD2 + "=? AND "
+                        + MAIN_COLUMN_LOCALE + "=?",
+                    new String[]{bi.word1, bi.word2, mLocale}, null, null, null);
 
                 int pairId;
                 if (c.moveToFirst()) {
                     // existing pair
                     pairId = c.getInt(c.getColumnIndex(MAIN_COLUMN_ID));
                     db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
-                            new String[]{Integer.toString(pairId)});
+                        new String[]{Integer.toString(pairId)});
                 } else {
                     // new pair
                     long pairIdLong = db.insert(MAIN_TABLE_NAME, null,
-                            getContentValues(bi.word1, bi.word2, mLocale));
+                        getContentValues(bi.word1, bi.word2, mLocale));
                     pairId = (int) pairIdLong;
                 }
                 c.close();

@@ -68,7 +68,7 @@ public class Main extends Activity {
                 startActivity(it);
             } catch (ActivityNotFoundException e) {
                 Toast.makeText(getApplicationContext(), getResources().getString(
-                        R.string.no_market_warning), Toast.LENGTH_LONG).show();
+                    R.string.no_market_warning), Toast.LENGTH_LONG).show();
             }
         });
         // PluginManager.getPluginDictionaries(getApplicationContext()); // why?

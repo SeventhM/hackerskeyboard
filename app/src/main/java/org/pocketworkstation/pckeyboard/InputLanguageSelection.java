@@ -53,7 +53,7 @@ public class InputLanguageSelection extends FragmentActivity {
     private static final String TAG = "PCKeyboardILS";
     private ArrayList<Loc> mAvailableLanguages = new ArrayList<>();
     private static final String[] BLACKLIST_LANGUAGES = {
-            "ko", "ja", "zh"
+        "ko", "ja", "zh"
     };
 
     // Languages for which auto-caps should be disabled
@@ -81,27 +81,27 @@ public class InputLanguageSelection extends FragmentActivity {
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-            "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "de_NE",
-            "el", "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "es_US",
-            "fa", "fi", "fr", "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "in",
-            "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl", "pl",
-            "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
-            "sr", "sv", "ta", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
+        "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "de_NE",
+        "el", "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "es_US",
+        "fa", "fi", "fr", "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "in",
+        "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl", "pl",
+        "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
+        "sr", "sv", "ta", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
-            "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-            "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "fa", "fi", "fr",
-            "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
-            "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
-            "sr", "sv", "ta", "th", "tr", "uk"
+        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
+        "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "fa", "fi", "fr",
+        "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
+        "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
+        "sr", "sv", "ta", "th", "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-            "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-            "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
-            "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
-            "sl", "sr", "sv", "tr", "uk"
+        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
+        "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
+        "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
+        "sl", "sr", "sv", "tr", "uk"
     };
 
     private static String getLocaleName(Locale l) {
@@ -202,7 +202,7 @@ public class InputLanguageSelection extends FragmentActivity {
             CheckBoxPreference pref = new CheckBoxPreference(this);
             Locale locale = mAvailableLanguages.get(i).locale;
             pref.setTitle(mAvailableLanguages.get(i).label +
-                    " [" + locale.toString() + "]");
+                " [" + locale.toString() + "]");
             String fivecode = get5Code(locale);
             String language = locale.getLanguage();
             boolean checked = languageSelections.contains(fivecode);
@@ -260,7 +260,7 @@ public class InputLanguageSelection extends FragmentActivity {
     private String get5Code(Locale locale) {
         String country = locale.getCountry();
         return locale.getLanguage()
-                       + (TextUtils.isEmpty(country) ? "" : "_" + country);
+            + (TextUtils.isEmpty(country) ? "" : "_" + country);
     }
 
     @Override
@@ -366,17 +366,17 @@ public class InputLanguageSelection extends FragmentActivity {
 
                 if (finalSize == 0) {
                     preprocess[finalSize++] =
-                            new Loc(LanguageSwitcher.toTitleCase(l.getDisplayName(l)), l);
+                        new Loc(LanguageSwitcher.toTitleCase(l.getDisplayName(l)), l);
                 } else {
                     // check previous entry:
                     //  same lang and a country -> upgrade to full name and
                     //    insert ours with full name
                     //  diff lang -> insert ours with lang-only name
                     if (preprocess[finalSize - 1].locale.getLanguage().equals(
-                            language)) {
+                        language)) {
                         preprocess[finalSize - 1].label = getLocaleName(preprocess[finalSize - 1].locale);
                         preprocess[finalSize++] =
-                                new Loc(getLocaleName(l), l);
+                            new Loc(getLocaleName(l), l);
                     } else {
                         String displayName;
                         if (!s.equals("zz_ZZ")) {

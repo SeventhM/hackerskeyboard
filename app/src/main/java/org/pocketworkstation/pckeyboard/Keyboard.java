@@ -204,24 +204,24 @@ public class Keyboard {
         public Row(Resources res, Keyboard parent, XmlResourceParser parser) {
             this.parent = parent;
             TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                    R.styleable.Keyboard);
+                R.styleable.Keyboard);
             defaultWidth = getDimensionOrFraction(a,
-                    R.styleable.Keyboard_keyWidth,
-                    parent.mDisplayWidth, parent.mDefaultWidth);
+                R.styleable.Keyboard_keyWidth,
+                parent.mDisplayWidth, parent.mDefaultWidth);
             defaultHeight = Math.round(getDimensionOrFraction(a,
-                    R.styleable.Keyboard_keyHeight,
-                    parent.mDisplayHeight, parent.mDefaultHeight));
+                R.styleable.Keyboard_keyHeight,
+                parent.mDisplayHeight, parent.mDefaultHeight));
             defaultHorizontalGap = getDimensionOrFraction(a,
-                    R.styleable.Keyboard_horizontalGap,
-                    parent.mDisplayWidth, parent.mDefaultHorizontalGap);
+                R.styleable.Keyboard_horizontalGap,
+                parent.mDisplayWidth, parent.mDefaultHorizontalGap);
             verticalGap = Math.round(getDimensionOrFraction(a,
-                    R.styleable.Keyboard_verticalGap,
-                    parent.mDisplayHeight, parent.mDefaultVerticalGap));
+                R.styleable.Keyboard_verticalGap,
+                parent.mDisplayHeight, parent.mDefaultVerticalGap));
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                    R.styleable.Keyboard_Row);
+                R.styleable.Keyboard_Row);
             mode = a.getResourceId(R.styleable.Keyboard_Row_keyboardMode,
-                    0);
+                0);
             extension = a.getBoolean(R.styleable.Keyboard_Row_extension, false);
 
             if (parent.mLayoutRows >= 5 || extension) {
@@ -233,8 +233,8 @@ public class Keyboard {
                 // remaining rows. Saved space from the extension row doesn't count here since
                 // the extension row is not part of the configured height percentage.
                 float scale = isTop ?
-                                      topScale :
-                                      1.0f + (1.0f - topScale) / (parent.mLayoutRows - 1);
+                    topScale :
+                    1.0f + (1.0f - topScale) / (parent.mLayoutRows - 1);
                 defaultHeight = Math.round(defaultHeight * scale);
             }
             a.recycle();
@@ -327,43 +327,43 @@ public class Keyboard {
         private boolean isDistinctUppercase;
 
         private final static int[] KEY_STATE_NORMAL_ON = {
-                android.R.attr.state_checkable,
-                android.R.attr.state_checked
+            android.R.attr.state_checkable,
+            android.R.attr.state_checked
         };
 
         private final static int[] KEY_STATE_PRESSED_ON = {
-                android.R.attr.state_pressed,
-                android.R.attr.state_checkable,
-                android.R.attr.state_checked
+            android.R.attr.state_pressed,
+            android.R.attr.state_checkable,
+            android.R.attr.state_checked
         };
 
         private final static int[] KEY_STATE_NORMAL_LOCK = {
-                android.R.attr.state_active,
-                android.R.attr.state_checkable,
-                android.R.attr.state_checked
+            android.R.attr.state_active,
+            android.R.attr.state_checkable,
+            android.R.attr.state_checked
         };
 
         private final static int[] KEY_STATE_PRESSED_LOCK = {
-                android.R.attr.state_active,
-                android.R.attr.state_pressed,
-                android.R.attr.state_checkable,
-                android.R.attr.state_checked
+            android.R.attr.state_active,
+            android.R.attr.state_pressed,
+            android.R.attr.state_checkable,
+            android.R.attr.state_checked
         };
 
         private final static int[] KEY_STATE_NORMAL_OFF = {
-                android.R.attr.state_checkable
+            android.R.attr.state_checkable
         };
 
         private final static int[] KEY_STATE_PRESSED_OFF = {
-                android.R.attr.state_pressed,
-                android.R.attr.state_checkable
+            android.R.attr.state_pressed,
+            android.R.attr.state_checkable
         };
 
         private final static int[] KEY_STATE_NORMAL = {
         };
 
         private final static int[] KEY_STATE_PRESSED = {
-                android.R.attr.state_pressed
+            android.R.attr.state_pressed
         };
 
         /** Create an empty key with no attributes. */
@@ -392,34 +392,34 @@ public class Keyboard {
             this.y = y;
 
             TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                    R.styleable.Keyboard);
+                R.styleable.Keyboard);
 
             realWidth = getDimensionOrFraction(a,
-                    R.styleable.Keyboard_keyWidth,
-                    keyboard.mDisplayWidth, parent.defaultWidth);
+                R.styleable.Keyboard_keyWidth,
+                keyboard.mDisplayWidth, parent.defaultWidth);
             float realHeight = getDimensionOrFraction(a,
-                    R.styleable.Keyboard_keyHeight,
-                    keyboard.mDisplayHeight, parent.defaultHeight);
+                R.styleable.Keyboard_keyHeight,
+                keyboard.mDisplayHeight, parent.defaultHeight);
             realHeight -= parent.parent.mVerticalPad;
             height = Math.round(realHeight);
             this.y += (int) (parent.parent.mVerticalPad / 2);
             realGap = getDimensionOrFraction(a,
-                    R.styleable.Keyboard_horizontalGap,
-                    keyboard.mDisplayWidth, parent.defaultHorizontalGap);
+                R.styleable.Keyboard_horizontalGap,
+                keyboard.mDisplayWidth, parent.defaultHorizontalGap);
             realGap += parent.parent.mHorizontalPad;
             realWidth -= parent.parent.mHorizontalPad;
             width = Math.round(realWidth);
             gap = Math.round(realGap);
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                    R.styleable.Keyboard_Key);
+                R.styleable.Keyboard_Key);
             this.realX = this.x + realGap - parent.parent.mHorizontalPad / 2;
             this.x = Math.round(this.realX);
             TypedValue codesValue = new TypedValue();
             a.getValue(R.styleable.Keyboard_Key_codes,
-                    codesValue);
+                codesValue);
             if (codesValue.type == TypedValue.TYPE_INT_DEC
-                        || codesValue.type == TypedValue.TYPE_INT_HEX) {
+                || codesValue.type == TypedValue.TYPE_INT_HEX) {
                 codes = new int[] { codesValue.data };
             } else if (codesValue.type == TypedValue.TYPE_STRING) {
                 codes = parseCSV(codesValue.string.toString());
@@ -428,23 +428,23 @@ public class Keyboard {
             iconPreview = a.getDrawable(R.styleable.Keyboard_Key_iconPreview);
             if (iconPreview != null) {
                 iconPreview.setBounds(0, 0, iconPreview.getIntrinsicWidth(),
-                        iconPreview.getIntrinsicHeight());
+                    iconPreview.getIntrinsicHeight());
             }
             popupCharacters = a.getText(
-                    R.styleable.Keyboard_Key_popupCharacters);
+                R.styleable.Keyboard_Key_popupCharacters);
             popupResId = a.getResourceId(
-                    R.styleable.Keyboard_Key_popupKeyboard, 0);
+                R.styleable.Keyboard_Key_popupKeyboard, 0);
             repeatable = a.getBoolean(
-                    R.styleable.Keyboard_Key_isRepeatable, false);
+                R.styleable.Keyboard_Key_isRepeatable, false);
             modifier = a.getBoolean(
-                    R.styleable.Keyboard_Key_isModifier, false);
+                R.styleable.Keyboard_Key_isModifier, false);
             sticky = a.getBoolean(
-                    R.styleable.Keyboard_Key_isSticky, false);
+                R.styleable.Keyboard_Key_isSticky, false);
             isCursor = a.getBoolean(
-                    R.styleable.Keyboard_Key_isCursor, false);
+                R.styleable.Keyboard_Key_isCursor, false);
 
             icon = a.getDrawable(
-                    R.styleable.Keyboard_Key_keyIcon);
+                R.styleable.Keyboard_Key_keyIcon);
             if (icon != null) {
                 icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
             }
@@ -728,9 +728,9 @@ public class Keyboard {
             boolean topEdge = (edgeFlags & EDGE_TOP) > 0;
             boolean bottomEdge = (edgeFlags & EDGE_BOTTOM) > 0;
             return (x >= this.x || (leftEdge && x <= this.x + this.width))
-                           && (x < this.x + this.width || (rightEdge && x >= this.x))
-                           && (y >= this.y || (topEdge && y <= this.y + this.height))
-                           && (y < this.y + this.height || (bottomEdge && y >= this.y));
+                && (x < this.x + this.width || (rightEdge && x >= this.x))
+                && (y >= this.y || (topEdge && y <= this.y + this.height))
+                && (y < this.y + this.height || (bottomEdge && y >= this.y));
         }
 
         /**
@@ -785,21 +785,21 @@ public class Keyboard {
         public String toString() {
             int code = (codes != null && codes.length > 0) ? codes[0] : 0;
             String edges = (
-                    ((edgeFlags & Keyboard.EDGE_LEFT) != 0 ? "L" : "-") +
-                            ((edgeFlags & Keyboard.EDGE_RIGHT) != 0 ? "R" : "-") +
-                            ((edgeFlags & Keyboard.EDGE_TOP) != 0 ? "T" : "-") +
-                            ((edgeFlags & Keyboard.EDGE_BOTTOM) != 0 ? "B" : "-"));
+                ((edgeFlags & Keyboard.EDGE_LEFT) != 0 ? "L" : "-") +
+                    ((edgeFlags & Keyboard.EDGE_RIGHT) != 0 ? "R" : "-") +
+                    ((edgeFlags & Keyboard.EDGE_TOP) != 0 ? "T" : "-") +
+                    ((edgeFlags & Keyboard.EDGE_BOTTOM) != 0 ? "B" : "-"));
             return "KeyDebugFIXME(label=" + label +
-                           (shiftLabel != null ? " shift=" + shiftLabel : "") +
-                           (capsLabel != null ? " caps=" + capsLabel : "") +
-                           (text != null ? " text=" + text : "" ) +
-                           " code=" + code +
-                           (code <= 0 || Character.isWhitespace(code) ? "" : ":'" + (char)code + "'" ) +
-                           " x=" + x + ".." + (x+width) + " y=" + y + ".." + (y+height) +
-                           " edgeFlags=" + edges +
-                           (popupCharacters != null ? " pop=" + popupCharacters : "" ) +
-                           " res=" + popupResId +
-                           ")";
+                (shiftLabel != null ? " shift=" + shiftLabel : "") +
+                (capsLabel != null ? " caps=" + capsLabel : "") +
+                (text != null ? " text=" + text : "" ) +
+                " code=" + code +
+                (code <= 0 || Character.isWhitespace(code) ? "" : ":'" + (char)code + "'" ) +
+                " x=" + x + ".." + (x+width) + " y=" + y + ".." + (y+height) +
+                " edgeFlags=" + edges +
+                (popupCharacters != null ? " pop=" + popupCharacters : "" ) +
+                " res=" + popupResId +
+                ")";
         }
     }
 
@@ -860,7 +860,7 @@ public class Keyboard {
      * keyboard will fit as many keys as possible in each row.
      */
     private Keyboard(Context context, int defaultHeight, int layoutTemplateResId,
-            CharSequence characters, boolean reversed, int columns, int horizontalPadding) {
+        CharSequence characters, boolean reversed, int columns, int horizontalPadding) {
         this(context, defaultHeight, layoutTemplateResId);
         int x = 0;
         int y = 0;
@@ -880,7 +880,7 @@ public class Keyboard {
         for (int i = start; i != end; i+=step) {
             char c = characters.charAt(i);
             if (column >= maxColumns
-                        || x + mDefaultWidth + horizontalPadding > mDisplayWidth) {
+                || x + mDefaultWidth + horizontalPadding > mDisplayWidth) {
                 x = 0;
                 y += mDefaultVerticalGap + mDefaultHeight;
                 column = 0;
@@ -1109,17 +1109,17 @@ public class Keyboard {
                 for (int i = 0; i < mKeys.size(); i++) {
                     final Key key = mKeys.get(i);
                     boolean isSpace = key.codes != null && key.codes.length > 0 &&
-                                              key.codes[0] == LatinIME.ASCII_SPACE;
+                        key.codes[0] == LatinIME.ASCII_SPACE;
                     if (key.squaredDistanceFrom(x, y) < mProximityThreshold ||
-                                key.squaredDistanceFrom(x + mCellWidth - 1, y) < mProximityThreshold ||
-                                key.squaredDistanceFrom(x + mCellWidth - 1, y + mCellHeight - 1)
-                                        < mProximityThreshold ||
-                                key.squaredDistanceFrom(x, y + mCellHeight - 1) < mProximityThreshold ||
-                                isSpace && !(
-                                        x + mCellWidth - 1 < key.x ||
-                                                x > key.x + key.width ||
-                                                y + mCellHeight - 1 < key.y ||
-                                                y > key.y + key.height)) {
+                        key.squaredDistanceFrom(x + mCellWidth - 1, y) < mProximityThreshold ||
+                        key.squaredDistanceFrom(x + mCellWidth - 1, y + mCellHeight - 1)
+                            < mProximityThreshold ||
+                        key.squaredDistanceFrom(x, y + mCellHeight - 1) < mProximityThreshold ||
+                        isSpace && !(
+                            x + mCellWidth - 1 < key.x ||
+                                x > key.x + key.width ||
+                                y + mCellHeight - 1 < key.y ||
+                                y > key.y + key.height)) {
                         //if (isSpace) Log.i(TAG, "space at grid" + x + "," + y);
                         indices[count++] = i;
                     }
@@ -1154,7 +1154,7 @@ public class Keyboard {
     }
 
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y,
-            XmlResourceParser parser) {
+        XmlResourceParser parser) {
         return new Key(res, parent, x, y, parser);
     }
 
@@ -1259,11 +1259,11 @@ public class Keyboard {
     }
 
     private void skipToEndOfRow(XmlResourceParser parser)
-            throws XmlPullParserException, IOException {
+        throws XmlPullParserException, IOException {
         int event;
         while ((event = parser.next()) != XmlResourceParser.END_DOCUMENT) {
             if (event == XmlResourceParser.END_TAG
-                        && parser.getName().equals(TAG_ROW)) {
+                && parser.getName().equals(TAG_ROW)) {
                 break;
             }
         }
@@ -1271,26 +1271,26 @@ public class Keyboard {
 
     private void parseKeyboardAttributes(Resources res, XmlResourceParser parser) {
         TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser),
-                R.styleable.Keyboard);
+            R.styleable.Keyboard);
 
         mDefaultWidth = getDimensionOrFraction(a,
-                R.styleable.Keyboard_keyWidth,
-                mDisplayWidth, (float) mDisplayWidth / 10);
+            R.styleable.Keyboard_keyWidth,
+            mDisplayWidth, (float) mDisplayWidth / 10);
         mDefaultHeight = Math.round(getDimensionOrFraction(a,
-                R.styleable.Keyboard_keyHeight,
-                mDisplayHeight, mDefaultHeight));
+            R.styleable.Keyboard_keyHeight,
+            mDisplayHeight, mDefaultHeight));
         mDefaultHorizontalGap = getDimensionOrFraction(a,
-                R.styleable.Keyboard_horizontalGap,
-                mDisplayWidth, 0);
+            R.styleable.Keyboard_horizontalGap,
+            mDisplayWidth, 0);
         mDefaultVerticalGap = Math.round(getDimensionOrFraction(a,
-                R.styleable.Keyboard_verticalGap,
-                mDisplayHeight, 0));
+            R.styleable.Keyboard_verticalGap,
+            mDisplayHeight, 0));
         mHorizontalPad = getDimensionOrFraction(a,
-                R.styleable.Keyboard_horizontalPad,
-                mDisplayWidth, res.getDimension(R.dimen.key_horizontal_pad));
+            R.styleable.Keyboard_horizontalPad,
+            mDisplayWidth, res.getDimension(R.dimen.key_horizontal_pad));
         mVerticalPad = getDimensionOrFraction(a,
-                R.styleable.Keyboard_verticalPad,
-                mDisplayHeight, res.getDimension(R.dimen.key_vertical_pad));
+            R.styleable.Keyboard_verticalPad,
+            mDisplayHeight, res.getDimension(R.dimen.key_vertical_pad));
         mLayoutRows = a.getInteger(R.styleable.Keyboard_layoutRows, DEFAULT_LAYOUT_ROWS);
         mLayoutColumns = a.getInteger(R.styleable.Keyboard_layoutColumns, DEFAULT_LAYOUT_COLUMNS);
         if (mDefaultHeight == 0 && mKeyboardHeight > 0 && mLayoutRows > 0) {
@@ -1319,11 +1319,11 @@ public class Keyboard {
     @Override
     public String toString() {
         return "Keyboard(" + mLayoutColumns + "x" + mLayoutRows +
-                       " keys=" + mKeys.size() +
-                       " rowCount=" + mRowCount +
-                       " mode=" + mKeyboardMode +
-                       " size=" + mTotalWidth + "x" + mTotalHeight +
-                       ")";
+            " keys=" + mKeys.size() +
+            " rowCount=" + mRowCount +
+            " mode=" + mKeyboardMode +
+            " size=" + mTotalWidth + "x" + mTotalHeight +
+            ")";
 
     }
 }

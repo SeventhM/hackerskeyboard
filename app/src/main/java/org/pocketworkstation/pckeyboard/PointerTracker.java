@@ -171,7 +171,7 @@ public class PointerTracker {
     }
 
     public PointerTracker(int id, UIHandler handler, KeyDetector keyDetector, UIProxy proxy,
-            Resources res, boolean slideKeyHack) {
+        Resources res, boolean slideKeyHack) {
         if (proxy == null || handler == null || keyDetector == null)
             throw new NullPointerException();
         mPointerId = id;
@@ -222,11 +222,11 @@ public class PointerTracker {
             return false;
         int primaryCode = key.codes[0];
         return primaryCode == Keyboard.KEYCODE_SHIFT
-                       || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
-                       || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
-                       || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
-                       || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
-                       || primaryCode == LatinKeyboardView.KEYCODE_FN;
+            || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
+            || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
+            || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
+            || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
+            || primaryCode == LatinKeyboardView.KEYCODE_FN;
     }
 
     public boolean isModifier() {
@@ -613,7 +613,7 @@ public class PointerTracker {
             return;
 
         final boolean isMultiTap =
-                (eventTime < mLastTapTime + mMultiTapKeyTimeout && keyIndex == mLastSentIndex);
+            (eventTime < mLastTapTime + mMultiTapKeyTimeout && keyIndex == mLastSentIndex);
         if (key.codes.length > 1) {
             mInMultiTap = true;
             if (isMultiTap) {
@@ -639,7 +639,7 @@ public class PointerTracker {
             code = String.format((primaryCode < 0) ? "%4d" : "0x%02x", primaryCode);
         }
         Log.d(TAG, String.format("%s%s[%d] %3d,%3d %3d(%s) %s", title,
-                (mKeyAlreadyProcessed ? "-" : " "), mPointerId, x, y, keyIndex, code,
-                (isModifier() ? "modifier" : "")));
+            (mKeyAlreadyProcessed ? "-" : " "), mPointerId, x, y, keyIndex, code,
+            (isModifier() ? "modifier" : "")));
     }
 }

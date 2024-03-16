@@ -41,9 +41,9 @@ class ModifierKeyState {
     public boolean isChording() {
         return mState == CHORDING;
     }
-    
+
     @NonNull
     public String toString() {
-    	return "ModifierKeyState:" + mState;
+        return "ModifierKeyState:" + mState;
     }
 }

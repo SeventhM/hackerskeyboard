@@ -128,7 +128,7 @@ public class LatinIMEUtil {
         public int getPreviousX(char c, int back) {
             int index = normalize(mEnd - 2 - back);
             if (mLength <= back
-                        || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
+                || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
                 return INVALID_COORDINATE;
             } else {
                 return mXBuf[index];
@@ -137,7 +137,7 @@ public class LatinIMEUtil {
         public int getPreviousY(char c, int back) {
             int index = normalize(mEnd - 2 - back);
             if (mLength <= back
-                        || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
+                || Character.toLowerCase(c) != Character.toLowerCase(mCharBuf[index])) {
                 return INVALID_COORDINATE;
             } else {
                 return mYBuf[index];
