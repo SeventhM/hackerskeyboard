@@ -48,8 +48,8 @@ namespace latinime {
     }
 
     int Dictionary::getSuggestions(int *codes, int codesSize, unsigned short *outWords, int *frequencies,
-        int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
-        int *nextLetters, int nextLettersSize)
+            int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
+            int *nextLetters, int nextLettersSize)
     {
         int suggWords;
         mFrequencies = frequencies;
@@ -187,21 +187,21 @@ namespace latinime {
         int insertAt = 0;
         while (insertAt < mMaxWords) {
             if (frequency > mFrequencies[insertAt]
-                || (mFrequencies[insertAt] == frequency
-                && length < wideStrLen(mOutputChars + insertAt * mMaxWordLength))) {
+                    || (mFrequencies[insertAt] == frequency
+                    && length < wideStrLen(mOutputChars + insertAt * mMaxWordLength))) {
                 break;
             }
             insertAt++;
         }
         if (insertAt < mMaxWords) {
             memmove((char*) mFrequencies + (insertAt + 1) * sizeof(mFrequencies[0]),
-                (char*) mFrequencies + insertAt * sizeof(mFrequencies[0]),
-                (mMaxWords - insertAt - 1) * sizeof(mFrequencies[0]));
+                    (char*) mFrequencies + insertAt * sizeof(mFrequencies[0]),
+                    (mMaxWords - insertAt - 1) * sizeof(mFrequencies[0]));
             mFrequencies[insertAt] = frequency;
             memmove((char*) mOutputChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
-                (char*) mOutputChars + (insertAt) * mMaxWordLength * sizeof(short),
-                (mMaxWords - insertAt - 1) * sizeof(short) * mMaxWordLength);
-            unsigned short *dest = mOutputChars + (insertAt) * mMaxWordLength;
+                    (char*) mOutputChars + (insertAt    ) * mMaxWordLength * sizeof(short),
+                    (mMaxWords - insertAt - 1) * sizeof(short) * mMaxWordLength);
+            unsigned short *dest = mOutputChars + (insertAt    ) * mMaxWordLength;
             while (length--) {
                 *dest++ = *word++;
             }
@@ -226,8 +226,8 @@ namespace latinime {
         int insertAt = 0;
         while (insertAt < mMaxBigrams) {
             if (frequency > mBigramFreq[insertAt]
-                || (mBigramFreq[insertAt] == frequency
-                && length < wideStrLen(mBigramChars + insertAt * mMaxWordLength))) {
+                    || (mBigramFreq[insertAt] == frequency
+                    && length < wideStrLen(mBigramChars + insertAt * mMaxWordLength))) {
                 break;
             }
             insertAt++;
@@ -235,13 +235,13 @@ namespace latinime {
         LOGI("Bigram: InsertAt -> %d maxBigrams: %d\n", insertAt, mMaxBigrams);
         if (insertAt < mMaxBigrams) {
             memmove((char*) mBigramFreq + (insertAt + 1) * sizeof(mBigramFreq[0]),
-                (char*) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
-                (mMaxBigrams - insertAt - 1) * sizeof(mBigramFreq[0]));
+                    (char*) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
+                    (mMaxBigrams - insertAt - 1) * sizeof(mBigramFreq[0]));
             mBigramFreq[insertAt] = frequency;
             memmove((char*) mBigramChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
-                (char*) mBigramChars + (insertAt) * mMaxWordLength * sizeof(short),
-                (mMaxBigrams - insertAt - 1) * sizeof(short) * mMaxWordLength);
-            unsigned short *dest = mBigramChars + (insertAt) * mMaxWordLength;
+                    (char*) mBigramChars + (insertAt    ) * mMaxWordLength * sizeof(short),
+                    (mMaxBigrams - insertAt - 1) * sizeof(short) * mMaxWordLength);
+            unsigned short *dest = mBigramChars + (insertAt    ) * mMaxWordLength;
             while (length--) {
                 *dest++ = *word++;
             }
@@ -257,7 +257,7 @@ namespace latinime {
         if (c < sizeof(BASE_CHARS) / sizeof(BASE_CHARS[0])) {
             c = BASE_CHARS[c];
         }
-        if (c >= 'A' && c <= 'Z') {
+        if (c >='A' && c <= 'Z') {
             c |= 32;
         } else if (c > 127) {
             c = latin_tolower(c);
@@ -286,7 +286,7 @@ namespace latinime {
 
     void
     Dictionary::getWordsRec(int pos, int depth, int maxDepth, bool completion, int snr, int inputIndex,
-        int diffs)
+            int diffs)
     {
         // Optimization: Prune out words that are too long compared to how much was typed.
         if (depth > maxDepth) {
@@ -326,7 +326,7 @@ namespace latinime {
                 }
                 if (childrenAddress != 0) {
                     getWordsRec(childrenAddress, depth + 1, maxDepth,
-                        completion, snr, inputIndex, diffs);
+                            completion, snr, inputIndex, diffs);
                 }
             } else if ((c == QUOTE && currentChars[0] != QUOTE) || mSkipPos == depth) {
                 // Skip the ' or other letter and continue deeper
@@ -343,7 +343,7 @@ namespace latinime {
                         if (mInputLength == inputIndex + 1) {
                             if (terminal) {
                                 if (//INCLUDE_TYPED_WORD_IF_VALID ||
-                                    !sameAsTyped(mWord, depth + 1)) {
+                                        !sameAsTyped(mWord, depth + 1)) {
                                     int finalFreq = freq * snr * addedWeight;
                                     if (mSkipPos < 0) finalFreq *= mFullWordMultiplier;
                                     addWord(mWord, depth + 1, finalFreq);
@@ -351,12 +351,12 @@ namespace latinime {
                             }
                             if (childrenAddress != 0) {
                                 getWordsRec(childrenAddress, depth + 1,
-                                    maxDepth, true, snr * addedWeight, inputIndex + 1,
-                                    diffs + (j > 0));
+                                        maxDepth, true, snr * addedWeight, inputIndex + 1,
+                                        diffs + (j > 0));
                             }
                         } else if (childrenAddress != 0) {
                             getWordsRec(childrenAddress, depth + 1, maxDepth,
-                                false, snr * addedWeight, inputIndex + 1, diffs + (j > 0));
+                                    false, snr * addedWeight, inputIndex + 1, diffs + (j > 0));
                         }
                     }
                     j++;
@@ -396,8 +396,8 @@ namespace latinime {
 
     int
     Dictionary::getBigrams(unsigned short *prevWord, int prevWordLength, int *codes, int codesSize,
-        unsigned short *bigramChars, int *bigramFreq, int maxWordLength, int maxBigrams,
-        int maxAlternatives)
+            unsigned short *bigramChars, int *bigramFreq, int maxWordLength, int maxBigrams,
+            int maxAlternatives)
     {
         mBigramFreq = bigramFreq;
         mBigramChars = bigramChars;
@@ -445,7 +445,7 @@ namespace latinime {
         char followingChar = ' ';
         int depth = -1;
 
-        while (!found) {
+        while(!found) {
             bool followDownAddressSearchStop = false;
             bool firstAddress = true;
             bool haveToSearchAll = true;
@@ -455,7 +455,7 @@ namespace latinime {
             }
             pos = followDownBranchAddress; // pos start at count
             int count = mDict[pos] & 0xFF;
-            LOGI("count - %d\n", count);
+            LOGI("count - %d\n",count);
             pos++;
             for (int i = 0; i < count; i++) {
                 // pos at data
@@ -474,7 +474,7 @@ namespace latinime {
                             }
                         } else {
                             followDownBranchAddress = addr;
-                            followingChar = (char) (0xFF & mDict[pos - 1]);
+                            followingChar = (char)(0xFF & mDict[pos-1]);
                             if (firstAddress) {
                                 firstAddress = false;
                                 haveToSearchAll = false;
@@ -483,9 +483,9 @@ namespace latinime {
                     }
                     pos += 3;
                 } else if (getFirstBitOfByte(&pos)) { // terminal
-                    if (addressLookingFor == (pos - 1)) { // found !!
+                    if (addressLookingFor == (pos-1)) { // found !!
                         depth++;
-                        word[depth] = (0xFF & mDict[pos - 1]);
+                        word[depth] = (0xFF & mDict[pos-1]);
                         found = true;
                         break;
                     }
@@ -502,7 +502,7 @@ namespace latinime {
                                 }
                             } else {
                                 followDownBranchAddress = addr;
-                                followingChar = (char) (0xFF & mDict[pos - 1]);
+                                followingChar = (char)(0xFF & mDict[pos-1]);
                                 if (firstAddress) {
                                     firstAddress = false;
                                     haveToSearchAll = true;
@@ -580,7 +580,7 @@ namespace latinime {
             if (c == currentChar) {
                 if (offset == length - 1) {
                     if (terminal) {
-                        return (pos + 1);
+                        return (pos+1);
                     }
                 } else {
                     if (childPos != 0) {
