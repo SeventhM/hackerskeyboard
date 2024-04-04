@@ -220,8 +220,8 @@ class BinaryDictionary : Dictionary, AutoCloseable {
                 min(alternatives.size, MAX_ALTERNATIVES)
             )
         }
-        Arrays.fill(mOutputChars, 0.toChar())
-        Arrays.fill(mFrequencies, 0)
+        mOutputChars.fill(0.toChar())
+        mFrequencies.fill(0)
 
         if (mNativeDict == 0L) return
 

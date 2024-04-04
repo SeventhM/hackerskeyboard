@@ -306,6 +306,8 @@
     <!-- Press the "enter" key after the user speaks. Summary of option in settings.-->
     <string name="auto_submit_summary" tools:ignore="MissingTranslation">Automatically press enter when searching or going to the next field.</string>
 
+    <string name="open_the_keyboard" tools:ignore="MissingTranslation"><font size="17"><b>Open the keyboard\n</b></font><font size="3">\n</font></string>
+
     <!-- appears above the image showing the back button used to close the keyboard -->
     <string name="close_the_keyboard" tools:ignore="MissingTranslation"><font size="17"><b>Close the keyboard\n</b></font><font size="3">\n</font>Press the Back key.</string>
 

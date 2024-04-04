@@ -95,6 +95,7 @@ class LatinIMESettings : FragmentActivity(), OnSharedPreferenceChangeListener,
 
     override fun onResume() {
         super.onResume()
+        init()
         val autoTextSize = AutoText.getSize(fragment.listView)
         if (autoTextSize < 1) {
             (fragment.findPreference<Preference>(PREDICTION_SETTINGS_KEY) as PreferenceGroup?)!!.removePreference(
@@ -150,6 +151,7 @@ class LatinIMESettings : FragmentActivity(), OnSharedPreferenceChangeListener,
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
+        init()
         BackupManager(this).dataChanged()
         // If turning on voice input, show dialog
         if (key == VOICE_SETTINGS_KEY && !mVoiceOn) {
@@ -163,6 +165,7 @@ class LatinIMESettings : FragmentActivity(), OnSharedPreferenceChangeListener,
     }
 
     private fun updateSummaries() {
+        init()
         val res = resources
         mSettingsKeyPreference!!.setSummary(
             res.getStringArray(R.array.settings_key_modes)[mSettingsKeyPreference!!.findIndexOfValue(
@@ -178,11 +181,13 @@ class LatinIMESettings : FragmentActivity(), OnSharedPreferenceChangeListener,
     }
 
     private fun showVoiceConfirmation() {
+        init()
         mOkClicked = false
         showDialog(VOICE_INPUT_CONFIRM_DIALOG)
     }
 
     private fun updateVoiceModeSummary() {
+        init()
         mVoicePreference!!.setSummary(
             resources.getStringArray(R.array.voice_input_modes_summary)[mVoicePreference!!.findIndexOfValue(
                 mVoicePreference!!.value

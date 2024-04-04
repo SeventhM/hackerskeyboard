@@ -34,7 +34,7 @@ open class SeekBarPreferenceString(context: Context, attrs: AttributeSet?) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         if (restorePersistedValue) {
             setVal(floatFromString(getPersistedString("0.0")))
         } else {

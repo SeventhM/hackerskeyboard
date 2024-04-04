@@ -49,7 +49,7 @@ open class SeekBarPreference(context: Context, attrs: AttributeSet?) :
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         if (restorePersistedValue) {
             setVal(getPersistedFloat(0.0f))
         } else {
