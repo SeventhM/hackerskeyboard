@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Auto-generated file, do not edit -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-   <string name="auto_version">custom</string>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+   <string name="auto_version" tools:ignore="MissingTranslation">custom</string>
 </resources>

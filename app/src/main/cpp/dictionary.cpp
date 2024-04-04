@@ -34,7 +34,8 @@
 
 namespace latinime {
 
-    Dictionary::Dictionary(void *dict, int typedLetterMultiplier, int fullWordMultiplier, int size) {
+    Dictionary::Dictionary(void *dict, int typedLetterMultiplier, int fullWordMultiplier, int size)
+    {
         mDict = (unsigned char*) dict;
         mTypedLetterMultiplier = typedLetterMultiplier;
         mFullWordMultiplier = fullWordMultiplier;
@@ -42,12 +43,14 @@ namespace latinime {
         getVersionNumber();
     }
 
-    Dictionary::~Dictionary() {
+    Dictionary::~Dictionary()
+    {
     }
 
     int Dictionary::getSuggestions(int *codes, int codesSize, unsigned short *outWords, int *frequencies,
         int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
-        int *nextLetters, int nextLettersSize) {
+        int *nextLetters, int nextLettersSize)
+    {
         int suggWords;
         mFrequencies = frequencies;
         mOutputChars = outWords;
@@ -85,14 +88,16 @@ namespace latinime {
     }
 
     void
-    Dictionary::registerNextLetter(unsigned short c) {
+    Dictionary::registerNextLetter(unsigned short c)
+    {
         if (c < mNextLettersSize) {
             mNextLettersFrequencies[c]++;
         }
     }
 
     void
-    Dictionary::getVersionNumber() {
+    Dictionary::getVersionNumber()
+    {
         mVersion = (mDict[0] & 0xFF);
         mBigram = (mDict[1] & 0xFF);
         LOGI("IN NATIVE SUGGEST Version: %d Bigram : %d \n", mVersion, mBigram);
@@ -100,12 +105,14 @@ namespace latinime {
 
 // Checks whether it has the latest dictionary or the old dictionary
     bool
-    Dictionary::checkIfDictVersionIsLatest() {
+    Dictionary::checkIfDictVersionIsLatest()
+    {
         return (mVersion >= DICTIONARY_VERSION_MIN) && (mBigram == 1 || mBigram == 0);
     }
 
     unsigned short
-    Dictionary::getChar(int *pos) {
+    Dictionary::getChar(int *pos)
+    {
         if (*pos < 0 || *pos >= mDictSize) return 0;
         unsigned short ch = (unsigned short) (mDict[(*pos)++] & 0xFF);
         // If the code is 255, then actual 16 bit code follows (in big endian)
@@ -117,7 +124,8 @@ namespace latinime {
     }
 
     int
-    Dictionary::getAddress(int *pos) {
+    Dictionary::getAddress(int *pos)
+    {
         if (*pos < 0 || *pos >= mDictSize) return 0;
         int address = 0;
         if ((mDict[*pos] & FLAG_ADDRESS_MASK) == 0) {
@@ -133,7 +141,8 @@ namespace latinime {
     }
 
     int
-    Dictionary::getFreq(int *pos) {
+    Dictionary::getFreq(int *pos)
+    {
         if (*pos < 0 || *pos >= mDictSize) return 0;
         int freq = mDict[(*pos)++] & 0xFF;
 
@@ -155,7 +164,8 @@ namespace latinime {
     }
 
     int
-    Dictionary::wideStrLen(unsigned short *str) {
+    Dictionary::wideStrLen(unsigned short *str)
+    {
         if (!str) return 0;
         unsigned short *end = str;
         while (*end)
@@ -164,7 +174,8 @@ namespace latinime {
     }
 
     bool
-    Dictionary::addWord(unsigned short *word, int length, int frequency) {
+    Dictionary::addWord(unsigned short *word, int length, int frequency)
+    {
         word[length] = 0;
         if (DEBUG_DICT) {
             char s[length + 1];
@@ -202,7 +213,8 @@ namespace latinime {
     }
 
     bool
-    Dictionary::addWordBigram(unsigned short *word, int length, int frequency) {
+    Dictionary::addWordBigram(unsigned short *word, int length, int frequency)
+    {
         word[length] = 0;
         if (DEBUG_DICT) {
             char s[length + 1];
@@ -254,7 +266,8 @@ namespace latinime {
     }
 
     bool
-    Dictionary::sameAsTyped(unsigned short *word, int length) {
+    Dictionary::sameAsTyped(unsigned short *word, int length)
+    {
         if (length != mInputLength) {
             return false;
         }
@@ -273,7 +286,8 @@ namespace latinime {
 
     void
     Dictionary::getWordsRec(int pos, int depth, int maxDepth, bool completion, int snr, int inputIndex,
-        int diffs) {
+        int diffs)
+    {
         // Optimization: Prune out words that are too long compared to how much was typed.
         if (depth > maxDepth) {
             return;
@@ -353,7 +367,8 @@ namespace latinime {
     }
 
     int
-    Dictionary::getBigramAddress(int *pos, bool advance) {
+    Dictionary::getBigramAddress(int *pos, bool advance)
+    {
         if (*pos < 0 || *pos >= mDictSize) return 0;
         int address = 0;
 
@@ -370,7 +385,8 @@ namespace latinime {
     }
 
     int
-    Dictionary::getBigramFreq(int *pos) {
+    Dictionary::getBigramFreq(int *pos)
+    {
         if (*pos < 0 || *pos >= mDictSize) return 0;
         int freq = mDict[(*pos)++] & FLAG_BIGRAM_FREQ;
 
@@ -381,7 +397,8 @@ namespace latinime {
     int
     Dictionary::getBigrams(unsigned short *prevWord, int prevWordLength, int *codes, int codesSize,
         unsigned short *bigramChars, int *bigramFreq, int maxWordLength, int maxBigrams,
-        int maxAlternatives) {
+        int maxAlternatives)
+    {
         mBigramFreq = bigramFreq;
         mBigramChars = bigramChars;
         mInputCodes = codes;
@@ -417,7 +434,8 @@ namespace latinime {
     }
 
     void
-    Dictionary::searchForTerminalNode(int addressLookingFor, int frequency) {
+    Dictionary::searchForTerminalNode(int addressLookingFor, int frequency)
+    {
         // track word with such address and store it in an array
         unsigned short word[mMaxWordLength];
 
@@ -521,7 +539,8 @@ namespace latinime {
     }
 
     bool
-    Dictionary::checkFirstCharacter(unsigned short *word) {
+    Dictionary::checkFirstCharacter(unsigned short *word)
+    {
         // Checks whether this word starts with same character or neighboring characters of
         // what user typed.
 
@@ -538,7 +557,8 @@ namespace latinime {
     }
 
     bool
-    Dictionary::isValidWord(unsigned short *word, int length) {
+    Dictionary::isValidWord(unsigned short *word, int length)
+    {
         if (checkIfDictVersionIsLatest()) {
             return (isValidWordRec(DICTIONARY_HEADER_SIZE, word, 0, length) != NOT_VALID_WORD);
         } else {

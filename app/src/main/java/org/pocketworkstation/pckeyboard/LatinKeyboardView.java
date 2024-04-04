@@ -219,7 +219,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         int numRows = newKeyboard.mRowCount;
         mLastRowY = (newKeyboard.getHeight() * (numRows - 1)) / numRows;
         mExtensionKeyboard = ((LatinKeyboard) newKeyboard).getExtension();
-        if (mExtensionKeyboard != null && mExtension != null) mExtension.setKeyboard(mExtensionKeyboard);
+        if (mExtensionKeyboard != null && mExtension != null)
+            mExtension.setKeyboard(mExtensionKeyboard);
         setKeyboardLocal(newKeyboard);
     }
 
@@ -472,6 +473,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
 
     @Override
     public void closing() {
+        Log.i(TAG, "Closing LatinKeyboardView");
         super.closing();
         if (mExtensionPopup != null && mExtensionPopup.isShowing()) {
             mExtensionPopup.dismiss();

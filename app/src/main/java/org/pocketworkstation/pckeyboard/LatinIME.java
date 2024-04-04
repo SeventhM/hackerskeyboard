@@ -16,6 +16,7 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
@@ -60,6 +61,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -478,9 +480,18 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void setNotification(boolean visible) {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs.edit().putBoolean(PREF_KEYBOARD_NOTIFICATION, false).apply();
+        if (ActivityCompat.checkSelfPermission(this,
+            Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(NotificationPermissionReceiver.ACTION_NOTIFICATION_GRANTED);
+            intentFilter.addAction(NotificationPermissionReceiver.ACTION_NOTIFICATION_DENIED);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(new NotificationPermissionReceiver(), intentFilter, Context.RECEIVER_EXPORTED);
+            }
+            else registerReceiver(new NotificationPermissionReceiver(), intentFilter);
+            Intent requestIntent = new Intent(this, NotificationPermission.class);
+            requestIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(requestIntent);
 
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -489,7 +500,7 @@ public class LatinIME extends InputMethodService implements
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            //return;
+            return;
         }
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
@@ -504,18 +515,28 @@ public class LatinIME extends InputMethodService implements
             mNotificationReceiver = new NotificationReceiver(this);
             final IntentFilter pFilter = new IntentFilter(NotificationReceiver.ACTION_SHOW);
             pFilter.addAction(NotificationReceiver.ACTION_SETTINGS);
-            registerReceiver(mNotificationReceiver, pFilter);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(mNotificationReceiver, pFilter, Context.RECEIVER_EXPORTED);
+            }
+            else registerReceiver(mNotificationReceiver, pFilter);
 
             Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
-            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, 0);
-            //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent contentIntent = PendingIntent.getBroadcast(
+                getApplicationContext(), 1,
+                notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
             Intent configIntent = new Intent(NotificationReceiver.ACTION_SETTINGS);
             PendingIntent configPendingIntent =
-                PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, 0);
+                PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, PendingIntent.FLAG_IMMUTABLE);
 
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
+
+            NotificationCompat.Action keyboardAction = new NotificationCompat.Action(
+                R.drawable.icon_hk_notification,
+                "Launch Keyboard",
+                contentIntent);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.icon_hk_notification)
@@ -524,7 +545,8 @@ public class LatinIME extends InputMethodService implements
                 .setTicker(text)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setContentIntent(contentIntent)
+                .addAction(keyboardAction)
+                //.setContentIntent(contentIntent)
                 .setOngoing(true)
                 .addAction(R.drawable.icon_hk_notification, getString(R.string.notification_action_settings),
                     configPendingIntent)
@@ -619,16 +641,14 @@ public class LatinIME extends InputMethodService implements
         if (mSuggest != null) {
             mSuggest.close();
         }
-        SharedPreferences sp = PreferenceManager
-            .getDefaultSharedPreferences(this);
-        mQuickFixes = sp.getBoolean(PREF_QUICK_FIXES, getResources()
-            .getBoolean(R.bool.default_quick_fixes));
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        mQuickFixes = sp.getBoolean(PREF_QUICK_FIXES,
+            getResources().getBoolean(R.bool.default_quick_fixes));
 
         int[] dictionaries = getDictionary(orig);
         mSuggest = new Suggest(this, dictionaries);
         updateAutoTextEnabled(saveLocale);
-        if (mUserDictionary != null)
-            mUserDictionary.close();
+        if (mUserDictionary != null) mUserDictionary.close();
         mUserDictionary = new UserDictionary(this, mInputLocale);
         //if (mContactsDictionary == null) {
         //    mContactsDictionary = new ContactsDictionary(this,
@@ -650,8 +670,7 @@ public class LatinIME extends InputMethodService implements
         mSuggest.setAutoDictionary(mAutoDictionary);
         updateCorrectionMode();
         mWordSeparators = mResources.getString(R.string.word_separators);
-        mSentenceSeparators = mResources
-            .getString(R.string.sentence_separators);
+        mSentenceSeparators = mResources.getString(R.string.sentence_separators);
         initSuggestPuncList();
 
         conf.locale = saveLocale;
@@ -686,8 +705,8 @@ public class LatinIME extends InputMethodService implements
         if (!TextUtils.equals(systemLocale, mSystemLocale)) {
             mSystemLocale = systemLocale;
             if (mLanguageSwitcher != null) {
-                mLanguageSwitcher.loadLocales(PreferenceManager
-                    .getDefaultSharedPreferences(this));
+                mLanguageSwitcher.loadLocales(
+                    PreferenceManager.getDefaultSharedPreferences(this));
                 mLanguageSwitcher.setSystemLocale(conf.locale);
                 toggleLanguage(true, true);
             } else {
@@ -775,8 +794,8 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
-        super.onStartInput(attribute, restarting);
         Log.i(TAG, "onStartInput");
+        super.onStartInput(attribute, restarting);
         setCandidatesViewShownInternal(true, false);
     }
 
@@ -878,8 +897,7 @@ public class LatinIME extends InputMethodService implements
                     mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_WEB,
                         attribute.imeOptions, enableVoiceButton);
                     // If it's a browser edit field and auto correct is not ON
-                    // explicitly, then
-                    // disable auto correction, but keep suggestions on.
+                    // explicitly, then disable auto correction, but keep suggestions on.
                     if ((attribute.inputType & EditorInfo.TYPE_TEXT_FLAG_AUTO_CORRECT) == 0) {
                         mInputTypeNoAutoCorrect = true;
                     }
@@ -990,16 +1008,19 @@ public class LatinIME extends InputMethodService implements
     }
 
     @Override
-    public void onUpdateSelection(int oldSelStart, int oldSelEnd,
+    public void onUpdateSelection(
+        int oldSelStart, int oldSelEnd,
         int newSelStart, int newSelEnd, int candidatesStart,
-        int candidatesEnd) {
+        int candidatesEnd
+    ) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd,
             candidatesStart, candidatesEnd);
 
         // If the current selection in the text view changes, we should
         // clear whatever candidate text we have.
-        if ((((mComposing.length() > 0 && mPredicting))
-            && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd) && mLastSelectionStart != newSelStart)) {
+        if ((mComposing.length() > 0 && mPredicting)
+            && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)
+            && mLastSelectionStart != newSelStart) {
             mComposing.setLength(0);
             mPredicting = false;
             postUpdateSuggestions();
@@ -1106,18 +1127,13 @@ public class LatinIME extends InputMethodService implements
     }
 
     @Override
-    public void onDisplayCompletions(CompletionInfo[] completions) {
+    public void onDisplayCompletions(@NonNull CompletionInfo[] completions) {
         if (mCompletionOn) {
             mCompletions = completions;
-            if (completions == null) {
-                clearSuggestions();
-                return;
-            }
 
             List<CharSequence> stringList = new ArrayList<>();
             for (CompletionInfo ci : completions) {
-                if (ci != null)
-                    stringList.add(ci.getText());
+                stringList.add(ci.getText());
             }
             // When in fullscreen mode, show completions generated by the
             // application
@@ -1309,20 +1325,15 @@ public class LatinIME extends InputMethodService implements
 //                .obtainMessage(MSG_UPDATE_SHIFT_STATE), 300);
     }
 
-    public void updateShiftKeyState(EditorInfo attr) {
+    public void updateShiftKeyState(@NonNull EditorInfo attr) {
         InputConnection ic = getCurrentInputConnection();
-        if (ic != null && attr != null && mKeyboardSwitcher.isAlphabetMode()) {
+        if (ic != null && mKeyboardSwitcher.isAlphabetMode()) {
             int oldState = getShiftState();
             boolean isShifted = mShiftKeyState.isChording();
             boolean isCapsLock = (oldState == Keyboard.SHIFT_CAPS_LOCKED || oldState == Keyboard.SHIFT_LOCKED);
             boolean isCaps = isCapsLock || getCursorCapsMode(ic, attr) != 0;
             //Log.i(TAG, "updateShiftKeyState isShifted=" + isShifted + " isCaps=" + isCaps + " isMomentary=" + mShiftKeyState.isMomentary() + " cursorCaps=" + getCursorCapsMode(ic, attr));
-            int newState = Keyboard.SHIFT_OFF;
-            if (isShifted) {
-                newState = (mSavedShiftState == Keyboard.SHIFT_LOCKED) ? Keyboard.SHIFT_CAPS : Keyboard.SHIFT_ON;
-            } else if (isCaps) {
-                newState = isCapsLock ? getCapsOrShiftLockState() : Keyboard.SHIFT_CAPS;
-            }
+            int newState = shiftKeyState(isShifted, isCaps, isCapsLock);
             //Log.i(TAG, "updateShiftKeyState " + oldState + " -> " + newState);
             mKeyboardSwitcher.setShiftState(newState);
         }
@@ -1336,6 +1347,16 @@ public class LatinIME extends InputMethodService implements
                     | KeyEvent.META_SYM_ON;
             ic.clearMetaKeyStates(states);
         }
+    }
+
+    private int shiftKeyState(boolean isShifted, boolean isCaps, boolean isCapsLock) {
+        int newState = Keyboard.SHIFT_OFF;
+        if (isShifted) {
+            newState = (mSavedShiftState == Keyboard.SHIFT_LOCKED) ? Keyboard.SHIFT_CAPS : Keyboard.SHIFT_ON;
+        } else if (isCaps) {
+            newState = isCapsLock ? getCapsOrShiftLockState() : Keyboard.SHIFT_CAPS;
+        }
+        return newState;
     }
 
     private int getShiftState() {
@@ -1758,7 +1779,7 @@ public class LatinIME extends InputMethodService implements
     private final static int KF_UPPER = 0x20000;
     private final static int KF_LETTER = 0x40000;
 
-    {
+    static {
         // Include RETURN in this set even though it's not printable.
         // Most other non-printable keys get handled elsewhere.
         asciiToKeyCode['\n'] = KeyEvent.KEYCODE_ENTER | KF_SHIFTABLE;
@@ -1861,10 +1882,12 @@ public class LatinIME extends InputMethodService implements
                             sendModifiedKeyDownUp(code, shifted);
                             if (isChordingAlt) setModAlt(true);
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    getResources()
-                                        .getString(R.string.toast_ctrl_a_override_info), Toast.LENGTH_LONG)
-                                .show();
+                            Toast.makeText(
+                                getApplicationContext(),
+                                getResources()
+                                    .getString(R.string.toast_ctrl_a_override_info),
+                                Toast.LENGTH_LONG
+                            ).show();
                             // Clear the Ctrl modifier (and others)
                             sendModifierKeysDown(shifted);
                             sendModifierKeysUp(shifted);
@@ -1955,8 +1978,7 @@ public class LatinIME extends InputMethodService implements
             mDeleteCount = 0;
         }
         mLastKeyTime = when;
-        final boolean distinctMultiTouch = mKeyboardSwitcher
-            .hasDistinctMultitouch();
+        final boolean distinctMultiTouch = mKeyboardSwitcher.hasDistinctMultitouch();
         switch (primaryCode) {
             case Keyboard.KEYCODE_DELETE:
                 if (processMultiKey(primaryCode)) {
@@ -2750,11 +2772,11 @@ public class LatinIME extends InputMethodService implements
         // If we didn't find a match, at least suggest completions
         if (foundWord == null
             && (mSuggest.isValidWord(touching.word) || mSuggest
-            .isValidWord(touching.word.toString().toLowerCase()))) {
+            .isValidWord(touching.word.toString().toLowerCase()))
+        ) {
             foundWord = new WordComposer();
             for (int i = 0; i < touching.word.length(); i++) {
-                foundWord.add(touching.word.charAt(i),
-                    new int[] { touching.word.charAt(i) });
+                foundWord.add(touching.word.charAt(i), new int[] { touching.word.charAt(i) });
             }
             foundWord.setFirstCharCapitalized(Character
                 .isUpperCase(touching.word.charAt(0)));
@@ -2829,7 +2851,8 @@ public class LatinIME extends InputMethodService implements
         if (!addToBigramDictionary
             && mAutoDictionary.isValidWord(suggestion)
             || (!mSuggest.isValidWord(suggestion.toString()) && !mSuggest
-            .isValidWord(suggestion.toString().toLowerCase()))) {
+            .isValidWord(suggestion.toString().toLowerCase()))
+        ) {
             mAutoDictionary.addWord(suggestion.toString(), frequencyDelta);
         }
 
@@ -2972,8 +2995,8 @@ public class LatinIME extends InputMethodService implements
             if (mReCorrectionEnabled) {
                 // It doesn't work right on pre-Gingerbread phones.
                 Toast.makeText(getApplicationContext(),
-                        res.getString(R.string.recorrect_warning), Toast.LENGTH_LONG)
-                    .show();
+                    res.getString(R.string.recorrect_warning), Toast.LENGTH_LONG
+                ).show();
             }
         } else if (PREF_CONNECTBOT_TAB_HACK.equals(key)) {
             mConnectbotTabHack = sharedPreferences.getBoolean(
@@ -2991,8 +3014,7 @@ public class LatinIME extends InputMethodService implements
             needReload = true;
         } else if (PREF_KEYBOARD_NOTIFICATION.equals(key)) {
             mKeyboardNotification = sharedPreferences.getBoolean(
-                PREF_KEYBOARD_NOTIFICATION, res
-                    .getBoolean(R.bool.default_keyboard_notification));
+                PREF_KEYBOARD_NOTIFICATION, res.getBoolean(R.bool.default_keyboard_notification));
             setNotification(mKeyboardNotification);
         } else if (PREF_SUGGESTIONS_IN_LANDSCAPE.equals(key)) {
             mSuggestionsInLandscape = sharedPreferences.getBoolean(

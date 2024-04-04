@@ -200,8 +200,7 @@ public class Suggest implements Dictionary.WordCallback {
         if (minLength <= 2) return true;
         int matching = 0;
         int lessMatching = 0; // Count matches if we skip one character
-        int i;
-        for (i = 0; i < minLength; i++) {
+        for (int i = 0; i < minLength; i++) {
             final char origChar = ExpandableDictionary.toLowerCase(original.charAt(i));
             if (origChar == ExpandableDictionary.toLowerCase(suggestion.charAt(i))) {
                 matching++;

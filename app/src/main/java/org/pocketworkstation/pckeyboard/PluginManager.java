@@ -63,7 +63,7 @@ public class PluginManager extends BroadcastReceiver {
                 if (dictId == 0) {
                     try {
                         dictId = ri.activityInfo.metaData.getInt(SOFTKEYBOARD_DICT_RESOURCE_METADATA_NAME);
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }
                 if (dictId == 0)

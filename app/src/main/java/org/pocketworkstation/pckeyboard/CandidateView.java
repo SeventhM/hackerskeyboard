@@ -102,8 +102,7 @@ public class CandidateView extends View {
         mSelectionHighlight = ContextCompat.getDrawable(context, R.drawable.list_selector_background_pressed);
 
         LayoutInflater inflate =
-            (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Resources res = context.getResources();
         mPreviewPopup = new PopupWindow(context);
         mPreviewText = (TextView) inflate.inflate(R.layout.candidate_preview, null);
@@ -127,10 +126,9 @@ public class CandidateView extends View {
         mPaint.setStrokeWidth(0);
         mPaint.setTextAlign(Align.CENTER);
         mDescent = (int) mPaint.descent();
-        mMinTouchableWidth = (int)res.getDimension(R.dimen.candidate_min_touchable_width);
+        mMinTouchableWidth = (int) res.getDimension(R.dimen.candidate_min_touchable_width);
 
-        mGestureDetector = new GestureDetector(
-            new CandidateStripGestureListener(mMinTouchableWidth));
+        mGestureDetector = new GestureDetector(getContext(), new CandidateStripGestureListener(mMinTouchableWidth));
         setWillNotDraw(false);
         setHorizontalScrollBarEnabled(false);
         setVerticalScrollBarEnabled(false);
@@ -239,7 +237,6 @@ public class CandidateView extends View {
         int x = 0;
         for (int i = 0; i < count; i++) {
             CharSequence suggestion = mSuggestions.get(i);
-            if (suggestion == null) continue;
             final int wordLength = suggestion.length();
 
             paint.setColor(mColorNormal);

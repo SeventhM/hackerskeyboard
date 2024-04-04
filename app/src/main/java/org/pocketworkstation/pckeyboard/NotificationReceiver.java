@@ -3,6 +3,7 @@ package org.pocketworkstation.pckeyboard;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
@@ -25,12 +26,13 @@ public class NotificationReceiver extends BroadcastReceiver {
         Log.i(TAG, "NotificationReceiver.onReceive called, action=" + action);
 
         if (action != null && action.equals(ACTION_SHOW)) {
-            InputMethodManager imm = (InputMethodManager)
-                context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                mIME.requestShowSelf(InputMethodManager.SHOW_FORCED);
+            else if (imm != null) {
                 imm.showSoftInputFromInputMethod(mIME.mToken, InputMethodManager.SHOW_FORCED);
             }
-        } else if (action.equals(ACTION_SETTINGS)) {
+        } else if (action != null && action.equals(ACTION_SETTINGS)) {
             context.startActivity(new Intent(mIME, LatinIMESettings.class));
         }
     }

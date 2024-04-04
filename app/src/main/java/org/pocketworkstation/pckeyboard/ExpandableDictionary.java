@@ -350,7 +350,6 @@ public class ExpandableDictionary extends Dictionary {
         LinkedList<NextWord> bigram = firstWord.ngrams;
         if (bigram == null || bigram.isEmpty()) {
             firstWord.ngrams = new LinkedList<>();
-            bigram = firstWord.ngrams;
         } else {
             for (NextWord nw : bigram) {
                 if (nw.word == secondWord) {
@@ -436,7 +435,7 @@ public class ExpandableDictionary extends Dictionary {
         while (mUpdatingDictionary) {
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
     }

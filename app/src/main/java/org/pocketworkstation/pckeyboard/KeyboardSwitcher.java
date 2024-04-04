@@ -168,8 +168,7 @@ public class KeyboardSwitcher implements
      * Sets the input locale, when there are multiple locales for input. If no
      * locale switching is required, then the locale should be set to null.
      *
-     * @param locale
-     *            the current input locale, or null for default locale with no
+     * @param languageSwitcher the current input locale, or null for default locale with no
      *            locale button.
      */
     public void setLanguageSwitcher(LanguageSwitcher languageSwitcher) {
@@ -201,8 +200,7 @@ public class KeyboardSwitcher implements
         mSymbolsId = makeSymbolsId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsShiftedId = makeSymbolsShiftedId(mHasVoice && !mVoiceOnPrimary);
 
-        if (forceCreate)
-            mKeyboards.clear();
+        if (forceCreate) mKeyboards.clear();
         // Configuration change is coming after the keyboard gets recreated. So
         // don't rely on that.
         // If keyboards have already been made, check if we have a screen width
@@ -626,13 +624,9 @@ public class KeyboardSwitcher implements
             for (int i = 0; i < LatinIMEUtil.GCUtils.GC_TRY_LOOP_MAX && tryGC; ++i) {
                 try {
                     mInputView = (LatinKeyboardView) mInputMethodService
-                        .getLayoutInflater().inflate(THEMES[newLayout],
-                            null);
+                        .getLayoutInflater().inflate(THEMES[newLayout], null);
                     tryGC = false;
-                } catch (OutOfMemoryError e) {
-                    tryGC = LatinIMEUtil.GCUtils.getInstance().tryGCOrWait(
-                        mLayoutId + "," + newLayout, e);
-                } catch (InflateException e) {
+                } catch (OutOfMemoryError | InflateException e) {
                     tryGC = LatinIMEUtil.GCUtils.getInstance().tryGCOrWait(
                         mLayoutId + "," + newLayout, e);
                 }
@@ -665,23 +659,24 @@ public class KeyboardSwitcher implements
         if (isAutoCompletion != mIsAutoCompletionActive) {
             LatinKeyboardView keyboardView = getInputView();
             mIsAutoCompletionActive = isAutoCompletion;
-            keyboardView.invalidateKey(((LatinKeyboard) keyboardView
-                .getKeyboard())
-                .onAutoCompletionStateChanged(isAutoCompletion));
+            keyboardView.invalidateKey(
+                ((LatinKeyboard) keyboardView.getKeyboard())
+                    .onAutoCompletionStateChanged(isAutoCompletion)
+            );
         }
     }
 
     private void updateSettingsKeyState(SharedPreferences prefs) {
         Resources resources = mInputMethodService.getResources();
         final String settingsKeyMode = prefs.getString(
-            LatinIMESettings.PREF_SETTINGS_KEY, resources
-                .getString(DEFAULT_SETTINGS_KEY_MODE));
+            LatinIMESettings.PREF_SETTINGS_KEY,
+            resources.getString(DEFAULT_SETTINGS_KEY_MODE)
+        );
         // We show the settings key when 1) SETTINGS_KEY_MODE_ALWAYS_SHOW or
         // 2) SETTINGS_KEY_MODE_AUTO and there are two or more enabled IMEs on
         // the system
-        mHasSettingsKey = settingsKeyMode.equals(resources
-            .getString(SETTINGS_KEY_MODE_ALWAYS_SHOW))
-            || (settingsKeyMode.equals(resources
-            .getString(SETTINGS_KEY_MODE_AUTO)));
+        mHasSettingsKey = settingsKeyMode.equals(
+            resources.getString(SETTINGS_KEY_MODE_ALWAYS_SHOW))
+            || (settingsKeyMode.equals(resources.getString(SETTINGS_KEY_MODE_AUTO)));
     }
 }

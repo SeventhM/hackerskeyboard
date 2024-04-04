@@ -847,7 +847,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     @Override
     public void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-        //Log.i(TAG, "onDraw called " + canvas.getClipBounds());
+        Log.i(TAG, "onDraw called ");// + canvas.getClipBounds());
         mCanvas = canvas;
         if (mDrawPending || mBuffer == null || mKeyboardChanged) {
             onBufferDraw(canvas);
@@ -1045,8 +1045,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // Draw main key label
                 final int centerX = (key.width + padding.left - padding.right) / 2;
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
-                final float baseline = centerY
-                    + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
+                final float baseline = centerY + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 if (key.isDeadKey()) {
                     drawDeadKeyLabel(canvas, label, centerX, baseline, paint);
                 } else {
@@ -1171,8 +1170,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         final boolean hidePreviewOrShowSpaceKeyPreview = (tracker == null)
             || tracker.isSpaceKey(keyIndex) || tracker.isSpaceKey(oldKeyIndex);
         // If key changed and preview is on or the key is space (language switch is enabled)
-        if (oldKeyIndex != keyIndex
-            && (mShowPreview
+        if (oldKeyIndex != keyIndex && (mShowPreview
             || (hidePreviewOrShowSpaceKeyPreview && isLanguageSwitchEnabled))) {
             if (keyIndex == NOT_A_KEY) {
                 mHandler.cancelPopupPreview();
@@ -1208,8 +1206,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         mPreviewText.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-        int popupWidth = Math.max(mPreviewText.getMeasuredWidth(), key.width
-            + mPreviewText.getPaddingLeft() + mPreviewText.getPaddingRight());
+        int popupWidth = Math.max(mPreviewText.getMeasuredWidth(),
+            key.width + mPreviewText.getPaddingLeft() + mPreviewText.getPaddingRight());
         final int popupHeight = mPreviewHeight;
         LayoutParams lp = mPreviewText.getLayoutParams();
         if (lp != null) {
@@ -1498,8 +1496,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     private boolean shouldDrawLabelAndIcon(Key key) {
         // isNumberAtEdgeOfPopupChars(key) ||
-        return isNonMicLatinF1Key(key)
-            || LatinKeyboard.hasPuncOrSmileysPopup(key);
+        return isNonMicLatinF1Key(key) || LatinKeyboard.hasPuncOrSmileysPopup(key);
     }
 
     private boolean shouldAlignLeftmost(Key key) {
@@ -1775,7 +1772,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     protected void dismissPopupKeyboard() {
         if (mMiniKeyboardPopup != null) {
-            //Log.i(TAG, "dismissPopupKeyboard() " + mMiniKeyboardPopup + " showing=" + mMiniKeyboardPopup.isShowing());
+            Log.i(TAG, "dismissPopupKeyboard() " + mMiniKeyboardPopup + " showing=" + mMiniKeyboardPopup.isShowing());
             if (mMiniKeyboardPopup.isShowing()) {
                 mMiniKeyboardPopup.dismiss();
             }

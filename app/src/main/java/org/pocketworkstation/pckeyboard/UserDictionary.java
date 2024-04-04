@@ -87,7 +87,7 @@ public class UserDictionary extends ExpandableDictionary {
         // Force load the dictionary here synchronously
         if (getRequiresReload()) loadDictionaryAsync();
         // Safeguard against adding long words. Can cause stack overflow.
-        if (word.length() >= getMaxWordLength()) return;
+        if (word.length() >= MAX_WORD_LENGTH) return;
 
         super.addWord(word, frequency);
 

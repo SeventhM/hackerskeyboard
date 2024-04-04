@@ -204,7 +204,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
             while (sUpdatingDB) {
                 try {
                     Thread.sleep(100);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
         }
@@ -350,8 +350,9 @@ public class UserBigramDictionary extends ExpandableDictionary {
 
                 int pairId;
                 if (c.moveToFirst()) {
+                    int columnIndex = c.getColumnIndex(MAIN_COLUMN_ID);
                     // existing pair
-                    pairId = c.getInt(c.getColumnIndex(MAIN_COLUMN_ID));
+                    pairId = c.getInt(columnIndex);
                     db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
                         new String[]{Integer.toString(pairId)});
                 } else {

@@ -42,9 +42,7 @@ public class SharedPreferencesCompat {
             try {
                 sApplyMethod.invoke(editor);
                 return;
-            } catch (InvocationTargetException unused) {
-                // fall through
-            } catch (IllegalAccessException unused) {
+            } catch (InvocationTargetException | IllegalAccessException unused) {
                 // fall through
             }
         }

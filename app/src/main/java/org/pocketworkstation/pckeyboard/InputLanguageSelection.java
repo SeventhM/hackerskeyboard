@@ -259,8 +259,7 @@ public class InputLanguageSelection extends FragmentActivity {
 
     private String get5Code(Locale locale) {
         String country = locale.getCountry();
-        return locale.getLanguage()
-            + (TextUtils.isEmpty(country) ? "" : "_" + country);
+        return locale.getLanguage() + (TextUtils.isEmpty(country) ? "" : "_" + country);
     }
 
     @Override

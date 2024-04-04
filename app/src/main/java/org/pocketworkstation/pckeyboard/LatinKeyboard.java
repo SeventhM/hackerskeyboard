@@ -464,7 +464,6 @@ public class LatinKeyboard extends Keyboard {
         int textWidth = getTextWidth(paint, language, origTextSize, bounds);
         // Assuming text width and text size are proportional to each other.
         float textSize = origTextSize * Math.min(maxTextWidth / textWidth, 1.0f);
-
         final boolean useShortName;
         if (allowVariableTextSize) {
             textWidth = getTextWidth(paint, language, textSize, bounds);
@@ -591,7 +590,8 @@ public class LatinKeyboard extends Keyboard {
         if (locale != null
             && mLanguageSwitcher.getLocaleCount() == 1
             && mLanguageSwitcher.getSystemLocale().getLanguage()
-            .equalsIgnoreCase(locale.getLanguage())) {
+            .equalsIgnoreCase(locale.getLanguage())
+        ) {
             locale = null;
         }
         mLocale = locale;
@@ -625,8 +625,7 @@ public class LatinKeyboard extends Keyboard {
      */
     boolean isInside(LatinKey key, int x, int y) {
         final int code = key.codes[0];
-        if (code == KEYCODE_SHIFT ||
-            code == KEYCODE_DELETE) {
+        if (code == KEYCODE_SHIFT || code == KEYCODE_DELETE) {
             // Adjust target area for these keys
             y -= key.height / 10;
             if (code == KEYCODE_SHIFT) {
@@ -716,7 +715,8 @@ public class LatinKeyboard extends Keyboard {
                     if (inPrefList(k.codes[0], pref)) {
                         final int dist = distanceFrom(k, x, y);
                         if (dist < (int) (k.width * OVERLAP_PERCENTAGE_HIGH_PROB)
-                            && dist < mPrefDistance) {
+                            && dist < mPrefDistance
+                        ) {
                             mPrefLetter = k.codes[0];
                             mPrefLetterX = x;
                             mPrefLetterY = y;

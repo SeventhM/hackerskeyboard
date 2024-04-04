@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 public class TextEntryState {
-
+    
     private static final boolean DBG = false;
 
     private static final String TAG = "TextEntryState";
@@ -35,17 +35,17 @@ public class TextEntryState {
     private static final boolean LOGGING = false;
 
     private static int sBackspaceCount = 0;
-
+    
     private static int sAutoSuggestCount = 0;
-
+    
     private static int sAutoSuggestUndoneCount = 0;
-
+    
     private static int sManualSuggestCount = 0;
-
+    
     private static int sWordNotInDictionaryCount = 0;
-
+    
     private static int sSessionCount = 0;
-
+    
     private static int sTypedChars;
 
     private static int sActualChars;
@@ -69,7 +69,7 @@ public class TextEntryState {
 
     private static FileOutputStream sKeyLocationFile;
     private static FileOutputStream sUserActionFile;
-
+    
     public static void newSession(Context context) {
         sSessionCount++;
         sAutoSuggestCount = 0;
@@ -80,17 +80,17 @@ public class TextEntryState {
         sTypedChars = 0;
         sActualChars = 0;
         sState = State.START;
-
+        
         if (LOGGING) {
             try {
                 sKeyLocationFile = context.openFileOutput("key.txt", Context.MODE_APPEND);
                 sUserActionFile = context.openFileOutput("action.txt", Context.MODE_APPEND);
             } catch (IOException ioe) {
-                Log.e("TextEntryState", "Couldn't open file for output: " + ioe);
+                Log.e(TAG, "Couldn't open file for output: " + ioe);
             }
         }
     }
-
+    
     public static void endSession() {
         if (sKeyLocationFile == null) {
             return;
@@ -100,23 +100,23 @@ public class TextEntryState {
             // Write to log file            
             // Write timestamp, settings,
             String out = DateFormat.format("MM:dd hh:mm:ss", Calendar.getInstance().getTime())
-                .toString()
-                + " BS: " + sBackspaceCount
-                + " auto: " + sAutoSuggestCount
-                + " manual: " + sManualSuggestCount
-                + " typed: " + sWordNotInDictionaryCount
-                + " undone: " + sAutoSuggestUndoneCount
-                + " saved: " + ((float) (sActualChars - sTypedChars) / sActualChars)
-                + "\n";
+                    .toString()
+                    + " BS: " + sBackspaceCount
+                    + " auto: " + sAutoSuggestCount
+                    + " manual: " + sManualSuggestCount
+                    + " typed: " + sWordNotInDictionaryCount
+                    + " undone: " + sAutoSuggestUndoneCount
+                    + " saved: " + ((float) (sActualChars - sTypedChars) / sActualChars)
+                    + "\n";
             sUserActionFile.write(out.getBytes());
             sUserActionFile.close();
             sKeyLocationFile = null;
             sUserActionFile = null;
-        } catch (IOException ioe) {
-
+        } catch (IOException ignored) {
+            
         }
     }
-
+    
     public static void acceptedDefault(CharSequence typedWord, CharSequence actualWord) {
         if (typedWord == null) return;
         if (!typedWord.equals(actualWord)) {
@@ -228,7 +228,7 @@ public class TextEntryState {
         }
         displayState();
     }
-
+    
     public static void backspace() {
         if (sState == State.ACCEPTED_DEFAULT) {
             sState = State.UNDO_COMMIT;
@@ -258,12 +258,12 @@ public class TextEntryState {
 
     public static void keyPressedAt(Key key, int x, int y) {
         if (LOGGING && sKeyLocationFile != null && key.codes[0] >= 32) {
-            String out =
-                "KEY: " + key.codes[0]
-                    + " X: " + x
+            String out = 
+                    "KEY: " + key.codes[0]
+                    + " X: " + x 
                     + " Y: " + y
                     + " MX: " + (key.x + key.width / 2)
-                    + " MY: " + (key.y + key.height / 2)
+                    + " MY: " + (key.y + key.height / 2) 
                     + "\n";
             try {
                 sKeyLocationFile.write(out.getBytes());
