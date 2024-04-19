@@ -648,7 +648,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         }
     }
 
-    override fun onCreateCandidatesView(): View {
+    override fun onCreateCandidatesView(): View? {
         //Log.i(TAG, "onCreateCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
         //mKeyboardSwitcher.makeKeyboards(true);
         if (mCandidateViewContainer == null) {
@@ -659,10 +659,11 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             mCandidateView!!.setService(this)
             setCandidatesView(mCandidateViewContainer)
         }
-        super.setCandidatesViewShown(true)
+        setCandidatesViewShown(true)
+        //super.setCandidatesViewShown(true)
         //setCandidatesViewShownInternal(true, false)
         isExtractViewShown = onEvaluateFullscreenMode()
-        return mCandidateViewContainer!!
+        return mCandidateViewContainer
     }
 
     private fun removeCandidateViewContainer() {
@@ -689,8 +690,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     override fun onStartInput(attribute: EditorInfo, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
         Log.i(TAG, "onStartInput")
-        super.setCandidatesViewShown(true)
-        //setCandidatesViewShownInternal(true, false)
+        //super.setCandidatesViewShown(true)
+        setCandidatesViewShown(true)
     }
 
     override fun onStartInputView(attribute: EditorInfo, restarting: Boolean) {
