@@ -659,7 +659,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             mCandidateView!!.setService(this)
             setCandidatesView(mCandidateViewContainer)
         }
-        setCandidatesViewShownInternal(true, false)
+        super.setCandidatesViewShown(true)
+        //setCandidatesViewShownInternal(true, false)
         isExtractViewShown = onEvaluateFullscreenMode()
         return mCandidateViewContainer!!
     }
@@ -688,7 +689,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     override fun onStartInput(attribute: EditorInfo, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
         Log.i(TAG, "onStartInput")
-        setCandidatesViewShownInternal(true, false)
+        super.setCandidatesViewShown(true)
+        //setCandidatesViewShownInternal(true, false)
     }
 
     override fun onStartInputView(attribute: EditorInfo, restarting: Boolean) {
@@ -1042,7 +1044,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         val visible = shown
                 && onEvaluateInputViewShown()
                 && mKeyboardSwitcher!!.inputView != null
-                //&& isPredictionOn()
+                && isPredictionOn
                 && (!needsInputViewShown || mKeyboardSwitcher!!.inputView!!.isShown())
         if (visible) {
             if (mCandidateViewContainer == null) {
