@@ -18,7 +18,7 @@
 */
  -->
 
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- <string name="english_ime_name" msgid="7252517407088836577">"Android 鍵盤"</string> -->
     <!-- <string name="english_ime_settings" msgid="6661589557206947774">"Android 鍵盤設定"</string> -->
     <string name="english_ime_input_options" msgid="3909945612939668554">"輸入選項"</string>

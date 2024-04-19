@@ -23,6 +23,7 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceManager
+import org.pocketworkstation.pckeyboard.DeprecatedExtensions.depLocale
 import java.text.Collator
 import java.util.Arrays
 import java.util.Locale
@@ -124,9 +125,9 @@ class InputLanguageSelection : FragmentActivity() {
     private fun hasDictionary(locale: Locale): Boolean {
         val res = resources
         val conf = res.configuration
-        val saveLocale = conf.locale
+        val saveLocale = conf.depLocale
         var haveDictionary = false
-        conf.locale = locale
+        conf.depLocale = locale
         res.updateConfiguration(conf, res.displayMetrics)
 
         val dictionaries = LatinIME.getDictionary(res)
@@ -146,7 +147,7 @@ class InputLanguageSelection : FragmentActivity() {
         }
 
         bd.close()
-        conf.locale = saveLocale
+        conf.depLocale = saveLocale
         res.updateConfiguration(conf, res.displayMetrics)
         return haveDictionary
     }

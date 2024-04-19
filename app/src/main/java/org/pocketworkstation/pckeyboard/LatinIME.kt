@@ -63,6 +63,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import com.google.android.voiceime.VoiceRecognitionTrigger
+import org.pocketworkstation.pckeyboard.DeprecatedExtensions.depLocale
 import org.pocketworkstation.pckeyboard.EditingUtil.SelectedWord
 import org.pocketworkstation.pckeyboard.KeyboardSwitcher.Companion.instance
 import org.xmlpull.v1.XmlPullParserException
@@ -278,11 +279,11 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         mLanguageSwitcher!!.loadLocales(prefs)
         mKeyboardSwitcher = instance
         mKeyboardSwitcher!!.setLanguageSwitcher(mLanguageSwitcher!!)
-        mSystemLocale = conf.locale.toString()
-        mLanguageSwitcher!!.systemLocale = conf.locale
+        mSystemLocale = conf.depLocale.toString()
+        mLanguageSwitcher!!.systemLocale = conf.depLocale
         var inputLanguage = mLanguageSwitcher!!.inputLanguage
         if (inputLanguage == null) {
-            inputLanguage = conf.locale.toString()
+            inputLanguage = conf.depLocale.toString()
         }
         val res = resources
         mReCorrectionEnabled = prefs.getBoolean(
@@ -427,7 +428,9 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             val intentFilter = IntentFilter()
             intentFilter.addAction(NotificationPermissionReceiver.ACTION_NOTIFICATION_GRANTED)
             intentFilter.addAction(NotificationPermissionReceiver.ACTION_NOTIFICATION_DENIED)
-            registerReceiver(NotificationPermissionReceiver(), intentFilter)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(NotificationPermissionReceiver(), intentFilter, RECEIVER_EXPORTED)
+            } else registerReceiver(NotificationPermissionReceiver(), intentFilter)
             val requestIntent = Intent(this, NotificationPermission::class.java)
             requestIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(requestIntent)
@@ -455,7 +458,10 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             mNotificationReceiver = NotificationReceiver(this)
             val pFilter = IntentFilter(NotificationReceiver.ACTION_SHOW)
             pFilter.addAction(NotificationReceiver.ACTION_SETTINGS)
-            registerReceiver(mNotificationReceiver, pFilter)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(mNotificationReceiver, pFilter, RECEIVER_EXPORTED)
+            }
+            else registerReceiver(mNotificationReceiver, pFilter)
 
             val notificationIntent = Intent(NotificationReceiver.ACTION_SHOW)
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -525,8 +531,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         mInputLocale = locale
         val orig = resources
         val conf = orig.configuration
-        val saveLocale = conf.locale
-        conf.locale = Locale(locale!!)
+        val saveLocale = conf.depLocale
+        conf.depLocale = Locale(locale!!)
         orig.updateConfiguration(conf, orig.displayMetrics)
         if (mSuggest != null) {
             mSuggest!!.close()
@@ -537,7 +543,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
 
         val dictionaries = getDictionary(orig)
         mSuggest = Suggest(this, dictionaries)
-        updateAutoTextEnabled(saveLocale)
+        updateAutoTextEnabled(saveLocale!!)
         if (mUserDictionary != null) mUserDictionary!!.close()
         mUserDictionary = UserDictionary(this, mInputLocale!!)
         //if (mContactsDictionary == null) {
@@ -563,7 +569,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         mSentenceSeparators = mResources!!.getString(R.string.sentence_separators)
         initSuggestPuncList()
 
-        conf.locale = saveLocale
+        conf.depLocale = saveLocale
         orig.updateConfiguration(conf, orig.displayMetrics)
     }
 
@@ -589,13 +595,13 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         // locale (mSystemLocale), then reload the input locale list from the
         // latin ime settings (shared prefs) and reset the input locale
         // to the first one.
-        val systemLocale = conf.locale.toString()
+        val systemLocale = conf.depLocale.toString()
         if (!TextUtils.equals(systemLocale, mSystemLocale)) {
             mSystemLocale = systemLocale
             if (mLanguageSwitcher != null) {
                 mLanguageSwitcher!!.loadLocales(
                     PreferenceManager.getDefaultSharedPreferences(this))
-                mLanguageSwitcher!!.systemLocale = conf.locale
+                mLanguageSwitcher!!.systemLocale = conf.depLocale
                 toggleLanguage(true, true)
             } else reloadKeyboards()
         }
@@ -3057,7 +3063,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             //   the gain applied by audio framework ranges from -72dB to 0dB, so an appropriate conversion
             //   from linear UI input x to level is: x == 0 -> level = 0 0 < x <= R -> level = 10^(72*(x-R)/20/R)
             val method = sKeyboardSettings.keyClickMethod // See click_method_values in strings.xml
-            if (method == 0) return Companion.FX_VOLUME
+            if (method == 0) return FX_VOLUME
 
             var targetVol = sKeyboardSettings.keyClickVolume
 
@@ -3076,7 +3082,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
                 }
             }
             // Set absolute volume, treating the percentage as a logarithmic control
-            val vol = 10.0f.pow((Companion.FX_VOLUME_RANGE_DB * (targetVol - 1) / 20))
+            val vol = 10.0f.pow((FX_VOLUME_RANGE_DB * (targetVol - 1) / 20))
             //Log.i(TAG, "getKeyClickVolume absolute, target=" + targetVol + " amp=" + vol);
             return vol
         }
@@ -3207,7 +3213,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         // mBigramSuggestionEnabled = sp.getBoolean(
         // PREF_BIGRAM_SUGGESTIONS, true) & mShowSuggestions;
         updateCorrectionMode()
-        updateAutoTextEnabled(mResources!!.configuration.locale)
+        updateAutoTextEnabled(mResources!!.configuration.depLocale!!)
         mLanguageSwitcher!!.loadLocales(sp)
         mAutoCapActive = mAutoCapPref && mLanguageSwitcher!!.allowAutoCap()
         mDeadKeysActive = mLanguageSwitcher!!.allowDeadKeys()

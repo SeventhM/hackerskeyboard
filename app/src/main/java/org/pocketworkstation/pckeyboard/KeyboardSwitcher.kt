@@ -21,6 +21,7 @@ import android.os.Build
 import android.util.Log
 import android.view.InflateException
 import androidx.preference.PreferenceManager
+import org.pocketworkstation.pckeyboard.DeprecatedExtensions.depLocale
 import java.lang.ref.SoftReference
 
 class KeyboardSwitcher private constructor() : OnSharedPreferenceChangeListener {
@@ -216,12 +217,8 @@ class KeyboardSwitcher private constructor() : OnSharedPreferenceChangeListener 
         if (keyboard == null) {
             val orig = mInputMethodService.resources
             val conf = orig.configuration
-            val saveLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                conf.locales.get(0)
-            else conf.locale
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                conf.setLocale(LatinIME.sKeyboardSettings.inputLocale)
-            else conf.locale = LatinIME.sKeyboardSettings.inputLocale
+            val saveLocale = conf.depLocale
+            conf.depLocale = LatinIME.sKeyboardSettings.inputLocale
             orig.updateConfiguration(conf, null)
             keyboard = LatinKeyboard(
                 mInputMethodService, id!!.mXml,
@@ -240,9 +237,7 @@ class KeyboardSwitcher private constructor() : OnSharedPreferenceChangeListener 
                 keyboard.enableShiftLock()
             }
             mKeyboards[id] = SoftReference(keyboard)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                conf.setLocale(saveLocale)
-            else conf.locale = saveLocale
+            conf.depLocale = saveLocale
             orig.updateConfiguration(conf, null)
         }
         return keyboard

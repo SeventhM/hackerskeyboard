@@ -31,7 +31,8 @@ import java.util.StringTokenizer
 
 /**
  * Loads an XML description of a keyboard and stores the attributes of the keys. A keyboard
- * consists of rows of keys.
+ * consists of rows of keys. Weeds out rows that have a keyboard mode defined but don't
+ * match the specified mode.
  *
  * The layout file for a keyboard contains XML that looks like the following snippet:
  * <pre>
@@ -793,14 +794,6 @@ open class Keyboard @JvmOverloads constructor(
             }
         }
     }
-    /**
-     * Creates a keyboard from the given xml key layout file. Weeds out rows
-     * that have a keyboard mode defined but don't match the specified mode.
-     * @param context the application or service context
-     * @param xmlLayoutResId the resource file that contains the keyboard layout and keys.
-     * @param modeId keyboard mode identifier
-     * @param kbHeightPercent height of the keyboard as percentage of screen height
-     */
     init {
         val dm = context.resources.displayMetrics
         mDisplayWidth = dm.widthPixels

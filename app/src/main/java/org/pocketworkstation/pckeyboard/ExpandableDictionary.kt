@@ -525,7 +525,7 @@ open class ExpandableDictionary internal constructor(val mContext: Context, dicT
 
         /**
          * Table mapping most combined Latin, Greek, and Cyrillic characters
-         * to their base characters.  If c is in range, BASE_CHARS[c] == c
+         * to their base characters.  If c is in range, BASE_CHARS&#91c] == c
          * if c is not a combined character, or the base character if it
          * is combined.
          */

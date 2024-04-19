@@ -18,6 +18,7 @@ package org.pocketworkstation.pckeyboard
 import android.content.SharedPreferences
 import android.text.TextUtils
 import androidx.preference.PreferenceManager
+import org.pocketworkstation.pckeyboard.DeprecatedExtensions.depLocale
 import java.util.Locale
 
 /**
@@ -87,7 +88,7 @@ class LanguageSwitcher(private val mIme: LatinIME) {
     }
 
     private fun loadDefaults() {
-        mDefaultInputLocale = mIme.resources.configuration.locale
+        mDefaultInputLocale = mIme.resources.configuration.depLocale
         val country = mDefaultInputLocale!!.country
         mDefaultInputLanguage = mDefaultInputLocale!!.language +
                 if (TextUtils.isEmpty(country)) "" else "_$country"

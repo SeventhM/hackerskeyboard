@@ -20,6 +20,7 @@ import android.text.AutoText
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import org.pocketworkstation.pckeyboard.DeprecatedExtensions.depLocale
 import java.nio.ByteBuffer
 import java.util.Arrays
 import kotlin.math.max
@@ -62,8 +63,8 @@ class Suggest : Dictionary.WordCallback {
     constructor(context: Context, dictionaryResId: IntArray?) {
         mMainDict = BinaryDictionary(context, dictionaryResId, DIC_MAIN)
         if (!hasMainDictionary()) {
-            val locale = context.resources.configuration.locale
-            val plug = PluginManager.getDictionary(context, locale.language)
+            val locale = context.resources.configuration.depLocale
+            val plug = PluginManager.getDictionary(context, locale!!.language)
             if (plug != null) {
                 mMainDict!!.close()
                 mMainDict = plug
