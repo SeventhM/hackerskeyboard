@@ -660,8 +660,6 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             setCandidatesView(mCandidateViewContainer)
         }
         setCandidatesViewShown(true)
-        //super.setCandidatesViewShown(true)
-        //setCandidatesViewShownInternal(true, false)
         isExtractViewShown = onEvaluateFullscreenMode()
         return mCandidateViewContainer
     }
@@ -939,11 +937,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
 
         if (mReCorrectionEnabled) {
             // Don't look for corrections if the keyboard is not visible
-            if (
-                mKeyboardSwitcher != null
-                && mKeyboardSwitcher!!.inputView != null
-                && mKeyboardSwitcher!!.inputView!!.isShown()
-                ) {
+            if (isKeyboardVisible) {
                 // Check if we should go in or out of correction mode.
                 if (
                     isPredictionOn
@@ -1035,18 +1029,18 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         shown: Boolean,
         needsInputViewShown: Boolean
     ) {
-//        Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown +
-//                " mCompletionOn=" + mCompletionOn +
-//                " mPredictionOnForMode=" + mPredictionOnForMode +
-//                " mPredictionOnPref=" + mPredictionOnPref +
-//                " mPredicting=" + mPredicting
-//                );
+        Log.i(TAG, "setCandidatesViewShownInternal(${shown}, ${needsInputViewShown})\n" +
+                " mCompletionOn=$mCompletionOn\n" +
+                " mPredictionOnForMode=$mPredictionOnForMode\n" +
+                " mPredictionOnPref=$mPredictionOnPref\n"+
+                " mPredicting=$mPredicting\n" +
+                " mShowSuggestions=$mShowSuggestions"
+                )
         // TODO: Remove this if we support candidates with hard keyboard
         val visible = shown
                 && onEvaluateInputViewShown()
-                && mKeyboardSwitcher!!.inputView != null
                 && isPredictionOn
-                && (!needsInputViewShown || mKeyboardSwitcher!!.inputView!!.isShown())
+                && (!needsInputViewShown || isKeyboardVisible)
         if (visible) {
             if (mCandidateViewContainer == null) {
                 onCreateCandidatesView()
@@ -1100,10 +1094,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         }
     }
 
-    val isKeyboardVisible get() =
-        mKeyboardSwitcher != null
-        && mKeyboardSwitcher!!.inputView != null
-        && mKeyboardSwitcher!!.inputView!!.isShown()
+    val isKeyboardVisible get() = mKeyboardSwitcher?.inputView?.isShown() == true
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
@@ -1130,8 +1121,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
                 val inputView = mKeyboardSwitcher!!.inputView
                 // Enable shift key and DPAD to do selections
-                if (inputView != null
-                    && inputView.isShown()
+                if (inputView?.isShown() == true
                     && inputView.shiftState == Keyboard.SHIFT_ON) {
                     event = KeyEvent(
                         event.downTime, event.eventTime,
@@ -1241,24 +1231,14 @@ class LatinIME : InputMethodService(), ComposeSequencing,
 
     private val shiftState: Int
         get() {
-            if (mKeyboardSwitcher != null) {
-                val view = mKeyboardSwitcher!!.inputView
-                if (view != null) {
-                    return view.shiftState
-                }
-            }
-            return Keyboard.SHIFT_OFF
+            return  mKeyboardSwitcher?.inputView?.shiftState
+                ?: Keyboard.SHIFT_OFF
         }
 
     private val isShiftCapsMode: Boolean
         get() {
-            if (mKeyboardSwitcher != null) {
-                val view = mKeyboardSwitcher!!.inputView
-                if (view != null) {
-                    return view.isShiftCaps
-                }
-            }
-            return false
+            return mKeyboardSwitcher?.inputView?.isShiftCaps
+                ?: false
         }
 
     private fun getCursorCapsMode(ic: InputConnection, attr: EditorInfo): Int {
@@ -1391,7 +1371,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     }
 
     private val isShowingOptionDialog: Boolean
-        get() = mOptionsDialog != null && mOptionsDialog!!.isShowing
+        get() = mOptionsDialog?.isShowing == true
 
     private val isConnectbot: Boolean
         get() {
@@ -1437,11 +1417,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     private val isShiftMod: Boolean
         get() {
             if (mShiftKeyState.isChording) return true
-            if (mKeyboardSwitcher != null) {
-                val kb = mKeyboardSwitcher!!.inputView
-                if (kb != null) return kb.isShiftAll
-            }
-            return false
+            return mKeyboardSwitcher?.inputView?.isShiftAll
+                ?: false
         }
 
     private fun delayChordingCtrlModifier(): Boolean {
@@ -1979,9 +1956,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         ) {
             ic.deleteSurroundingText(mEnteredText!!.length, 0)
         } else if (deleteChar) {
-            if (mCandidateView != null
-                && mCandidateView!!.dismissAddToDictionaryHint()
-            ) {
+            if (mCandidateView?.dismissAddToDictionaryHint() == true) {
                 // Go back to the suggestion mode if the user canceled the
                 // "Touch again to save".
                 // NOTE: In gerenal, we don't revert the word when backspacing
@@ -2137,9 +2112,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
 
         // Should dismiss the "Touch again to save" message when handling
         // separator
-        if (mCandidateView != null
-            && mCandidateView!!.dismissAddToDictionaryHint()
-        ) {
+        if (mCandidateView?.dismissAddToDictionaryHint() == true) {
             postUpdateSuggestions()
         }
         var pickedDefault = false
@@ -2210,10 +2183,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     private fun handleClose() {
         commitTyped(getCurrentInputConnection(), true)
         requestHideSelf(0)
-        if (mKeyboardSwitcher != null) {
-            val inputView = mKeyboardSwitcher!!.inputView
-            inputView?.closing()
-        }
+        mKeyboardSwitcher?.inputView?.closing()
         TextEntryState.endSession()
     }
 
@@ -2282,12 +2252,10 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             setCandidatesViewShown(true)
             mIsShowingHint = false
         }
-        if (mCandidateView != null) {
-            mCandidateView!!.setSuggestions(
-                suggestions, completions,
-                typedWordValid, haveMinimalSuggestion
-            )
-        }
+        mCandidateView?.setSuggestions(
+            suggestions, completions,
+            typedWordValid, haveMinimalSuggestion
+        )
     }
 
     private fun updateSuggestions() {
@@ -2406,9 +2374,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             val ci = mCompletions!![index]
             ic?.commitCompletion(ci)
             mCommittedLength = suggestion.length
-            if (mCandidateView != null) {
-                mCandidateView!!.clear()
-            }
+            mCandidateView?.clear()
             updateShiftKeyState(getCurrentInputEditorInfo())
             ic?.endBatchEdit()
             return
@@ -2553,11 +2519,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     }
 
     private fun setOldSuggestions() {
-        if (mCandidateView != null
-            && mCandidateView!!.isShowingAddToDictionaryHint()
-        ) {
+        if (mCandidateView?.isShowingAddToDictionaryHint() == true)
             return
-        }
         val ic = getCurrentInputConnection() ?: return
         if (!mPredicting) {
             // Extract the selected or touching text
@@ -2596,8 +2559,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         if (suggestion.isNullOrEmpty()) return
         // Only auto-add to dictionary if auto-correct is ON. Otherwise we'll be
         // adding words in situations where the user or application really
-        // didn't
-        // want corrections enabled or learned.
+        // didn't want corrections enabled or learned.
         if (!(mCorrectionMode == Suggest.CORRECTION_FULL || mCorrectionMode == Suggest.CORRECTION_FULL_BIGRAM)) {
             return
         }
@@ -3125,12 +3087,10 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             return
         }
 
-        if (mKeyboardSwitcher!!.inputView != null) {
-            mKeyboardSwitcher!!.inputView!!.performHapticFeedback(
-                HapticFeedbackConstants.KEYBOARD_TAP,
-                HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
-            )
-        }
+        mKeyboardSwitcher?.inputView?.performHapticFeedback(
+            HapticFeedbackConstants.KEYBOARD_TAP,
+            HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
+        )
     }
 
     /* package */
@@ -3144,7 +3104,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     val popupOn get() = mPopupOn
 
     private fun updateCorrectionMode() {
-        mHasDictionary = mSuggest != null && mSuggest!!.hasMainDictionary()
+        mHasDictionary = mSuggest?.hasMainDictionary() == true
         mAutoCorrectOn = ((mAutoCorrectEnabled || mQuickFixes)
                 && !mInputTypeNoAutoCorrect && mHasDictionary)
         mCorrectionMode =
@@ -3405,12 +3365,10 @@ class LatinIME : InputMethodService(), ComposeSequencing,
                 while (current != XmlResourceParser.END_DOCUMENT) {
                     if (current == XmlResourceParser.START_TAG) {
                         val tag = xrp.name
-                        if (tag != null) {
-                            if (tag == "part") {
-                                val dictFileName = xrp.getAttributeValue(null, "name")
-                                dictionaries.add(
-                                    res.getIdentifier(dictFileName, "raw", packageName))
-                            }
+                        if (tag == "part") {
+                            val dictFileName = xrp.getAttributeValue(null, "name")
+                            dictionaries.add(
+                                res.getIdentifier(dictFileName, "raw", packageName))
                         }
                     }
                     xrp.next()
