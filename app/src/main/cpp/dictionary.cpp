@@ -26,6 +26,7 @@
 #include "dictionary.h"
 #include "basechars.h"
 #include "char_utils.h"
+#include <android/log.h>
 
 #define DEBUG_DICT 0
 #define DICTIONARY_VERSION_MIN 200
@@ -73,13 +74,16 @@ namespace latinime {
         // Get the word count
         suggWords = 0;
         while (suggWords < mMaxWords && mFrequencies[suggWords] > 0) suggWords++;
-        if (DEBUG_DICT) LOGI("Returning %d words", suggWords);
+        if (DEBUG_DICT) __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                "Returning %d words", suggWords);
 
         if (DEBUG_DICT) {
-            LOGI("Next letters: ");
+            __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                    "Next letters: ");
             for (int k = 0; k < nextLettersSize; k++) {
                 if (mNextLettersFrequencies[k] > 0) {
-                    LOGI("%c = %d,", k, mNextLettersFrequencies[k]);
+                    __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                            "%c = %d,", k, mNextLettersFrequencies[k]);
                 }
             }
             LOGI("\n");
@@ -100,7 +104,8 @@ namespace latinime {
     {
         mVersion = (mDict[0] & 0xFF);
         mBigram = (mDict[1] & 0xFF);
-        LOGI("IN NATIVE SUGGEST Version: %d Bigram : %d \n", mVersion, mBigram);
+        __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                "IN NATIVE SUGGEST Version: %d Bigram : %d \n", mVersion, mBigram);
     }
 
 // Checks whether it has the latest dictionary or the old dictionary
@@ -180,7 +185,8 @@ namespace latinime {
         if (DEBUG_DICT) {
             char s[length + 1];
             for (int i = 0; i <= length; i++) s[i] = word[i];
-            LOGI("Found word = %s, freq = %d : \n", s, frequency);
+            __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                    "Found word = %s, freq = %d : \n", s, frequency);
         }
 
         // Find the right insertion point
@@ -206,7 +212,8 @@ namespace latinime {
                 *dest++ = *word++;
             }
             *dest = 0; // NULL terminate
-            if (DEBUG_DICT) LOGI("Added word at %d\n", insertAt);
+            if (DEBUG_DICT) __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                        "Added word at %d\n", insertAt);
             return true;
         }
         return false;
@@ -219,7 +226,8 @@ namespace latinime {
         if (DEBUG_DICT) {
             char s[length + 1];
             for (int i = 0; i <= length; i++) s[i] = word[i];
-            LOGI("Bigram: Found word = %s, freq = %d : \n", s, frequency);
+            __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                    "Bigram: Found word = %s, freq = %d : \n", s, frequency);
         }
 
         // Find the right insertion point
@@ -232,7 +240,8 @@ namespace latinime {
             }
             insertAt++;
         }
-        LOGI("Bigram: InsertAt -> %d maxBigrams: %d\n", insertAt, mMaxBigrams);
+        __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                "Bigram: InsertAt -> %d maxBigrams: %d\n", insertAt, mMaxBigrams);
         if (insertAt < mMaxBigrams) {
             memmove((char*) mBigramFreq + (insertAt + 1) * sizeof(mBigramFreq[0]),
                     (char*) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
@@ -246,7 +255,8 @@ namespace latinime {
                 *dest++ = *word++;
             }
             *dest = 0; // NULL terminate
-            if (DEBUG_DICT) LOGI("Bigram: Added word at %d\n", insertAt);
+            if (DEBUG_DICT) __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                        "Bigram: Added word at %d\n", insertAt);
             return true;
         }
         return false;
@@ -409,7 +419,8 @@ namespace latinime {
 
         if (mBigram == 1 && checkIfDictVersionIsLatest()) {
             int pos = isValidWordRec(DICTIONARY_HEADER_SIZE, prevWord, 0, prevWordLength);
-            LOGI("Pos -> %d\n", pos);
+            __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                    "Pos -> %d\n", pos);
             if (pos < 0) {
                 return 0;
             }
@@ -455,7 +466,8 @@ namespace latinime {
             }
             pos = followDownBranchAddress; // pos start at count
             int count = mDict[pos] & 0xFF;
-            LOGI("count - %d\n",count);
+            __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                    "count - %d\n",count);
             pos++;
             for (int i = 0; i < count; i++) {
                 // pos at data
@@ -529,7 +541,8 @@ namespace latinime {
             }
             depth++;
             if (followDownBranchAddress == 0) {
-                LOGI("ERROR!!! Cannot find bigram!!");
+                __android_log_print(ANDROID_LOG_INFO, "DictionaryCPP",
+                        "ERROR!!! Cannot find bigram!!");
                 break;
             }
         }
