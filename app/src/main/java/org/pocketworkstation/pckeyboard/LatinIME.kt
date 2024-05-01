@@ -760,7 +760,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
                 mKeyboardSwitcher!!.setKeyboardMode(
                     KeyboardSwitcher.MODE_TEXT, attribute.imeOptions, enableVoiceButton)
                 // startPrediction();
-// Make sure that passwords are not displayed in candidate view
+                // Make sure that passwords are not displayed in candidate view
                 mPredictionOnForMode = !mPasswordText
                 mAutoSpace =
                     variation != EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS &&
@@ -1030,8 +1030,11 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         needsInputViewShown: Boolean
     ) {
         Log.i(TAG, "setCandidatesViewShownInternal(${shown}, ${needsInputViewShown})\n" +
+                " inputViewIsNull=${mKeyboardSwitcher?.inputView == null}\n" +
+                " isKeyboardVisible=$isKeyboardVisible\n" +
                 " mCompletionOn=$mCompletionOn\n" +
                 " mPredictionOnForMode=$mPredictionOnForMode\n" +
+                " isPredictionWanted=$isPredictionWanted\n" +
                 " mPredictionOnPref=$mPredictionOnPref\n"+
                 " mPredicting=$mPredicting\n" +
                 " mShowSuggestions=$mShowSuggestions"
@@ -1094,7 +1097,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         }
     }
 
-    val isKeyboardVisible get() = mKeyboardSwitcher?.inputView?.isShown() == true
+    val isKeyboardVisible get() = mKeyboardSwitcher?.inputView?.isShown == true
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
@@ -3124,6 +3127,13 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         if (mSuggest != null) {
             mSuggest!!.correctionMode = mCorrectionMode
         }
+        Log.i(TAG, "updateCorrectionMode\n" +
+                "mSuggestIsNull=${mSuggest == null}\n" +
+                "mHasDictionary=$mHasDictionary\n" +
+                "suggestionsDisabled=${suggestionsDisabled()}\n" +
+                "mAutoCorrectEnabled=$mAutoCorrectEnabled\n" +
+                "mCorrectionMode=$mCorrectionMode\n" +
+                "mAutoCorrectOn=$mAutoCorrectOn")
     }
 
     private fun updateAutoTextEnabled(systemLocale: Locale) {
