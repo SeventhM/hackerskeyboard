@@ -188,12 +188,18 @@ class CandidateView(context: Context, attrs: AttributeSet?) : View(context, attr
         return mTotalWidth
     }
 
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        drawCanvas(canvas, false)
+    }
+
     /**
      * If the canvas is null, then only touch calculations are performed to pick the target
      * candidate.
      */
-    protected fun drawCanvas(canvas: Canvas?) {
-        canvas?.let { draw(it) }
+    protected fun drawCanvas(canvas: Canvas?, manual: Boolean = true) {
+        canvas?.let { if (manual) draw(it) }
+
         mTotalWidth = 0
         val height = height
         if (mBgPadding == null) {
