@@ -8,6 +8,18 @@
     <uses-feature android:name="android.hardware.faketouch" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
+    <queries>
+        <package android:name="org.pocketworkstation.dict.ru" />
+        <package android:name="org.pocketworkstation.dict.en" />
+        <package android:name="org.pocketworkstation.dict.pt" />
+        <package android:name="org.pocketworkstation.dict.sv" />
+        <package android:name="org.pocketworkstation.dict.fr" />
+        <package android:name="org.pocketworkstation.dict.es" />
+        <package android:name="org.pocketworkstation.dict.uk" />
+        <package android:name="org.pocketworkstation.dict.it" />
+        <package android:name="org.pocketworkstation.dict.cs" />
+    </queries>
+
     <application android:label="@string/english_ime_name"
         android:supportsRtl="true"
         android:allowBackup="true"
