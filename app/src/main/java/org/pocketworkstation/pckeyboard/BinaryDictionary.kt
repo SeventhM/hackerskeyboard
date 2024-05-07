@@ -116,19 +116,19 @@ class BinaryDictionary : Dictionary, AutoCloseable {
         maxWordLength: Int, maxBigrams: Int, maxAlternatives: Int
     ): Int
 
-    private fun loadDictionary(`is`: Array<InputStream?>?) {
+    private fun loadDictionary(inputStreams: Array<InputStream?>?) {
         try {
             // merging separated dictionary into one if dictionary is separated
             var total = 0
 
-            for (inputStream in `is`!!) {
+            for (inputStream in inputStreams!!) {
                 total += inputStream!!.available()
             }
 
             mNativeDictDirectBuffer =
                 ByteBuffer.allocateDirect(total).order(ByteOrder.nativeOrder())
             var got = 0
-            for (inputStream in `is`) {
+            for (inputStream in inputStreams) {
                 got += Channels.newChannel(inputStream).read(mNativeDictDirectBuffer)
             }
             if (got != total) {
@@ -147,8 +147,8 @@ class BinaryDictionary : Dictionary, AutoCloseable {
             Log.w(TAG, "Failed to load native dictionary", e)
         } finally {
             try {
-                if (`is` != null) {
-                    for (inputStream in `is`) {
+                if (inputStreams != null) {
+                    for (inputStream in inputStreams) {
                         inputStream!!.close()
                     }
                 }

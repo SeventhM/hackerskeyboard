@@ -534,9 +534,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         val saveLocale = conf.depLocale
         conf.depLocale = Locale(locale!!)
         orig.updateConfiguration(conf, orig.displayMetrics)
-        if (mSuggest != null) {
-            mSuggest!!.close()
-        }
+        mSuggest?.close()
         val sp = PreferenceManager.getDefaultSharedPreferences(this)
         mQuickFixes = sp.getBoolean(PREF_QUICK_FIXES,
             resources.getBoolean(R.bool.default_quick_fixes))
@@ -660,6 +658,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             setCandidatesView(mCandidateViewContainer)
         }
         setCandidatesViewShown(true)
+        //setCandidatesViewShown(true)
         isExtractViewShown = onEvaluateFullscreenMode()
         return mCandidateViewContainer
     }
@@ -688,8 +687,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
     override fun onStartInput(attribute: EditorInfo, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
         Log.i(TAG, "onStartInput")
-        //super.setCandidatesViewShown(true)
-        setCandidatesViewShown(true)
+        setCandidatesViewShownInternal(true, false, false)
     }
 
     override fun onStartInputView(attribute: EditorInfo, restarting: Boolean) {
@@ -1027,7 +1025,8 @@ class LatinIME : InputMethodService(), ComposeSequencing,
 
     private fun setCandidatesViewShownInternal(
         shown: Boolean,
-        needsInputViewShown: Boolean
+        needsInputViewShown: Boolean,
+        predictionNeeded: Boolean = true
     ) {
         Log.i(TAG, "setCandidatesViewShownInternal(${shown}, ${needsInputViewShown})\n" +
                 " inputViewIsNull=${mKeyboardSwitcher?.inputView == null}\n" +
@@ -1042,7 +1041,7 @@ class LatinIME : InputMethodService(), ComposeSequencing,
         // TODO: Remove this if we support candidates with hard keyboard
         val visible = shown
                 && onEvaluateInputViewShown()
-                && isPredictionOn
+                && (!predictionNeeded || isPredictionOn)
                 && (!needsInputViewShown || isKeyboardVisible)
         if (visible) {
             if (mCandidateViewContainer == null) {
