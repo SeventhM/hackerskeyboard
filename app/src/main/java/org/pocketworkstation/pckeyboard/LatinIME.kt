@@ -657,8 +657,6 @@ class LatinIME : InputMethodService(), ComposeSequencing,
             mCandidateView!!.setService(this)
             setCandidatesView(mCandidateViewContainer)
         }
-        setCandidatesViewShown(true)
-        //setCandidatesViewShown(true)
         isExtractViewShown = onEvaluateFullscreenMode()
         return mCandidateViewContainer
     }
