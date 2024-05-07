@@ -86,7 +86,7 @@ open class SeekBarPreference(context: Context, attrs: AttributeSet?) :
         mVal = mPrevVal
     }
 
-    protected val getValString = mVal.toString()
+    protected val getValString get() =  mVal.toString()
 
     fun percentToSteppedVal(
         percent: Int,
@@ -104,8 +104,7 @@ open class SeekBarPreference(context: Context, attrs: AttributeSet?) :
                     ln(max),
                     step,
                     false
-                ).toDouble()
-            ).toFloat()
+                ))
         } else {
             var delta = percent * (max - min) / 100
             if (step != 0.0f) {
