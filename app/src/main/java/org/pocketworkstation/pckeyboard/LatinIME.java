@@ -416,7 +416,10 @@ public class LatinIME extends InputMethodService implements
         pFilter.addAction("android.intent.action.PACKAGE_ADDED");
         pFilter.addAction("android.intent.action.PACKAGE_REPLACED");
         pFilter.addAction("android.intent.action.PACKAGE_REMOVED");
-        registerReceiver(mPluginManager, pFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(mNotificationReceiver, pFilter, RECEIVER_EXPORTED);
+        }
+        else registerReceiver(mNotificationReceiver, pFilter);
 
         LatinIMEUtil.GCUtils.getInstance().reset();
         boolean tryGC = true;
@@ -766,7 +769,7 @@ public class LatinIME extends InputMethodService implements
             mCandidateView.setService(this);
             setCandidatesView(mCandidateViewContainer);
         }
-        setCandidatesViewShownInternal(true, false);
+        //setCandidatesViewShownInternal(true, false);
         setExtractViewShown(onEvaluateFullscreenMode());
         return mCandidateViewContainer;
     }
@@ -1154,9 +1157,12 @@ public class LatinIME extends InputMethodService implements
         // TODO: Remove this if we support candidates with hard keyboard
         boolean visible = shown
             && onEvaluateInputViewShown()
-            && mKeyboardSwitcher.getInputView() != null
             //&& isPredictionOn()
-            && (!needsInputViewShown || mKeyboardSwitcher.getInputView().isShown());
+            && (!needsInputViewShown ||
+                        (
+                                mKeyboardSwitcher.getInputView() != null &&
+                                mKeyboardSwitcher.getInputView().isShown()
+                        ));
         if (visible) {
             if (mCandidateViewContainer == null) {
                 onCreateCandidatesView();

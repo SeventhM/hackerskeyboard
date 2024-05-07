@@ -22,6 +22,7 @@
 
 #include <jni.h>
 #include "dictionary.h"
+#include <android/log.h>
 
 // ----------------------------------------------------------------------------
 
@@ -46,7 +47,8 @@ static jlong latinime_BinaryDictionary_open
 {
     void *dict = env->GetDirectBufferAddress(dictDirectBuffer);
     if (dict == NULL) {
-        fprintf(stderr, "DICT: Dictionary buffer is null\n");
+        __android_log_print(ANDROID_LOG_ERROR, "NativeDict", "DICT: Dictionary buffer is null");
+        //fprintf(stderr, "DICT: Dictionary buffer is null\n");
         return 0;
     }
     Dictionary *dictionary = new Dictionary(dict, typedLetterMultiplier, fullWordMultiplier, size);
@@ -128,67 +130,6 @@ static void latinime_BinaryDictionary_close
 }
 
 // ----------------------------------------------------------------------------
-
-static JNINativeMethod gMethods[] = {
-    {"openNative",           "(Ljava/nio/ByteBuffer;III)J",
-        (void*)latinime_BinaryDictionary_open},
-    {"closeNative",          "(J)V",            (void*)latinime_BinaryDictionary_close},
-    {"getSuggestionsNative", "(J[II[C[IIIII[II)I",  (void*)latinime_BinaryDictionary_getSuggestions},
-    {"isValidWordNative",    "(J[CI)Z",         (void*)latinime_BinaryDictionary_isValidWord},
-    {"getBigramsNative",    "(J[CI[II[C[IIII)I",         (void*)latinime_BinaryDictionary_getBigrams}
-};
-
-static int registerNativeMethods(JNIEnv* env, const char* className,
-    JNINativeMethod* gMethods, int numMethods)
-{
-    jclass clazz;
-
-    clazz = env->FindClass(className);
-    if (clazz == NULL) {
-        fprintf(stderr,
-            "Native registration unable to find class '%s'\n", className);
-        return JNI_FALSE;
-    }
-    if (env->RegisterNatives(clazz, gMethods, numMethods) < 0) {
-        fprintf(stderr, "RegisterNatives failed for '%s'\n", className);
-        return JNI_FALSE;
-    }
-
-    return JNI_TRUE;
-}
-
-static int registerNatives(JNIEnv *env)
-{
-    const char* const kClassPathName = "org/pocketworkstation/pckeyboard/BinaryDictionary";
-    return registerNativeMethods(env,
-        kClassPathName, gMethods, sizeof(gMethods) / sizeof(gMethods[0]));
-}
-
-/*
- * Returns the JNI version on success, -1 on failure.
- */
-jint JNI_OnLoad(JavaVM* vm, void* reserved)
-{
-    JNIEnv* env = NULL;
-    jint result = -1;
-
-    if (vm->GetEnv((void**) &env, JNI_VERSION_1_4) != JNI_OK) {
-        fprintf(stderr, "ERROR: GetEnv failed\n");
-        goto bail;
-    }
-    assert(env != NULL);
-
-    if (!registerNatives(env)) {
-        fprintf(stderr, "ERROR: BinaryDictionary native registration failed\n");
-        goto bail;
-    }
-
-    /* success -- return valid version number */
-    result = JNI_VERSION_1_4;
-
-    bail:
-    return result;
-}
 
 extern "C"
 JNIEXPORT jint JNICALL

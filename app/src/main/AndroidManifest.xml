@@ -9,6 +9,7 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <application android:label="@string/english_ime_name"
+        android:supportsRtl="true"
         android:allowBackup="true"
         android:backupAgent="LatinIMEBackupAgent"
         android:restoreAnyVersion="true"

@@ -203,12 +203,18 @@ public class CandidateView extends View {
         return mTotalWidth;
     }
 
+    @Override
+    protected void onDraw(@NonNull Canvas canvas) {
+        super.onDraw(canvas);
+        drawCanvas(canvas, false);
+    }
+
     /**
      * If the canvas is null, then only touch calculations are performed to pick the target
      * candidate.
      */
-    protected void drawCanvas(Canvas canvas) {
-        if (canvas != null) {
+    protected void drawCanvas(Canvas canvas, boolean manual) {
+        if (canvas != null && manual) {
             draw(canvas);
         }
         mTotalWidth = 0;
@@ -333,7 +339,7 @@ public class CandidateView extends View {
         mTargetScrollX = 0;
         mHaveMinimalSuggestion = haveMinimalSuggestion;
         // Compute the total width
-        drawCanvas(null);
+        drawCanvas(null, true);
         invalidate();
         requestLayout();
     }

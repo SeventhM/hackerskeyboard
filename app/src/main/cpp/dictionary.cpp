@@ -19,13 +19,13 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <string.h>
-//#define LOG_TAG "dictionary.cpp"
-//#include <cutils/log.h>
+#define LOG_TAG "dictionary.cpp"
 #define LOGI
 
 #include "dictionary.h"
 #include "basechars.h"
 #include "char_utils.h"
+#include <android/log.h>
 
 #define DEBUG_DICT 0
 #define DICTIONARY_VERSION_MIN 200
@@ -48,8 +48,8 @@ namespace latinime {
     }
 
     int Dictionary::getSuggestions(int *codes, int codesSize, unsigned short *outWords, int *frequencies,
-        int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
-        int *nextLetters, int nextLettersSize)
+            int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
+            int *nextLetters, int nextLettersSize)
     {
         int suggWords;
         mFrequencies = frequencies;
@@ -73,13 +73,16 @@ namespace latinime {
         // Get the word count
         suggWords = 0;
         while (suggWords < mMaxWords && mFrequencies[suggWords] > 0) suggWords++;
-        if (DEBUG_DICT) LOGI("Returning %d words", suggWords);
+        if (DEBUG_DICT) __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                    "Returning %d words", suggWords);
 
         if (DEBUG_DICT) {
-            LOGI("Next letters: ");
+            __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                    "Next letters: ");
             for (int k = 0; k < nextLettersSize; k++) {
                 if (mNextLettersFrequencies[k] > 0) {
-                    LOGI("%c = %d,", k, mNextLettersFrequencies[k]);
+                    __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                            "%c = %d,", k, mNextLettersFrequencies[k]);
                 }
             }
             LOGI("\n");
@@ -100,7 +103,8 @@ namespace latinime {
     {
         mVersion = (mDict[0] & 0xFF);
         mBigram = (mDict[1] & 0xFF);
-        LOGI("IN NATIVE SUGGEST Version: %d Bigram : %d \n", mVersion, mBigram);
+        __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                "IN NATIVE SUGGEST Version: %d Bigram : %d \n", mVersion, mBigram);
     }
 
 // Checks whether it has the latest dictionary or the old dictionary
@@ -180,33 +184,35 @@ namespace latinime {
         if (DEBUG_DICT) {
             char s[length + 1];
             for (int i = 0; i <= length; i++) s[i] = word[i];
-            LOGI("Found word = %s, freq = %d : \n", s, frequency);
+            __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                    "Found word = %s, freq = %d : \n", s, frequency);
         }
 
         // Find the right insertion point
         int insertAt = 0;
         while (insertAt < mMaxWords) {
             if (frequency > mFrequencies[insertAt]
-                || (mFrequencies[insertAt] == frequency
-                && length < wideStrLen(mOutputChars + insertAt * mMaxWordLength))) {
+                    || (mFrequencies[insertAt] == frequency
+                    && length < wideStrLen(mOutputChars + insertAt * mMaxWordLength))) {
                 break;
             }
             insertAt++;
         }
         if (insertAt < mMaxWords) {
             memmove((char*) mFrequencies + (insertAt + 1) * sizeof(mFrequencies[0]),
-                (char*) mFrequencies + insertAt * sizeof(mFrequencies[0]),
-                (mMaxWords - insertAt - 1) * sizeof(mFrequencies[0]));
+                    (char*) mFrequencies + insertAt * sizeof(mFrequencies[0]),
+                    (mMaxWords - insertAt - 1) * sizeof(mFrequencies[0]));
             mFrequencies[insertAt] = frequency;
             memmove((char*) mOutputChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
-                (char*) mOutputChars + (insertAt) * mMaxWordLength * sizeof(short),
-                (mMaxWords - insertAt - 1) * sizeof(short) * mMaxWordLength);
-            unsigned short *dest = mOutputChars + (insertAt) * mMaxWordLength;
+                    (char*) mOutputChars + (insertAt    ) * mMaxWordLength * sizeof(short),
+                    (mMaxWords - insertAt - 1) * sizeof(short) * mMaxWordLength);
+            unsigned short *dest = mOutputChars + (insertAt    ) * mMaxWordLength;
             while (length--) {
                 *dest++ = *word++;
             }
             *dest = 0; // NULL terminate
-            if (DEBUG_DICT) LOGI("Added word at %d\n", insertAt);
+            if (DEBUG_DICT) __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                        "Added word at %d\n", insertAt);
             return true;
         }
         return false;
@@ -219,34 +225,37 @@ namespace latinime {
         if (DEBUG_DICT) {
             char s[length + 1];
             for (int i = 0; i <= length; i++) s[i] = word[i];
-            LOGI("Bigram: Found word = %s, freq = %d : \n", s, frequency);
+            __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                    "Bigram: Found word = %s, freq = %d : \n", s, frequency);
         }
 
         // Find the right insertion point
         int insertAt = 0;
         while (insertAt < mMaxBigrams) {
             if (frequency > mBigramFreq[insertAt]
-                || (mBigramFreq[insertAt] == frequency
-                && length < wideStrLen(mBigramChars + insertAt * mMaxWordLength))) {
+                    || (mBigramFreq[insertAt] == frequency
+                    && length < wideStrLen(mBigramChars + insertAt * mMaxWordLength))) {
                 break;
             }
             insertAt++;
         }
-        LOGI("Bigram: InsertAt -> %d maxBigrams: %d\n", insertAt, mMaxBigrams);
+        __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                "Bigram: InsertAt -> %d maxBigrams: %d\n", insertAt, mMaxBigrams);
         if (insertAt < mMaxBigrams) {
             memmove((char*) mBigramFreq + (insertAt + 1) * sizeof(mBigramFreq[0]),
-                (char*) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
-                (mMaxBigrams - insertAt - 1) * sizeof(mBigramFreq[0]));
+                    (char*) mBigramFreq + insertAt * sizeof(mBigramFreq[0]),
+                    (mMaxBigrams - insertAt - 1) * sizeof(mBigramFreq[0]));
             mBigramFreq[insertAt] = frequency;
             memmove((char*) mBigramChars + (insertAt + 1) * mMaxWordLength * sizeof(short),
-                (char*) mBigramChars + (insertAt) * mMaxWordLength * sizeof(short),
-                (mMaxBigrams - insertAt - 1) * sizeof(short) * mMaxWordLength);
-            unsigned short *dest = mBigramChars + (insertAt) * mMaxWordLength;
+                    (char*) mBigramChars + (insertAt    ) * mMaxWordLength * sizeof(short),
+                    (mMaxBigrams - insertAt - 1) * sizeof(short) * mMaxWordLength);
+            unsigned short *dest = mBigramChars + (insertAt    ) * mMaxWordLength;
             while (length--) {
                 *dest++ = *word++;
             }
             *dest = 0; // NULL terminate
-            if (DEBUG_DICT) LOGI("Bigram: Added word at %d\n", insertAt);
+            if (DEBUG_DICT) __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                        "Bigram: Added word at %d\n", insertAt);
             return true;
         }
         return false;
@@ -257,7 +266,7 @@ namespace latinime {
         if (c < sizeof(BASE_CHARS) / sizeof(BASE_CHARS[0])) {
             c = BASE_CHARS[c];
         }
-        if (c >= 'A' && c <= 'Z') {
+        if (c >='A' && c <= 'Z') {
             c |= 32;
         } else if (c > 127) {
             c = latin_tolower(c);
@@ -286,7 +295,7 @@ namespace latinime {
 
     void
     Dictionary::getWordsRec(int pos, int depth, int maxDepth, bool completion, int snr, int inputIndex,
-        int diffs)
+            int diffs)
     {
         // Optimization: Prune out words that are too long compared to how much was typed.
         if (depth > maxDepth) {
@@ -326,7 +335,7 @@ namespace latinime {
                 }
                 if (childrenAddress != 0) {
                     getWordsRec(childrenAddress, depth + 1, maxDepth,
-                        completion, snr, inputIndex, diffs);
+                            completion, snr, inputIndex, diffs);
                 }
             } else if ((c == QUOTE && currentChars[0] != QUOTE) || mSkipPos == depth) {
                 // Skip the ' or other letter and continue deeper
@@ -343,7 +352,7 @@ namespace latinime {
                         if (mInputLength == inputIndex + 1) {
                             if (terminal) {
                                 if (//INCLUDE_TYPED_WORD_IF_VALID ||
-                                    !sameAsTyped(mWord, depth + 1)) {
+                                        !sameAsTyped(mWord, depth + 1)) {
                                     int finalFreq = freq * snr * addedWeight;
                                     if (mSkipPos < 0) finalFreq *= mFullWordMultiplier;
                                     addWord(mWord, depth + 1, finalFreq);
@@ -351,12 +360,12 @@ namespace latinime {
                             }
                             if (childrenAddress != 0) {
                                 getWordsRec(childrenAddress, depth + 1,
-                                    maxDepth, true, snr * addedWeight, inputIndex + 1,
-                                    diffs + (j > 0));
+                                        maxDepth, true, snr * addedWeight, inputIndex + 1,
+                                        diffs + (j > 0));
                             }
                         } else if (childrenAddress != 0) {
                             getWordsRec(childrenAddress, depth + 1, maxDepth,
-                                false, snr * addedWeight, inputIndex + 1, diffs + (j > 0));
+                                    false, snr * addedWeight, inputIndex + 1, diffs + (j > 0));
                         }
                     }
                     j++;
@@ -396,8 +405,8 @@ namespace latinime {
 
     int
     Dictionary::getBigrams(unsigned short *prevWord, int prevWordLength, int *codes, int codesSize,
-        unsigned short *bigramChars, int *bigramFreq, int maxWordLength, int maxBigrams,
-        int maxAlternatives)
+            unsigned short *bigramChars, int *bigramFreq, int maxWordLength, int maxBigrams,
+            int maxAlternatives)
     {
         mBigramFreq = bigramFreq;
         mBigramChars = bigramChars;
@@ -409,7 +418,8 @@ namespace latinime {
 
         if (mBigram == 1 && checkIfDictVersionIsLatest()) {
             int pos = isValidWordRec(DICTIONARY_HEADER_SIZE, prevWord, 0, prevWordLength);
-            LOGI("Pos -> %d\n", pos);
+            __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                    "Pos -> %d\n", pos);
             if (pos < 0) {
                 return 0;
             }
@@ -445,7 +455,7 @@ namespace latinime {
         char followingChar = ' ';
         int depth = -1;
 
-        while (!found) {
+        while(!found) {
             bool followDownAddressSearchStop = false;
             bool firstAddress = true;
             bool haveToSearchAll = true;
@@ -455,7 +465,8 @@ namespace latinime {
             }
             pos = followDownBranchAddress; // pos start at count
             int count = mDict[pos] & 0xFF;
-            LOGI("count - %d\n", count);
+            __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                    "count - %d\n",count);
             pos++;
             for (int i = 0; i < count; i++) {
                 // pos at data
@@ -474,7 +485,7 @@ namespace latinime {
                             }
                         } else {
                             followDownBranchAddress = addr;
-                            followingChar = (char) (0xFF & mDict[pos - 1]);
+                            followingChar = (char)(0xFF & mDict[pos-1]);
                             if (firstAddress) {
                                 firstAddress = false;
                                 haveToSearchAll = false;
@@ -483,9 +494,9 @@ namespace latinime {
                     }
                     pos += 3;
                 } else if (getFirstBitOfByte(&pos)) { // terminal
-                    if (addressLookingFor == (pos - 1)) { // found !!
+                    if (addressLookingFor == (pos-1)) { // found !!
                         depth++;
-                        word[depth] = (0xFF & mDict[pos - 1]);
+                        word[depth] = (0xFF & mDict[pos-1]);
                         found = true;
                         break;
                     }
@@ -502,7 +513,7 @@ namespace latinime {
                                 }
                             } else {
                                 followDownBranchAddress = addr;
-                                followingChar = (char) (0xFF & mDict[pos - 1]);
+                                followingChar = (char)(0xFF & mDict[pos-1]);
                                 if (firstAddress) {
                                     firstAddress = false;
                                     haveToSearchAll = true;
@@ -529,7 +540,8 @@ namespace latinime {
             }
             depth++;
             if (followDownBranchAddress == 0) {
-                LOGI("ERROR!!! Cannot find bigram!!");
+                __android_log_print(ANDROID_LOG_INFO, LOG_TAG,
+                        "ERROR!!! Cannot find bigram!!");
                 break;
             }
         }
@@ -580,7 +592,7 @@ namespace latinime {
             if (c == currentChar) {
                 if (offset == length - 1) {
                     if (terminal) {
-                        return (pos + 1);
+                        return (pos+1);
                     }
                 } else {
                     if (childPos != 0) {
