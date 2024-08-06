@@ -659,19 +659,19 @@ open class LatinKeyboardBaseView @JvmOverloads constructor(
 
     fun setCtrlIndicator(active: Boolean) {
         if (mKeyboard != null) {
-            invalidateKey(mKeyboard!!.setCtrlIndicator(active)!!)
+            invalidateKey(mKeyboard!!.setCtrlIndicator(active))
         }
     }
 
     fun setAltIndicator(active: Boolean) {
         if (mKeyboard != null) {
-            invalidateKey(mKeyboard!!.setAltIndicator(active)!!)
+            invalidateKey(mKeyboard!!.setAltIndicator(active))
         }
     }
 
     fun setMetaIndicator(active: Boolean) {
         if (mKeyboard != null) {
-            invalidateKey(mKeyboard!!.setMetaIndicator(active)!!)
+            invalidateKey(mKeyboard!!.setMetaIndicator(active))
         }
     }
 
